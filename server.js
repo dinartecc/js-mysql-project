@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
         console.log('error:', err);
         throw err;
       }
-      response.send(['owo', rows])
+      res.send(['owo', rows])
     })
     // res.sendFile(path.join(__dirname, 'index.html'));
 });
