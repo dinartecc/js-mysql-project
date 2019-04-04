@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const path = require('path');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
     host     : 'us-cdbr-iron-east-03.cleardb.net',
