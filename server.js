@@ -26,20 +26,20 @@ app.post('/post', (req, res) => {
   connection.query('select IdEmpleado from empleados order by IdEmpleado desc limit 0, 1;', (error, results, fields) => {
     if (error) {
       res.status(400).send("unable to save to database");
-      throw error;
       connection.end();
+      throw error;
     }
     const newId = results[0].IdEmpleado + 1;
     const mysqlQuery = `INSERT INTO empleados ( IdEmpleado, Nombre, Apellidos, Cargo, Tratamiento, FechaNacimiento, FechaContratación, Dirección, Ciudad, Región, CódPostal, País, TelDomicilio, Extensión, Notas, Jefe)
-                      values ( ${newId}, "${Nombre}", "${Apellidos}", "${Cargo}", "${Tratamiento}", "${FechaNacimiento}", "${FechaContratacion}",
-                      "${Direccion}", "${Ciudad}", "${Region}", "${CodPostal}", "${Pais}", "${TelDomicilio}", ${Extension}, "${Notas}",
-                      "${Jefe}");`;
+                      values ( ${newId}, '${Nombre}', '${Apellidos}', '${Cargo}', '${Tratamiento}', '${FechaNacimiento}', '${FechaContratacion}',
+                       '${Direccion}', '${Ciudad}', '${Region}', '${CodPostal}', '${Pais}', '${TelDomicilio}', ${Extension}, '${Notas}',
+                      '${Jefe}');`;
 
                       connection.query(mysqlQuery, (error, results, fields) => {
                         if (error) {
                           res.status(400).send("unable to save to database");
-                          throw error;
                           connection.end();
+                          throw error;
                         }
                         res.send("item saved to database");
                         connection.end();
