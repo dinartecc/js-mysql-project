@@ -3,12 +3,6 @@ const app = express();
 const path = require('path');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const connection = mysql.createConnection({
-    host     : 'us-cdbr-iron-east-03.cleardb.net',
-    user     : 'b7282d3c829f44',
-    password : '49ad92bf',
-    database : 'heroku_8e679e6d32fb43a'
-})
 
 app.use('/post', bodyParser.json());
 app.use('/post', bodyParser.urlencoded({ extended: true }));
@@ -19,6 +13,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/post', (req, res) => {
+  const connection = mysql.createConnection({
+    host     : 'us-cdbr-iron-east-03.cleardb.net',
+    user     : 'b7282d3c829f44',
+    password : '49ad92bf',
+    database : 'heroku_8e679e6d32fb43a'
+  });
   connection.connect();
   const {Nombre, Apellidos, Cargo, Tratamiento, FechaNacimiento, FechaContratacion, Direccion, Ciudad, Region, CodPostal, Pais, TelDomicilio, Extension, Notas, Jefe} = req.body;
   
