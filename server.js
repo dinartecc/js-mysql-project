@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const path = require('path')
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
+app.use(express.static('public'))
 app.use('/post', bodyParser.json());
 app.use('/post', bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 4020)
