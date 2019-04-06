@@ -1,20 +1,21 @@
-const express = require('express');
-const app = express();
-const path = require('path')
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
+import express, { static } from 'express';
+import { join } from 'path';
+import { createConnection } from 'mysql';
+import { json, urlencoded } from 'body-parser';
 
-app.use(express.static('public'))
-app.use('/post', bodyParser.json());
-app.use('/post', bodyParser.urlencoded({ extended: true }));
+const app = express();
+
+app.use(static('public'))
+app.use('/post', json());
+app.use('/post', urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 4020)
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(join(__dirname, 'index.html'));
 });
 
 app.post('/post', (req, res) => {
-  const connection = mysql.createConnection({
+  const connection = createConnection({
     host     : 'us-cdbr-iron-east-03.cleardb.net',
     user     : 'b7282d3c829f44',
     password : '49ad92bf',
