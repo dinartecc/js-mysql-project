@@ -2,13 +2,13 @@
   "name": "js-mysql",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "npm run del-cli build/ && mkdir build",
+    "clean": "del-cli build/ && mkdir build",
     "build-server": "babel -d ./build ./server -s",
-    "build": "npm run clean && npm run build-css && npm run build-server",
-    "start": "node ./build/index.js"
+    "build": "npm run clean && npm run build-server",
+    "start": "node ./build/server.js"
   },
   "author": "",
   "license": "ISC",

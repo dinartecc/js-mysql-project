@@ -5,7 +5,12 @@ const UpdateSchema = () => {
   fs.readFile( path.join( __dirname, 'ServerFiles/Schema.json' ), 'utf8', ( err, data ) => {
     if ( err ) {
       console.log ('owo');
+      return null;
     }
+
+    
+
+    
   });
 };
 
