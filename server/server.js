@@ -1,14 +1,29 @@
 import express from 'express';
-import { join } from 'path';
+import path from 'path';
 import { json, urlencoded } from 'body-parser';
 import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
-import handlebars from 'express-handlebars';
+import hbs from 'express-handlebars';
 const app = express();
 
 UpdateSchema();
 
-app.use(express.static('public'))
+/* ----- Configuraciones ----- */
+
+app.use(express.static(path.join(__dirname, 'public'))); 
+
+app.engine('.hbs',hbs({ //configurando handlebars
+  defaultLayout: 'main',
+  layoutsDir: path.join(app.get('views'),'layouts'),
+  partialsDir: path.join(app.get('views'),'partials'),
+  extname: '.hbs'
+}))
+
+app.set('view engine', '.hbs');
+
+
+
+
 app.use('/post', json());
 app.use('/post', urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 4020)
@@ -34,6 +49,8 @@ app.get('/post', (req, res) => {
   
   
 });
+
+/* ----- Server Running ----- */
 
 app.listen(process.env.PORT || 4020, function() {
     console.log('Your node js server is running');
