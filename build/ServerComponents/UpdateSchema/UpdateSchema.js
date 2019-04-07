@@ -15,6 +15,7 @@ var UpdateSchema = function UpdateSchema() {
   _fs["default"].readFile(_path["default"].join(__dirname, 'ServerFiles/Schema.json'), 'utf8', function (err, data) {
     if (err) {
       console.log('owo');
+      return null;
     }
   });
 };

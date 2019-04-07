@@ -3,7 +3,7 @@ import { join } from 'path';
 import { json, urlencoded } from 'body-parser';
 import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
-
+import handlebars from 'express-handlebars';
 const app = express();
 
 UpdateSchema();
@@ -13,9 +13,13 @@ app.use('/post', json());
 app.use('/post', urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 4020)
 
-app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'));
-});
+
+/* ----- Rutas ----- */
+
+app.use(require('./Routes/index.js'));
+
+
+
 
 app.get('/post', (req, res) => {
   const connection = CreateConnection;
