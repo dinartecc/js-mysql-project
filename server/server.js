@@ -17,9 +17,16 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
 
-app.post('/post', (req, res) => {
+app.get('/post', (req, res) => {
+  const connection = CreateConnection;
   connection.connect();
   
+  connection.query('SELECT * from test', (error, results, fields) => {
+      console.log(results);
+      console.log(fields);
+  })
+  res.send('nice!');
+  connection.end();
   
   
 });
