@@ -1,9 +1,12 @@
-import express, { static } from 'express';
+import express from 'express';
 import { join } from 'path';
 import { createConnection } from 'mysql';
 import { json, urlencoded } from 'body-parser';
+import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 
 const app = express();
+
+UpdateSchema();
 
 app.use(static('public'))
 app.use('/post', json());
