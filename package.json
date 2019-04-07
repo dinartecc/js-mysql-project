@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "del-cli build/ && mkdir build",
-    "build-server": "babel -d ./build ./server -s",
+    "build-server": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-server",
     "start": "node ./build/server.js",
-    "start-dev": "nodemon --ignore 'server/ServerFiles/' --exec babel-node server/server.js"
+    "start-dev": "nodemon --ignore src/ServerFiles --exec babel-node src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,5 +27,8 @@
     "del-cli": "^1.1.0",
     "express": "^4.16.4",
     "nodemon": "^1.18.10"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/*"]
   }
 }
