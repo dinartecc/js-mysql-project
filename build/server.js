@@ -2,7 +2,7 @@
 
 var _express = _interopRequireDefault(require("express"));
 
-var _path = require("path");
+var _path = _interopRequireDefault(require("path"));
 
 var _bodyParser = require("body-parser");
 
@@ -16,7 +16,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var app = (0, _express["default"])();
 (0, _UpdateSchema["default"])();
-app.use(_express["default"]["static"]('public'));
+/* ----- Configuraciones ----- */
+
+app.use(_express["default"]["static"](_path["default"].join(__dirname, 'public')));
+app.engine('.hbs', (0, _expressHandlebars["default"])({
+  //configurando handlebars
+  defaultLayout: 'main',
+  layoutsDir: _path["default"].join(app.get('views'), 'layouts'),
+  partialsDir: _path["default"].join(app.get('views'), 'partials'),
+  extname: '.hbs'
+}));
+app.set('view engine', '.hbs');
 app.use('/post', (0, _bodyParser.json)());
 app.use('/post', (0, _bodyParser.urlencoded)({
   extended: true
@@ -35,6 +45,8 @@ app.get('/post', function (req, res) {
   res.send('nice!');
   connection.end();
 });
+/* ----- Server Running ----- */
+
 app.listen(process.env.PORT || 4020, function () {
   console.log('Your node js server is running');
 });
