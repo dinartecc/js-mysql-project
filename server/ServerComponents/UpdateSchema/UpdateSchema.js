@@ -1,10 +1,11 @@
 import path from 'path';
 import fs from 'fs';
+import SchemaQuery from './SchemaQuery';
 
 const UpdateSchema = () => {
-  fs.readFile( path.join( __dirname, 'ServerFiles/Schema.json' ), 'utf8', ( err, data ) => {
+  fs.readFile( path.join( __dirname, '../../ServerFiles/Schema.json' ), 'utf8', ( err, data ) => {
     if ( err ) {
-      console.log ('owo');
+      SchemaQuery();
       return null;
     }
 

@@ -18,6 +18,7 @@ var app = (0, _express["default"])();
 (0, _UpdateSchema["default"])();
 /* ----- Configuraciones ----- */
 
+app.set('views', _path["default"].join(__dirname, '/views'));
 app.use(_express["default"]["static"](_path["default"].join(__dirname, 'public')));
 app.engine('.hbs', (0, _expressHandlebars["default"])({
   //configurando handlebars
