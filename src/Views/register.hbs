@@ -1,0 +1,36 @@
+<h2>Registrar Usuario</h2>
+<form action="/post" method="POST">
+    <div id="formulario-cliente">
+        <div class="doble">
+            <input type="text" name="Nombre" placeholder="Nombre" maxlength="8" required>
+            <input type="text" name="Apellidos" placeholder="Apellidos" maxlength="9" required>
+        </div>
+        <div class="doble">
+            <input type="text" name="Cargo" placeholder="Cargo" maxlength="26" required>
+            <select name="Tratamiento" required>
+                <option value="Srta.">Srta.</option>
+                <option value="Sra.">Sra.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="Dr.">Dr.</option>
+            </select>
+        </div>
+        <div class="doble">
+            <input type="text" name="FechaNacimiento" placeholder="Fecha de Nacimiento" maxlength="19" required>
+            <input type="text" name="FechaContratacion" placeholder="Fecha de Contratación" maxlength="19" required>
+        </div>
+        <input type="text" name="Direccion" maxlength="30" placeholder="Dirección" required> 
+        <div class="triple">
+            <input type="text" name="Ciudad" maxlength="8" placeholder="Ciudad" required>
+            <input type="text" name="Region" maxlength="2" placeholder="Región" required>
+            <input type="text" name="CodPostal" maxlength="7" placeholder="Código Postal" required>
+        </div>    
+        <input type="text" name="Pais" maxlength="11" placeholder="País" required>
+        <div class="doble">
+            <input type="text" name="Extension" maxlength="14" placeholder="Extensión" required>
+            <input type="text" name="TelDomicilio" maxlength="14" placeholder="Teléfono" required>    
+        </div>
+        <input type="text" name="Notas" maxlength="40" placeholder="Notas" required>
+        <input type="text" name="Jefe" maxlength="2" placeholder="Jefe" required>
+        <input type="submit">
+    </div>
+</form>

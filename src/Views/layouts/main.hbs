@@ -1,19 +1,30 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Example App</title>
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="public/css/normalize.css">
+    <link rel="stylesheet" href="public/css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    <title>Document</title>
     {{> head }}
 </head>
 <body>
+    <div id="app">
+        <div id="menu">
+            <h3 style="margin-left:50px;">Dashboard</h3>
+            <div><img src="img/database.svg" alt=""> <p>Base de datos</p></div>
+            <div><img src="img/reportes.svg" alt=""> <p>Reportes</p></div>
+            <div><img src="img/ajustes.svg" alt=""> <p>Configuraciones</p></div>
+        </div>
+        <div id="main">
+
+          {{{body}}}
 
 
-        
-  {{{body}}}
- 
- 
+        </div>
+    </div>
 </body>
 </html>
