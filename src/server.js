@@ -1,21 +1,16 @@
 import express from 'express';
 import path from 'path';
 import { json, urlencoded } from 'body-parser';
-import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
+//import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
 import hbs from 'express-handlebars';
 const app = express();
 
-UpdateSchema();
+//UpdateSchema();
 
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd
 app.set('views', path.join(__dirname,'/views'));
-
-
-
-
-
 
 
 app.engine('.hbs',hbs({ //configurando handlebars
@@ -24,8 +19,8 @@ app.engine('.hbs',hbs({ //configurando handlebars
   partialsDir: path.join(app.get('views'),'partials'),
   extname: '.hbs'
 }))
-
 app.set('view engine', '.hbs');
+
 
 
 
@@ -34,29 +29,11 @@ app.use('/post', json());
 app.use('/post', urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 4020)
 
-
 /* ----- Rutas ----- */
 
 app.use(require('./Routes/index.js'));
 app.use(require('./Routes/prueba.js'));
 
-
-
-app.get('/post', (req, res) => {
-  const connection = CreateConnection;
-  connection.connect();
-  
-  connection.query('SELECT * from saludo', (error, results, fields) => {
-
-      console.log(results);
-      console.log("------------------")
-      console.log(fields);
-  })
-  res.send('nice!');
-  connection.end();
-  
-  
-});
 
 /* ----- Server Running ----- */
 

@@ -81,11 +81,15 @@ input,select{
 .doble input:nth-child(1){margin-right:10px;}
 
 .triple input{
-    width: ;
+ 
     margin-right: 10px
 } .triple input:nth-child(3){margin-right: 0;}
 
 .triple {
     display:flex;
     border-bottom: .1px solid #d3d3d3;
+}
+
+a{
+    text-decoration: none;
 }
