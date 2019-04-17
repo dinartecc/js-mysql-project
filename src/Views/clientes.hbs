@@ -5,6 +5,7 @@
     <input type="submit">
 </form>
 
+<link rel="stylesheet" href="css/table.css">
 
 <style>
     .cliente{
@@ -14,17 +15,31 @@
     .cliente h2{
         margin-right: 20px;
     }
+
+
 </style>
 
-    {{#each respuesta}}
-    <div class="cliente">
-        <h2>{{nombre}}</h2>
-        <h2>{{telefono}}</h2>
-        <h2>{{direccion}}</h2>
-        <a href="/clientes/borrar/{{ID_cliente}}"><h2>Eliminar</h2></a>
-    
-    </div>
-    {{/each}}
 
+
+<table id="customers">
+    <tr class="nombre-tabla">
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Telefono</th>
+      <th>Dirección</th>
+      <th style="width:10px; text-align: center;">Eliminar</th>
+    </tr>
+ 
+    {{#each respuesta}}
+        <tr>
+            <td>{{ID_cliente}}</td>
+            <td>{{nombre}}</td>
+            <td>{{telefono}}</td>
+            <td>{{direccion}}</td>
+            <td style="text-align:center;"><a href="/clientes/borrar/{{ID_cliente}}">X</a></td>
+        </tr>
+    {{/each}}
+ 
+</table>
 
 

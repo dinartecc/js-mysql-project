@@ -1,0 +1,36 @@
+#customers {
+    font-family: 'Montserrat' !important;
+ 
+    font-weight:600; 
+    border-collapse: collapse;
+    width: 100%;
+    color: white;
+}
+  
+#customers td, #customers th {
+    height: 30px;
+    padding: 8px;
+}
+/*#customers tr:nth-child(even){background-color: #f2f2f2;}*/
+#customers td{
+    
+    background-color: #454d55; 
+    border-color:#95999c;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #95999c;
+}
+
+
+/*#customers tr:hover {background-color: #ddd;}*/
+
+.nombre-tabla{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #454d55;
+    
+    
+}
+
+.nombre-tabla th{border-bottom: 1px solid #95999c;}

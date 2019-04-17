@@ -18,7 +18,7 @@ router.get('/',(req, res) => {
     res.render('inicio.hbs');
 })
 
-
+/* ----- Clientes ----- */
 router.get('/clientes',(req, res) => {
     var query = "SELECT * FROM cliente limit 10";
     connection.query(query, function (error, results, fields) {

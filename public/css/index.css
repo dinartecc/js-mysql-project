@@ -23,7 +23,7 @@
     height: 25px;
     margin-right: 5px;
 }
-#menu > div{
+#menu  div{
     cursor: pointer;
     color: white;
     display: flex;
