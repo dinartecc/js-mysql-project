@@ -28,11 +28,22 @@ router.get('/clientes',(req, res) => {
     })
 });
 
+router.get('/clientes/borrar/:id', (req, res) => {
+    const {id} = req.params;
+    connection.query(`Delete from cliente where ID_cliente = ${id}`, function(error, results, fields){
+        if (error) throw error;
+        res.redirect('/clientes');
+    })
+})
+
 router.post('/clientes/nuevo', (req, res) => {
-    console.log(req);
-    //const {nombre, telefono, direccion} = req.body;
-    //console.log(nombre)
-    res.send('YEA');
+    
+    const {nombre, telefono, direccion} = req.body;
+    connection.query(`insert into cliente(nombre,telefono,direccion) values('${nombre}','${telefono}','${direccion}')`, function (error, results, fields){
+        if (error) throw error;
+        res.redirect('/clientes')
+    })
+  
 })
 
 module.exports = router;
