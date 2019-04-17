@@ -1,0 +1,28 @@
+<form action="/clientes/nuevo" method="POST" autocomplete="off">
+    <input type="text" name="nombre" autocomplete="off">
+    <input type="text" name="telefono" autocomplete="off">
+    <input type="text" name="direccion" autocomplete="off">
+    <input type="submit">
+</form>
+
+
+<style>
+    .cliente{
+        display: flex;
+    }
+
+    .cliente h2{
+        margin-right: 20px;
+    }
+</style>
+
+    {{#each respuesta}}
+    <div class="cliente">
+        <h2>{{nombre}}</h2>
+        <h2>{{telefono}}</h2>
+        <h2>{{direccion}}</h2>
+    </div>
+    {{/each}}
+
+
+

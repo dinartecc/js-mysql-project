@@ -8,12 +8,20 @@ const app = express();
 
 //UpdateSchema();
 
+//Middlewares
+app.use(express.urlencoded({extended: true})); // Esto reemplaza lo que esta en la linea 36 y 37
+
+
+
+
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd
 app.set('views', path.join(__dirname,'/views'));
 
 
-app.engine('.hbs',hbs({ //configurando handlebars
+
+/* ----- Configurando handlebars ----- */
+app.engine('.hbs',hbs({
   defaultLayout: 'main',
   layoutsDir: path.join(app.get('views'),'layouts'),
   partialsDir: path.join(app.get('views'),'partials'),
@@ -25,8 +33,8 @@ app.set('view engine', '.hbs');
 
 
 
-app.use('/post', json());
-app.use('/post', urlencoded({ extended: true }));
+//app.use('/post', json());                         ---  No se si hiciste esto por alguna razon pero ahi lo dejo ---
+//app.use('/post', urlencoded({ extended: true })); ---  No se si hiciste esto por alguna razon pero ahi lo dejo ---
 app.set('port', process.env.PORT || 4020)
 
 /* ----- Rutas ----- */
