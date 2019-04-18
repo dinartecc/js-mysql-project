@@ -1,37 +1,58 @@
-<form action="/clientes/nuevo" method="POST" autocomplete="off">
-    <input type="text" name="nombre" autocomplete="off">
-    <input type="text" name="telefono" autocomplete="off">
-    <input type="text" name="direccion" autocomplete="off">
-    <input type="submit">
-</form>
 
 <link rel="stylesheet" href="css/table.css">
 
-<style>
-    .cliente{
-        display: flex;
-    }
-
-    .cliente h2{
-        margin-right: 20px;
-    }
-
-
-</style>
-
-
-
-<table id="customers">
-    <tr class="nombre-tabla">
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Telefono</th>
-      <th>Dirección</th>
-      <th style="width:10px; text-align: center;">Eliminar</th>
-    </tr>
- 
-    {{#each respuesta}}
+<div id="contenedor-form-num">
+    
+    <form id="formulario" action="/clientes/nuevo" method="POST" autocomplete="off">
+        <div class="bg-color"><h3>Añadir Usuario</h3></div>
+        <input type="text" name="nombre" autocomplete="off" placeholder="Nombre">
+        <input type="text" name="telefono" autocomplete="off" placeholder="Telefono">
+        <input type="text" name="direccion" autocomplete="off" placeholder="Dirección">
+        <button class="boton" type="submit" style="margin-top:auto; margin-bottom:30px;">Enviar</button>
+        
+    </form>
+    <div id="tabla-numero">
+        <div class="bg-color"><h3>Número de usuarios</h3></div>
+        <div><h2>{{contar}}</h2></div>
+  
+        
+    </div>
+</div>
+<div id="busqueda-bar">
+    <table class="customers">
+        <tr class="bg-color">
+            <th>Buscar</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>ID</th>
+        </tr>
         <tr>
+            <td><input  type="text" id="cliente" placeholder="Buscar Cliente"></td>
+            <td><input name="random" type="radio" id="nombre-input"></td>
+            <td><input name="random" type="radio" id="nombre-input"></td>
+            <td><input name="random" type="radio" id="nombre-input"></td>
+
+        </tr>
+    </table>
+</div>
+<table id="clientes-tabla" class="customers">
+    <thead>
+        <tr class="nombre-tabla bg-color">
+            {{#if respuesta}}
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Dirección</th>
+                <th style="width:10px; text-align: center;">Eliminar</th>
+            {{else}}
+                <th style="text-align:center;">NO HAY USUARIOS REGISTRADOS!</th>
+            {{/if}}
+        </tr>
+    </thead>
+    
+    <tbody id="respuesta-ajax">
+     {{#each respuesta}}
+        <tr id="borrar">
             <td>{{ID_cliente}}</td>
             <td>{{nombre}}</td>
             <td>{{telefono}}</td>
@@ -39,7 +60,67 @@
             <td style="text-align:center;"><a href="/clientes/borrar/{{ID_cliente}}">X</a></td>
         </tr>
     {{/each}}
+
+        
+    </tbody>
  
 </table>
+<a href=""></a>
+
+<script src="js/socket.io.js"></script>
+
+<script type="text/javascript">
+    
+    /*var socket = io()
+    //enviando un numero random cada dos segundos
+    setInterval(function(){
+    socket.emit('client/random', Math.random())
+    }, 2000)
+    //recibiendo un numero random cada dos segundos
+    socket.on('server/random', function(num){
+    console.log(num)
+    })*/
+$('#cliente').on("change paste keyup",() => {
+    var bla = $('#cliente').val()
+    var tabla = $('#clientes-tabla');
+    var add = $('#respuesta-ajax');
+    var borrar = $('#borrar');
+   
+    tabla.find("tbody tr").remove;
+    //$('#respuesta-ajax').empty()
+    $.ajax(
+        {
+            url:'/clientes/buscar',
+            type: 'POST',
+            data:{busqueda: bla},
+            dataType: 'json',
+                success: function(data) {
+                add.empty();
+                console.log(data.respuesta);
+                for (let i = 0; i < data.respuesta.length; i++){
+                    add.append(`
+                    <tr>
+                        <td> ${data.respuesta[i].ID_cliente} </td>
+                        <td> ${data.respuesta[i].nombre} </td>
+                        <td> ${data.respuesta[i].telefono} </td>
+                        <td> ${data.respuesta[i].direccion} </td>
+                        <td style="text-align:center;"><a href="/clientes/borrar/${data.respuesta[i].ID_cliente}">X</a></td>
+                    </tr>
+                    `)
+                
+            }
+            },
+            error: function (jqXHR, textStatus, err){
+                alert('text status '+textStatus+', err '+ err)
+            }
+        }
+    )
+
+
+})
+
+
+
+</script>
 
 

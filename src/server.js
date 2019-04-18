@@ -1,11 +1,17 @@
 import express from 'express';
 import path from 'path';
+
 import { json, urlencoded } from 'body-parser';
 //import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
 import hbs from 'express-handlebars';
 const app = express();
 
+const socketio = require('socket.io')
+const http = require('http');
+const server = http.createServer(app);
+const io = socketio(server);
+const PORT = process.env.PORT || 4020;
 //UpdateSchema();
 
 //Middlewares
@@ -30,7 +36,12 @@ app.engine('.hbs',hbs({
 app.set('view engine', '.hbs');
 
 
-
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
 
 
 //app.use('/post', json());                         ---  No se si hiciste esto por alguna razon pero ahi lo dejo ---
@@ -39,12 +50,29 @@ app.set('port', process.env.PORT || 4020)
 
 /* ----- Rutas ----- */
 
+
+/*
+io.on('connection', function(socket){
+  console.log(`client: ${socket.id}`)
+  //enviando numero aleatorio cada dos segundo al cliente
+  setInterval(() => {
+    socket.emit('server/random', Math.random())
+  }, 2000)
+  //recibiendo el numero aleatorio del cliente
+  socket.on('client/random', (num) => {
+    console.log(num)
+  })
+})*/
+
+
+
+
+
+
 app.use(require('./Routes/index.js'));
 app.use(require('./Routes/prueba.js'));
-
-
 /* ----- Server Running ----- */
 
-app.listen(process.env.PORT || 4020, function() {
+server.listen(PORT, function() {
     console.log('Your node js server is running');
 });

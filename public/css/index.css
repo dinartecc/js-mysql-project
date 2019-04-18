@@ -1,16 +1,17 @@
 *{
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+    font-family: 'Monserrat', sans-serif;
+   
 }
 #app{
     max-width: 100vw;
-    height: ;
+ 
     display: flex;
 }
-
+.bg-color{background-color: #6D7AE0}
 #menu *{color:white;}
 #main{
-
+    background-color:#f2f2f2;
+    
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -51,25 +52,24 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 800px;
+    max-width: 800px;
 }
 
-#formulario-cliente input{
-  
-}
 
-input[type=submit]{
+input[type=submit], button{
     background-color: #50B9CE;
+    background-color: #6D7AE0;
     color: white;
 }
 
-input,select{
+form input,select,.boton{
     border:0;
-    background-color: #F3F4F5;
+    border-bottom: 1px solid black;
+    
     margin: 10px 0;
-    height: 50px;
-    border-radius: 5px;
-    width: 100%;
+    height: 40px;
+    border-radius: ;
+    width: 90%;
     padding-left:10px; 
 }
 
