@@ -12,22 +12,18 @@ var connection = mysql.createPool({
 });
 
 
-
-router.get('/registro',(req, res) => {
-    res.render('register');
-})
-
-
 router.get('/',(req, res) => {
     res.render('inicio.hbs');
 })
 
+
+
+
+
 /* ----- Clientes ----- */
 router.get('/clientes',(req, res) => {
-   
     connection.query('SELECT * FROM cliente limit 10 ; SELECT Count(*) AS total from cliente; ', function (error, results, fields) {
         if (error) throw error;
-        
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;
@@ -53,23 +49,17 @@ router.post('/clientes/nuevo', (req, res) => {
   
 })
 
-
-
 router.post('/clientes/buscar', function(req, res){
-    const {busqueda} = req.body;
-    
-    connection.query(`SELECT * from cliente where nombre like '${busqueda}%'`, function (error, results, fields){
+    const {busqueda, check} = req.body;
+    connection.query(`SELECT * from cliente where ${check} like '%${busqueda}%'`, function (error, results, fields){
         if (error) throw error;
-        res.contentType('json');
+        results.forEach(results => {
+            console.log('\n\n\n\n\n');
+            console.log('Se ha encontrado ' + results.nombre);
+        });
+       
         var respuesta = JSON.parse(JSON.stringify(results));
-        console.log('-------------')
-        console.log(respuesta)
         res.json({ respuesta });
-        
     })
-
-    
-    
-   
 });
 module.exports = router;

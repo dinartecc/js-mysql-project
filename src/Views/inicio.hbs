@@ -1,2 +1,27 @@
 
 <h1>Esta es una prueba!</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<div style="width: 50%">
+    <canvas id="myChart"></canvas>
+</div>
+
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2000, 10, 30, 45000]
+        }]
+    },
+    // Configuration options go here
+    options: {}
+});
+</script>

@@ -70,7 +70,7 @@ io.on('connection', function(socket){
 
 
 app.use(require('./Routes/index.js'));
-app.use(require('./Routes/prueba.js'));
+
 /* ----- Server Running ----- */
 
 server.listen(PORT, function() {
