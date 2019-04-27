@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
-    
     <title>Document</title>
     {{> head }}
 </head>
@@ -17,11 +16,68 @@
  
     <div id="app">
         <div id="menu">
-            <a href="/" style=""><h3 style="margin-left:50px;" onclick="">Dashboard</h3></a>
-            <div><img src="img/database.svg" alt=""> <p>Base de datos</p></div>
-            <a href="/clientes"><div><img src="img/usuario.svg" alt=""> <p>Clientes</p></div></a>
-            <div><img src="img/reportes.svg" alt=""> <p>Reportes</p></div>
-            <div><img src="img/ajustes.svg" alt=""> <p>Configuraciones</p></div>
+
+
+            <div id="titulo">
+
+                <a href="/" style=""><h3 style="margin-left:50px;">Dashboard</h3></a>
+            </div>
+
+
+
+ 
+            <div id="database-img" class="dropdown-menu"> 
+                <div>
+                    <img src="img/database.svg" alt=""> <p>Base de datos</p>
+                </div>
+                <div class="drop">
+                    <p>Configuraciones</p>
+                </div>
+            </div>
+
+
+            <div class="dropdown-menu">
+
+                <div>
+                    <img src="img/usuario.svg" alt=""> <p>Clientes</p>
+                </div>
+
+                <div class="drop">
+                    <p>Prueba 1</p>
+                    <p>Prueba 2</p>
+                </div>
+
+            </div>
+
+
+
+        
+
+
+            <div class="dropdown-menu">
+                <div>
+                    <img src="img/reportes.svg" alt=""> <p>Reportes</p>
+                </div>
+
+                <div class="drop">
+                    <p>Prueba 1</p>
+                    <p>Prueba 2</p>
+                </div>
+            </div>
+
+
+            <div class="dropdown-menu">
+                <div>
+                    <img src="img/ajustes.svg" alt=""> <p>Configuraciones</p>
+                </div>
+
+            
+                <div class="drop">
+                    <p>Prueba 1</p>
+                    <p>Prueba 2</p>
+                </div>
+            </div>
+
         </div>
         <div id="main">
         
@@ -31,7 +87,8 @@
         </div>
     </div>
     
-
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script src="/js/index.js"></script>
 </body>
 
 

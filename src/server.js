@@ -1,9 +1,8 @@
 import express from 'express';
 import path from 'path';
-
 import { json, urlencoded } from 'body-parser';
 //import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
-import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
+//import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
 import hbs from 'express-handlebars';
 const app = express();
 
@@ -15,7 +14,7 @@ const PORT = process.env.PORT || 4020;
 //UpdateSchema();
 
 //Middlewares
-app.use(express.urlencoded({extended: true})); // Esto reemplaza lo que esta en la linea 36 y 37
+app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
 
 
@@ -36,40 +35,12 @@ app.engine('.hbs',hbs({
 app.set('view engine', '.hbs');
 
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-});
-
-
-//app.use('/post', json());                         ---  No se si hiciste esto por alguna razon pero ahi lo dejo ---
-//app.use('/post', urlencoded({ extended: true })); ---  No se si hiciste esto por alguna razon pero ahi lo dejo ---
 app.set('port', process.env.PORT || 4020)
 
 /* ----- Rutas ----- */
 
-
-/*
-io.on('connection', function(socket){
-  console.log(`client: ${socket.id}`)
-  //enviando numero aleatorio cada dos segundo al cliente
-  setInterval(() => {
-    socket.emit('server/random', Math.random())
-  }, 2000)
-  //recibiendo el numero aleatorio del cliente
-  socket.on('client/random', (num) => {
-    console.log(num)
-  })
-})*/
-
-
-
-
-
-
 app.use(require('./Routes/index.js'));
+
 
 /* ----- Server Running ----- */
 
