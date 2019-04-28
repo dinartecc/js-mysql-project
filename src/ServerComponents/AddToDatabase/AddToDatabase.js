@@ -8,7 +8,7 @@ const AddToDatabase = ( mes ) => {
         queryVal = '';
 
     if( mes.tabla == null || mes.tabla == false ) {
-      reject( new Error('202: No tabla seleccionada'));
+      reject( new Error('900: No tabla seleccionada'));
     }
 
     mysqlQuery = mysqlQuery + mes.tabla + ' ';

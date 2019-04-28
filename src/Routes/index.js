@@ -1,8 +1,9 @@
 const router = require('express').Router();
 import mysql from 'mysql';
+import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 
 
-var connection = mysql.createPool({
+const connection = mysql.createPool({
   connectionLimit: 10,
   host     : 'localhost',
   user     : 'root',
@@ -16,6 +17,11 @@ router.get('/',(req, res) => {
     res.render('inicio.hbs');
 })
 
+/* ----- Inicializar Database -----*/
+router.get('/initdb', ( req, res ) => {
+  InitializeDatabase();
+  res.send('xd');
+});
 
 
 
