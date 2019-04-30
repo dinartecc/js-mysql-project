@@ -1,31 +1,36 @@
-import mysql from 'mysql';
+import AddToDatabaseCreateQuery from './AddToDatabaseCreateQuery';
+import CreateConnection from './../CreateConnection/CreateConnection';
 
-const AddToDatabase = ( mes ) => {
+/**
+ * La función genérica para añadir un objeto a la base de datos.
+ *
+ * @param Object Cada propiedad del objeto representa un conjunto columna/valor. La propiedad tabla esta reservada para el nombre de la tabla
+ * @returns
+ */
+const AddToDatabase = ( obj ) => {
   return new Promise(( resolve, reject ) => {
 
-    let mysqlQuery = 'INSERT INTO ',
-        queryCol = '',
-        queryVal = '';
+    //Crea el objeto para la conexión
+    const connection = CreateConnection;
 
-    if( mes.tabla == null || mes.tabla == false ) {
-      reject( new Error('900: No tabla seleccionada'));
-    }
+    //Realiza la query
+    AddToDatabaseCreateQuery( obj )
+    .then( query => connection.query( query, (error, results, fields) => {
 
-    mysqlQuery = mysqlQuery + mes.tabla + ' ';
-
-    for( const columna in res ) {
-      if ( columna != 'tabla' ) {
-        if ( queryCol.length != 0 ) {
-          queryCol += ', ';
-          queryVal += ', ';
-        }
-
-        queryCol += columna;
-        queryCol
-
+      // Si hay un error, devuelve la promesa fallida
+      if (error) {
+        console.log(error);
+        reject(error);
       }
-    }
 
-  }); 
+      // De lo contrario, devuelve los resultados
+      resolve(results);
 
+    }))
+
+    
+    
+  });
 };
+
+export default AddToDatabase;

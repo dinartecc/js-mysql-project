@@ -106,7 +106,7 @@ create table if not exists CaducidadLotes (
 -- VENTAS, CLIENTES, DESCUENTO GENERAL
 
 create table if not exists Cliente (
-    ID_cliente int unsigned not null auto_increment,
+    ID_cliente int not null auto_increment,
 	nombre varchar(50) not null,
     telefono int(12),
     direccion varchar(100) not null,

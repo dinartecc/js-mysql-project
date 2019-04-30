@@ -1,6 +1,7 @@
 const router = require('express').Router();
 import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
+import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 
 
 const connection = mysql.createPool({
@@ -23,8 +24,18 @@ router.get('/initdb', ( req, res ) => {
   res.send('xd');
 });
 
-
-
+/* ----- Prueba ---- */
+router.get('/prueba', (req, res) => {
+  const test = {
+    tabla : 'cliente',
+    telefono: 228,
+    nombre: 'KKNEL',
+    Direccion: '48564'
+  }
+  AddToDatabase( test )
+    .then( response => res.send( response ) )
+    .catch( response => console.log (response) );
+});
 
 /* ----- Clientes ----- */
 router.get('/clientes',(req, res) => {
