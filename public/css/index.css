@@ -7,7 +7,7 @@
  
     display: flex;
 }
-.bg-color{background-color: rgb(255, 99, 132) ;background-color: #6D7AE0;}
+.bg-color{background-color: rgb(255, 99, 132) ;background-color: #6D7AE0; color: white; height: 45px;}
 #main{
     background-color:#f2f2f2;
     

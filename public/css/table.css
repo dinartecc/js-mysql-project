@@ -98,3 +98,60 @@
 
 
 #nombre-input{margin:0 !important}
+.borrar td{transition: 0.5s;}
+
+.borrar:hover{
+    cursor: pointer;
+    
+}
+.borrar:hover td{
+    background: #ededed !important;
+    transition: 0.5s;
+}
+
+#container-editar{
+    display: none;
+    width: 80%;
+    margin-top:30px;
+    background-color: white;
+    
+}
+#container-editar p {margin: 0; padding: 0;}
+#container-editar form{
+    width: ;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+
+#container-editar input[type="text"]{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #95999c;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+
+
+}
+
+#container-editar input[type="submit"]{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+#container-editar > div:nth-child(1){text-align: center; display: flex; justify-content: center; align-items: center}
+#container-editar > div:nth-child(2){display: flex; flex-direction: column; margin-top: 20px; margin-bottom: 20px;}
+#container-editar > div > div {display: flex; justify-content: center;}
+
+
+
+
+#container-clientes-tabla{width: 80%;}
+#container-clientes-tabla table{width: 100%;}
+
+
+#boton-eliminar{
+    background-color:  #CC4850
+}

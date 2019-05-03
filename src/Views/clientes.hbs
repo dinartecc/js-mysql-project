@@ -35,49 +35,70 @@
         </tr>
     </table>
 </div>
-<table id="clientes-tabla" class="customers">
-    <thead>
-        <tr class="nombre-tabla bg-color">
-            {{#if respuesta}}
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Telefono</th>
-                <th>Dirección</th>
-                <th style="width:10px; text-align: center;">Eliminar</th>
-            {{else}}
-                <th style="text-align:center;">NO HAY USUARIOS REGISTRADOS!</th>
-            {{/if}}
-        </tr>
-    </thead>
-    
-    <tbody id="respuesta-ajax">
-     {{#each respuesta}}
-        <tr id="borrar">
-            <td>{{ID_cliente}}</td>
-            <td>{{nombre}}</td>
-            <td>{{telefono}}</td>
-            <td>{{direccion}}</td>
-            <td style="text-align:center;"><a href="/clientes/borrar/{{ID_cliente}}">X</a></td>
-        </tr>
-    {{/each}}
 
+
+<div id="container-clientes-tabla">
+    <table id="clientes-tabla" class="customers">
+        <thead>
+            <tr class="nombre-tabla bg-color">
+                {{#if respuesta}}
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Dirección</th>
+                    
+                {{else}}
+                    <th style="text-align:center;">NO HAY USUARIOS REGISTRADOS!</th>
+                {{/if}}
+            </tr>
+        </thead>
         
-    </tbody>
- 
-</table>
-<a href=""></a>
+        <tbody id="respuesta-ajax">
+        {{#each respuesta}}
+            <tr class="borrar">
+                <td>{{ID_cliente}}</td>
+                <td>{{nombre}}</td>
+                <td>{{telefono}}</td>
+                <td>{{direccion}}</td>
+            
+            </tr>
+        {{/each}}
 
-<script src="js/socket.io.js"></script>
+            
+        </tbody>
+    
+    </table>
+</div>
+<div id="container-editar">
+    <div class="bg-color">
+        <h3>Editar Usuario</h3>
+    </div>
+    <div>
+        <form action="">
+
+            <p>Nombre</p>
+            <input type="text" name="nombre" value="">
+            <p>Telefono</p>
+            <input type="text" name="telefono">
+            <p>Direccion</p>
+            <input type="text" name="direccion">
+        
+        </form> 
+        <div>
+            <input type="submit" onclick="invertir();" class="boton" style="width: 100px;" value="Cancelar" id="boton-enviar">
+            <input type="submit" onclick="actualizar(); invertir();" class="boton" style="width: 100px;" id="boton-enviar">
+            <input type="submit" onclick="borrar(); invertir()" value="Eliminar" class="boton" id="boton-eliminar" style="width: 100px">
+        </div>
+    </div>
+
+    
+
+</div>
 
 <script type="text/javascript">
 
 
-    $('#borrar').click(function() {    
-        $('.selected').children().each(function() {
-            alert($(this).html());
-        });
-    });
-
+ 
     /*var socket = io()
     //enviando un numero random cada dos segundos
     setInterval(function(){
@@ -127,7 +148,7 @@ $('#cliente').on("change paste keyup",() => {
                         <td> ${data.respuesta[i].nombre} </td>
                         <td> ${data.respuesta[i].telefono} </td>
                         <td> ${data.respuesta[i].direccion} </td>
-                        <td style="text-align:center;"><a href="/clientes/borrar/${data.respuesta[i].ID_cliente}">X</a></td>
+            
                     </tr>
                     `)
                 
@@ -144,8 +165,8 @@ $('#cliente').on("change paste keyup",() => {
 
 
 
-
-
 </script>
+
+
 
 

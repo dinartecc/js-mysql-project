@@ -35,14 +35,9 @@ router.get('/prueba', (req, res) => {
   // }
   const test = {
     tabla : 'cliente',
-<<<<<<< HEAD
-    id: 1,
-    nombre: 'asdasdadasdl',
-=======
-    id : 1,
-    nombre: '0w0',
->>>>>>> a002ca78b26f8c984fa193b81a4573c5f393999d
-    telefono: 80808080
+    id: 4,
+    nombre: 'Carlos',
+    telefono: 8
   }
   // const test = {
   //   tabla : 'cliente',
@@ -64,17 +59,31 @@ router.get('/clientes',(req, res) => {
     })
 });
 
-router.get('/clientes/borrar/:id', (req, res) => {
-    const {id} = req.params;
+router.post('/clientes/borrar/', (req, res) => {
+    console.log(req.body.select)
     const cliente = {
         tabla: 'cliente',
-        id: req.params.id
+        id: req.body.select.id
     }
     DeleteFromDatabase ( cliente )
-    .then( ( ) => res.redirect('/clientes'))
+    .then( ( ) => res.send("Elimnado!"))
     .catch( (response) => console.log(response))
 })
+router.post('/clientes/actualizar/', (req,res) => {
+    const {nombre, telefono, direccion, id} = req.body.cliente;
+    console.log(nombre)
+    const cliente = {
+        tabla: 'cliente',
+        id,
+        nombre,
+        telefono,
+        direccion
+    }
+    UpdateDatabase( cliente )
+    .then( () => res.send("OK") )
+    .catch( (response) => console.log(response))
 
+})
 router.post('/clientes/nuevo', (req, res) => {
     const cliente = {
         tabla: 'cliente',
@@ -90,7 +99,9 @@ router.post('/clientes/nuevo', (req, res) => {
 
 router.post('/clientes/buscar', function(req, res){
     const {busqueda, check} = req.body;
-    connection.query(`SELECT * from Cliente where ${check} like '%${busqueda}%'`, function (error, results, fields){
+    connection.query(`SELECT * from Cliente where ${check} like '%${busqueda}%' `, function (error, results, fields){
+        console.log(check)
+        console.log(busqueda)
         if (error) throw error;
         results.forEach(results => {
             console.log('\n\n\n\n\n');
