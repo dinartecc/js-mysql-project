@@ -2,20 +2,17 @@ const router = require('express').Router();
 import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
+import  CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 
+const connection = CreateConnection;
 
-const connection = mysql.createPool({
-  connectionLimit: 10,
-  host     : 'localhost',
-  user     : 'root',
-  password : 'admin',
-  database : 'Inventario',
-  multipleStatements: true
-});
 
 
 router.get('/',(req, res) => {
-    res.render('inicio.hbs');
+    connection.query('SELECT * FROM Cliente', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
 })
 
 /* ----- Inicializar Database -----*/
@@ -41,6 +38,7 @@ router.get('/prueba', (req, res) => {
 router.get('/clientes',(req, res) => {
     connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente; ', function (error, results, fields) {
         if (error) throw error;
+        console.log(JSON.parse(JSON.stringify(results[0])))
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;
