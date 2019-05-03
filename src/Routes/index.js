@@ -35,8 +35,13 @@ router.get('/prueba', (req, res) => {
   // }
   const test = {
     tabla : 'cliente',
+<<<<<<< HEAD
     id: 1,
     nombre: 'asdasdadasdl',
+=======
+    id : 1,
+    nombre: '0w0',
+>>>>>>> a002ca78b26f8c984fa193b81a4573c5f393999d
     telefono: 80808080
   }
   // const test = {

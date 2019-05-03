@@ -60,7 +60,7 @@ const UpdateDatabase = ( obj ) => {
         throw error;
       }
 
-      resolve(results);
+      resolve(mysqlQuery);
 
     } );
   });
