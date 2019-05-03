@@ -35,6 +35,6 @@ app.use(require('./Routes/categorias.js'));
 
 
 /* ----- Server Running ----- */
-app.listen(5050, function() {
+app.listen(PORT, function() {
     console.log('Your node js server is running');
 });

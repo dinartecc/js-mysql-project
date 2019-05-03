@@ -2,17 +2,22 @@ const router = require('express').Router();
 import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-import  CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
-const connection = CreateConnection;
 
+const connection = mysql.createPool({
+  connectionLimit: 10,
+  host     : 'localhost',
+  user     : 'root',
+  password : 'admin',
+  database : 'Inventario',
+  multipleStatements: true
+});
 
 
 router.get('/',(req, res) => {
-    connection.query('SELECT * FROM Cliente', function (error, results, fields) {
-        if (error) throw error;
-        res.send(results);
-    })
+    res.render('inicio.hbs');
 })
 
 /* ----- Inicializar Database -----*/
@@ -21,15 +26,31 @@ router.get('/initdb', ( req, res ) => {
   res.send('xd');
 });
 
+/* ----- Actualizar Schema ------- */
+router.get('/updateschema', (req, res ) => {
+  UpdateSchema();
+  res.send('Good!');
+});
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
+  // const test = {
+  //   tabla : 'cliente',
+  //   nombre : 'cliente1',
+  //   telefono : '111',
+  //   direccion : 'Casita'
+  // }
+  // const test = {
+  //   tabla : 'venta',
+  //   ID_cliente : 1,
+  //   monto_neto: 0,
+  //   monto_total: 0,
+  //   fecha : '2019-05-05'
+  // }
   const test = {
     tabla : 'cliente',
-    telefono: 228,
-    nombre: 'KKNEL',
-    Direccion: '48564'
+    id : 1
   }
-  AddToDatabase( test )
+  DeleteFromDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
 });
@@ -38,7 +59,6 @@ router.get('/prueba', (req, res) => {
 router.get('/clientes',(req, res) => {
     connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente; ', function (error, results, fields) {
         if (error) throw error;
-        console.log(JSON.parse(JSON.stringify(results[0])))
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;

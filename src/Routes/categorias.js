@@ -1,11 +1,15 @@
 
 const router = require('express').Router();
-import  CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import mysql from 'mysql';
 
-const connection = CreateConnection;
-
-
-
+const connection = mysql.createPool({
+    connectionLimit: 10,
+    host     : 'localhost',
+    user     : 'root',
+    password : 'admin',
+    database : 'Inventario',
+    multipleStatements: true
+});
 
 router.get('/categorias', (req, res) => {
     res.render('categorias')

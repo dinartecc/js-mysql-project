@@ -24,7 +24,7 @@ const AddToDatabaseCreateQuery = ( obj ) => {
 
     // Itera sobre cada propiedad del objeto, utilizando el nombre para las columnas y el valor para el mismo valor en las queries.
     for( const columna in obj ) {
-      if ( columna != 'tabla' ) {
+      if ( columna != 'tabla' && columna != 'id') {
         queryCol += columna + ', ' ;
         queryVal += mysql.escape(obj[columna]) + ', ';
       }
@@ -40,7 +40,8 @@ const AddToDatabaseCreateQuery = ( obj ) => {
     queryCol = queryCol.substr( 0, queryCol.length-2 );
     queryVal = queryVal.substr( 0, queryVal.length-2 );
 
-    mysqlQuery = `${mysqlQuery} (${queryCol}) VALUES (${queryVal})`;
+    // La query final. Hace una subquery para el auto_increment
+    mysqlQuery = `${mysqlQuery} ( ${ obj.id }, ${queryCol}) VALUES ( (select ${obj.id} from (select * from ${obj.tabla}) as x order by ${obj.id} desc limit 1) + 1, ${queryVal})`;
 
     resolve(mysqlQuery);
 
