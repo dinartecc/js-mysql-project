@@ -8,24 +8,42 @@ const InitializeDatabase = () => {
   return new Promise(( resolve, reject ) => {
 
     //Se crea el string de la query con el archivo InitDB.sql y el objeto de a conexion
-    let mysqlQuery = fs.readFileSync( join( __dirname, '../../ServerFiles/InitDB.sql'), "utf8"),
-          connection  = CreateConnection;
+    const mysqlQueryInit = fs.readFileSync( join( __dirname, '../../ServerFiles/InitDB.sql'), "utf8"),
+          mysqlQueryDrop = fs.readFileSync( join( __dirname, '../../ServerFiles/DropDB.sql'), "utf8"),
+          mysqlQueryValues = fs.readFileSync( join( __dirname, '../../ServerFiles/SetDeleteValues.sql'), "utf8"),
+          connection = CreateConnection;
 
           
-    connection.query(mysqlQuery, (error, results, fields) => {
+    connection.query(mysqlQueryDrop, (error, results, fields) => {
 
       // Devuelve el error si encuentra alguno
       if (error) {
-        reject( error );
+        throw error;
       }
 
-      // De lo contrario, retorna el mensaje
-      resolve( results );    
+      // De lo contrario, procede a la segunda query
+      connection.query(mysqlQueryInit, (error, results, fields) => {
+        // Devuelve el error si encuentra alguno
+        if (error) {
+          throw error;
+        }
+
+        connection.query(mysqlQueryValues, (error, results, fields) => {
+
+          // Devuelve error si encuentra alguno
+          if (error) {
+            throw error;
+          }
+
+          // Si todo ocurre bien, manda la resolucion
+          resolve(results);
+
+        })
+        
+      });
     });
-
-  })
-
-
+    
+  });
 }
 
 export default InitializeDatabase;

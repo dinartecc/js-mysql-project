@@ -26,7 +26,9 @@ const AddToDatabase = ( obj ) => {
       // De lo contrario, devuelve los resultados
       resolve(results);
 
-    }));
+    }))
+
+    
     
   });
 };
