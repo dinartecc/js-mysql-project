@@ -70,7 +70,11 @@
 <script src="js/socket.io.js"></script>
 
 <script type="text/javascript">
-    
+    $("#borrar").click(function(){
+        $(this).addClass('selected').siblings().removeClass('selected');    
+        var value=$(this).find('td:first').html();
+        alert(value);    
+    });
     /*var socket = io()
     //enviando un numero random cada dos segundos
     setInterval(function(){
@@ -134,6 +138,8 @@ $('#cliente').on("change paste keyup",() => {
 
 
 })
+
+
 
 
 

@@ -4,16 +4,9 @@ import InitializeDatabase from '../ServerComponents/InitializeDatabase/Initializ
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
+import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 
-
-const connection = mysql.createPool({
-  connectionLimit: 10,
-  host     : 'localhost',
-  user     : 'root',
-  password : 'admin',
-  database : 'Inventario',
-  multipleStatements: true
-});
+const connection = CreateConnection;
 
 
 router.get('/',(req, res) => {
@@ -57,7 +50,7 @@ router.get('/prueba', (req, res) => {
 
 /* ----- Clientes ----- */
 router.get('/clientes',(req, res) => {
-    connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente; ', function (error, results, fields) {
+    connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
         if (error) throw error;
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
@@ -68,20 +61,26 @@ router.get('/clientes',(req, res) => {
 
 router.get('/clientes/borrar/:id', (req, res) => {
     const {id} = req.params;
-    connection.query(`Delete from Cliente where ID_cliente = ${id}`, function(error, results, fields){
-        if (error) throw error;
-        res.redirect('/clientes');
-    })
+    const cliente = {
+        tabla: 'cliente',
+        id: req.params.id
+    }
+    DeleteFromDatabase ( cliente )
+    .then( ( ) => res.redirect('/clientes'))
+    .catch( (response) => console.log(response))
 })
 
 router.post('/clientes/nuevo', (req, res) => {
+    const cliente = {
+        tabla: 'cliente',
+        nombre: req.body.nombre,
+        telefono: req.body.telefono,
+        direccion: req.body.telefono
+    }
+    AddToDatabase( cliente )
+    .then( () => res.redirect('/clientes'))
+    .catch( (response) => console.log(response))
     
-    const {nombre, telefono, direccion} = req.body;
-    connection.query(`insert into cliente(Nombre,Telefono,Direccion) values('${nombre}','${telefono}','${direccion}')`, function (error, results, fields){
-        if (error) throw error;
-        res.redirect('/clientes')
-    })
-  
 })
 
 router.post('/clientes/buscar', function(req, res){
