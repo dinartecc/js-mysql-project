@@ -1,27 +1,19 @@
 import express from 'express';
 import path from 'path';
-import { json, urlencoded } from 'body-parser';
+
 //import UpdateSchema from './ServerComponents/UpdateSchema/UpdateSchema';
 //import CreateConnection from './ServerComponents/CreateConnection/CreateConnection'
 import hbs from 'express-handlebars';
 const app = express();
-
-const socketio = require('socket.io')
-const http = require('http');
-const server = http.createServer(app);
-const io = socketio(server);
 const PORT = process.env.PORT || 4020;
 //UpdateSchema();
 
 //Middlewares
 app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
-
-
-
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd
-app.set('views', path.join(__dirname,'/views'));
+app.set('views', path.join(__dirname,'/Views'));
 
 
 
@@ -35,15 +27,14 @@ app.engine('.hbs',hbs({
 app.set('view engine', '.hbs');
 
 
-app.set('port', process.env.PORT || 4020)
 
 /* ----- Rutas ----- */
 
 app.use(require('./Routes/index.js'));
+app.use(require('./Routes/categorias.js'));
 
 
 /* ----- Server Running ----- */
-
-server.listen(PORT, function() {
+app.listen(PORT, function() {
     console.log('Your node js server is running');
 });

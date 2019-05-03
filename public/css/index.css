@@ -102,3 +102,7 @@ a{
 .drop{
     display: none;
 }
+
+.drop{
+    padding-left: 10px;
+}

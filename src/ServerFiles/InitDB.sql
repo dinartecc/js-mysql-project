@@ -3,31 +3,31 @@ use `heroku_8e679e6d32fb43a`;
 -- ELEMENTOS DEL SKU
 
 create table if not exists Categoria (
-	ID_categoria char(3) not null ,
+	ID_categoria int(3) not null ,
     nombre varchar(15) not null,
     constraint PK_cat primary key (ID_categoria)
 ) ENGINE = InnoDB;
 
 create table if not exists Subcategoria (
-	ID_subcategoria numeric(3,0) unsigned not null,
+	ID_subcategoria int(3) unsigned not null,
     nombre varchar(15) not null,
-    ID_categoria char(3) not null,
+    ID_categoria int(3) not null,
     constraint PK_sub primary key (ID_subcategoria, ID_categoria),
     constraint FK_sub_cat foreign key (ID_categoria) references Categoria(ID_categoria)
 ) ENGINE = InnoDB;
 
 create table if not exists Marca (
-	ID_marca numeric(3,0) unsigned not null,
+	ID_marca int(3) unsigned not null,
     nombre varchar(15) not null,
     constraint PK_mar primary key (ID_marca)
 ) ENGINE = InnoDB;
 
 create table if not exists SKU (
 	SKU char(12) not null,
-	ID_categoria char(3),
-    ID_subcategoria numeric(3,0) unsigned not null,
-    ID_marca numeric(3,0) unsigned not null,
-    variante numeric(3,0) unsigned not null,
+	ID_categoria int(3),
+    ID_subcategoria int(3) unsigned not null,
+    ID_marca int(3) unsigned not null,
+    variante int(3) unsigned not null,
     constraint PK_sku primary key (SKU),
     constraint FK_sku_cat foreign key (ID_categoria) references Categoria(ID_categoria),
     constraint FK_sku_sub foreign key (ID_subcategoria, ID_categoria) references Subcategoria(ID_subcategoria, ID_categoria),
@@ -106,9 +106,9 @@ create table if not exists CaducidadLotes (
 -- VENTAS, CLIENTES, DESCUENTO GENERAL
 
 create table if not exists Cliente (
-    ID_cliente int unsigned not null auto_increment,
+    ID_cliente int not null auto_increment,
 	nombre varchar(50) not null,
-    telefono numeric(12,0),
+    telefono int(12),
     direccion varchar(100) not null,
     constraint PK_cli primary key (ID_cliente)
 ) ENGINE = InnoDB;

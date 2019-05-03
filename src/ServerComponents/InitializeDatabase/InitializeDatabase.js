@@ -19,8 +19,8 @@ const InitializeDatabase = () => {
         reject( error );
       }
 
-      // De lo contrario
-      resolve(  );    
+      // De lo contrario, retorna el mensaje
+      resolve( results );    
     });
 
   })
