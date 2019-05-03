@@ -35,8 +35,8 @@ router.get('/prueba', (req, res) => {
   // }
   const test = {
     tabla : 'cliente',
-    ID_cliente : 1,
-    nombre: 'Leonel',
+    id: 1,
+    nombre: 'asdasdadasdl',
     telefono: 80808080
   }
   // const test = {

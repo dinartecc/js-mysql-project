@@ -37,7 +37,7 @@ const UpdateDatabase = ( obj ) => {
 
     // Itera sobre todos los atributos a actualizar
     for( const columna in obj ) {
-      if ( columna != 'tabla' && columna != obj.idname && columna != 'idname'  ) {
+      if ( columna != 'tabla' && columna != 'id' && columna != 'idname'  ) {
         columnaQuery += `${columna} = ${mysql.escape(obj[columna])} , `;
       }
     }
@@ -51,7 +51,7 @@ const UpdateDatabase = ( obj ) => {
     columnaQuery = columnaQuery.substr (0, columnaQuery.length-2);
 
     // Une la query inicial, los atributos a actualizar, y la condicion where del ID
-    mysqlQuery = `${mysqlQuery} ${columnaQuery} where ${obj.idname} = ${obj[obj.idname]}`;
+    mysqlQuery = `${mysqlQuery} ${columnaQuery} where ${obj.idname} = ${obj.id}`;
 
 
     //Realiza la query. Si no hay error, resuelve con los resultados

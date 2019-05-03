@@ -70,9 +70,12 @@
 <script src="js/socket.io.js"></script>
 
 <script type="text/javascript">
-    $('tr').click(function() {
-    $('.selected').removeClass('selected');
-        $(this).addClass('selected');
+
+
+    $('#borrar').click(function() {    
+        $('.selected').children().each(function() {
+            alert($(this).html());
+        });
     });
 
     /*var socket = io()
