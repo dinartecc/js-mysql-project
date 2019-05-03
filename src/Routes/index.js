@@ -6,6 +6,7 @@ import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 
 const connection = CreateConnection;
 
@@ -33,17 +34,24 @@ router.get('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  const test = {
-    tabla : 'cliente',
-    id: 4,
-    nombre: 'Carlos',
-    telefono: 8
-  }
+  // const test = {
+  //   tabla : 'cliente',
+  //   id: 4,
+  //   nombre: 'Carlos',
+  //   telefono: 8
+  // }
   // const test = {
   //   tabla : 'cliente',
   //   id : 1
   // }
-  UpdateDatabase( test )
+  const test = {
+    tabla: 'cliente',
+    columnas: ['nombre', 'direccion'],
+    orden: 'direccion',
+    desc: true,
+    condiciones: { telefono: 1 }
+  }
+  QueryDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
 });
@@ -81,7 +89,7 @@ router.post('/clientes/actualizar/', (req,res) => {
     }
     UpdateDatabase( cliente )
     .then( () => res.send("OK") )
-    .catch( (response) => console.log(response))
+    .catch( (response) => console.log('response'))
 
 })
 router.post('/clientes/nuevo', (req, res) => {
