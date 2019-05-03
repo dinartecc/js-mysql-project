@@ -7,13 +7,24 @@ import CreateConnection from './../CreateConnection/CreateConnection';
  * @param Object Cada propiedad del objeto representa un conjunto columna/valor. La propiedad tabla esta reservada para el nombre de la tabla
  * @returns
  */
-const AddToDatabase = ( obj ) => {
+const DeleteFromDatabase = ( obj ) => {
   return new Promise(( resolve, reject ) => {
 
     //Crea el objeto para la conexión
     const connection = CreateConnection;
 
-    //Realiza la query
+    //Checkea si la tabla tiene hijos foreign keys
+    connection.query(`select TABLE_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    where REFERENCED_TABLE_SCHEMA = 'heroku_8e679e6d32fb43a' AND REFERENCED_TABLE_NAME = '${obj.tabla}';`, (error, results, fields) => {
+      if (error) {
+        throw error;
+      }
+      if ( results.length > 0 ) {
+        
+      }
+    });
+
+    
     AddToDatabaseCreateQuery( obj )
     .then( query => connection.query( query, (error, results, fields) => {
 

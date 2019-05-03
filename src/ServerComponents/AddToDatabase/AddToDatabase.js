@@ -1,5 +1,7 @@
 import AddToDatabaseCreateQuery from './AddToDatabaseCreateQuery';
 import CreateConnection from './../CreateConnection/CreateConnection';
+import fs from 'fs';
+import {join} from 'path';
 
 /**
  * La función genérica para añadir un objeto a la base de datos.
@@ -9,6 +11,17 @@ import CreateConnection from './../CreateConnection/CreateConnection';
  */
 const AddToDatabase = ( obj ) => {
   return new Promise(( resolve, reject ) => {
+
+    const schema = JSON.parse(
+      fs.readFileSync(join(__dirname, '../../ServerFiles/Schema.json'))
+      );
+
+    if ( !schema.hasOwnProperty(obj.tabla) )
+    {
+      throw new Error('902: Esa tabla no existe en el schema');
+    }
+
+    obj.id = schema[obj.tabla].id; 
 
     //Crea el objeto para la conexión
     const connection = CreateConnection;

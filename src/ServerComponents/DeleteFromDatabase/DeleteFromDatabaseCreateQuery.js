@@ -1,4 +1,5 @@
 import mysql from 'mysql';
+import  CreateConnection from '../CreateConnection/CreateConnection';
 
 /**
  * La función genérica para crear la query para añadir un objeto a la base de datos.
@@ -8,10 +9,24 @@ import mysql from 'mysql';
  * @param Boolean Activa el modo ON DELETE CASCADE
  * @returns
  */
-const AddToDatabaseCreateQuery = ( obj, foreign, cascade = false ) => {
+const DeleteFromDatabaseChildren = ( obj, foreign = [], cascade = false ) => {
   return new Promise(( resolve, reject ) => {
 
-    let mysqlQuery= ``;
+    let mysqlQuery= '';
+
+    if ( foreign.length > 0 ) {
+      for( let tabla of foreign ) {
+        
+        if (!cascade) {
+          mysqlQuery += `update ${tabla} set ${ obj.idname } = 0 where ${ obj.idname } = ${ obj.id }  \n`
+        }
+        else {
+          
+        }
+        
+
+      }
+    }
 
 
 

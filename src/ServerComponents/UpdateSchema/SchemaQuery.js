@@ -11,15 +11,13 @@ const SchemaQuery = () => {
   return new Promise(( resolve, reject ) => {
 
     //Se crea el string de la query y el objeto de a conexion
-    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE from Information_schema.columns where TABLE_SCHEMA = 'heroku_8e679e6d32fb43a'`,
+    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = 'heroku_8e679e6d32fb43a'`,
           connection  = CreateConnection;
 
-    connection.connect();
 
     // Se realiza la query
     connection.query( mysqlQuery, (error, results, fields) => {
 
-      connection.end();
 
       if (error) reject(new Error(error));
 
@@ -28,10 +26,18 @@ const SchemaQuery = () => {
       const schema = {};
 
       for( let tupla of results ) {
+        // Si aun no se ha creado la propiedad, se crea
         if( !(tupla.TABLE_NAME in schema )) {
           schema[tupla.TABLE_NAME] = {};
         }
+        //Pone cada propiedad anidada, que corresponde a la columna, con su respectivo tipo
         schema[tupla.TABLE_NAME][tupla.COLUMN_NAME] = tupla.DATA_TYPE;
+
+        //Si la columna es la llave primaria de la tabla, se guarda dentro de la propiedad id
+        if ( tupla.COLUMN_KEY == 'PRI' ) {
+          schema[tupla.TABLE_NAME].id = tupla.COLUMN_NAME;
+        }
+
       }
 
       //Se guarda la ultima vez que se actualizo el schema

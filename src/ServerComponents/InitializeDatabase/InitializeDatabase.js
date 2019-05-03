@@ -1,6 +1,6 @@
 import { join } from 'path';
 import fs from 'fs';
-import  CreateConnection from '../CreateConnection/CreateConnection';
+import CreateConnection from '../CreateConnection/CreateConnection';
 
 const InitializeDatabase = () => {
   

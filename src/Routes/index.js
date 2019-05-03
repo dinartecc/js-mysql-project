@@ -2,6 +2,7 @@ const router = require('express').Router();
 import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
+import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
 
 
 const connection = mysql.createPool({
@@ -24,6 +25,11 @@ router.get('/initdb', ( req, res ) => {
   res.send('xd');
 });
 
+/* ----- Actualizar Schema ------- */
+router.get('/updateschema', (req, res ) => {
+  UpdateSchema();
+  res.send('Good!');
+});
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
   const test = {
