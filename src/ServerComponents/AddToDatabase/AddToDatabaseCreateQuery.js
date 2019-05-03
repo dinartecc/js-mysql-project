@@ -19,8 +19,6 @@ const AddToDatabaseCreateQuery = ( obj ) => {
 
     }
 
-    console.log(obj.id);
-
     // Inicializa la query
     mysqlQuery = mysqlQuery + mysql.escapeId(obj.tabla) + ' ';
 
@@ -42,6 +40,7 @@ const AddToDatabaseCreateQuery = ( obj ) => {
     queryCol = queryCol.substr( 0, queryCol.length-2 );
     queryVal = queryVal.substr( 0, queryVal.length-2 );
 
+    // La query final. Hace una subquery para el auto_increment
     mysqlQuery = `${mysqlQuery} ( ${ obj.id }, ${queryCol}) VALUES ( (select ${obj.id} from (select * from ${obj.tabla}) as x order by ${obj.id} desc limit 1) + 1, ${queryVal})`;
 
     resolve(mysqlQuery);

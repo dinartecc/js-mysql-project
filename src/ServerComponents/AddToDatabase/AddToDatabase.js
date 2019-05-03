@@ -6,7 +6,7 @@ import {join} from 'path';
 /**
  * La función genérica para añadir un objeto a la base de datos.
  *
- * @param Object Cada propiedad del objeto representa un conjunto columna/valor. La propiedad tabla esta reservada para el nombre de la tabla
+ * @param Object Cada propiedad del objeto representa un conjunto columna/valor. La propiedad .tabla esta reservada para el nombre de la tabla. La propiedad .id esta reservada pero no se envia.
  * @returns
  */
 const AddToDatabase = ( obj ) => {

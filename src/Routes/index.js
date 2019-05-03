@@ -3,6 +3,7 @@ import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 
 const connection = mysql.createPool({
@@ -32,13 +33,24 @@ router.get('/updateschema', (req, res ) => {
 });
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
+  // const test = {
+  //   tabla : 'cliente',
+  //   nombre : 'cliente1',
+  //   telefono : '111',
+  //   direccion : 'Casita'
+  // }
+  // const test = {
+  //   tabla : 'venta',
+  //   ID_cliente : 1,
+  //   monto_neto: 0,
+  //   monto_total: 0,
+  //   fecha : '2019-05-05'
+  // }
   const test = {
     tabla : 'cliente',
-    telefono: 228,
-    nombre: 'KKNEL',
-    Direccion: '48564'
+    id : 1
   }
-  AddToDatabase( test )
+  DeleteFromDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
 });
