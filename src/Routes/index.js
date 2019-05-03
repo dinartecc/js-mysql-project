@@ -3,6 +3,7 @@ import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
+import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 
@@ -39,18 +40,17 @@ router.get('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  // const test = {
-  //   tabla : 'venta',
-  //   ID_cliente : 1,
-  //   monto_neto: 0,
-  //   monto_total: 0,
-  //   fecha : '2019-05-05'
-  // }
   const test = {
     tabla : 'cliente',
-    id : 1
+    ID_cliente : 1,
+    nombre: 'Leonel',
+    telefono: 80808080
   }
-  DeleteFromDatabase( test )
+  // const test = {
+  //   tabla : 'cliente',
+  //   id : 1
+  // }
+  UpdateDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
 });

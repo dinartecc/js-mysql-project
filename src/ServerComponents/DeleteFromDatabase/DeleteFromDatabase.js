@@ -1,6 +1,6 @@
 import CreateConnection from './../CreateConnection/CreateConnection';
 import fs from 'fs';
-import {join} from 'path';
+import { join } from 'path';
 
 /**
  * La función para borrar una base de dato.
@@ -12,7 +12,7 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
   return new Promise(( resolve, reject ) => {
 
     if(obj.id == 0) {
-      throw new Error('903: No pueden borrar el campo con ID 0');
+      throw new Error('903: No pueden borrar el registro con ID 0');
     }
 
     //Crea el objeto para la conexión e importa el schema
