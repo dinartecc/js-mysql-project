@@ -9,17 +9,15 @@ const InitializeDatabase = () => {
 
     //Se crea el string de la query con el archivo InitDB.sql y el objeto de a conexion
     const mysqlQueryInit = fs.readFileSync( join( __dirname, '../../ServerFiles/InitDB.sql'), "utf8"),
-          mysqlQueryDrop = fs.readFileSync( join( __dirname, '../../ServerFiles/DropDB.sql'), "utf8"),
+          //mysqlQueryDrop = fs.readFileSync( join( __dirname,  '../../ServerFiles/DropDB.sql'), "utf8"),
           mysqlQueryValues = fs.readFileSync( join( __dirname, '../../ServerFiles/SetDeleteValues.sql'), "utf8"),
           connection = CreateConnection;
 
           
-    connection.query(mysqlQueryDrop, (error, results, fields) => {
+   
 
       // Devuelve el error si encuentra alguno
-      if (error) {
-        throw error;
-      }
+      
 
       // De lo contrario, procede a la segunda query
       connection.query(mysqlQueryInit, (error, results, fields) => {
@@ -41,7 +39,7 @@ const InitializeDatabase = () => {
         })
         
       });
-    });
+    
     
   });
 }

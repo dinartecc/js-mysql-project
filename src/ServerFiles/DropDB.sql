@@ -1,4 +1,5 @@
-SET FOREIGN_KEY_CHECKS = 0;
+use 'Inventario';
+
 
 drop table if exists almacen;
 drop table if exists caducidadlotes;

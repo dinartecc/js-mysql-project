@@ -86,7 +86,7 @@
         </form> 
         <div>
             <input type="submit" onclick="invertir();" class="boton" style="width: 100px;" value="Cancelar" id="boton-enviar">
-            <input type="submit" onclick="actualizar(); invertir();" class="boton" style="width: 100px;" id="boton-enviar">
+            <input type="submit" onclick="actualizar(); invertir();" class="boton" value="Guardar" style="width: 100px;" id="boton-enviar">
             <input type="submit" onclick="borrar(); invertir()" value="Eliminar" class="boton" id="boton-eliminar" style="width: 100px">
         </div>
     </div>
@@ -95,78 +95,9 @@
 
 </div>
 
-<script type="text/javascript">
-
-
- 
-    /*var socket = io()
-    //enviando un numero random cada dos segundos
-    setInterval(function(){
-    socket.emit('client/random', Math.random())
-    }, 2000)
-    //recibiendo un numero random cada dos segundos
-    socket.on('server/random', function(num){
-    console.log(num)
-    })*/
-$('#cliente').on("change paste keyup",() => {
-    var busqueda = $('#cliente').val()
-    var tabla = $('#clientes-tabla');
-    var add = $('#respuesta-ajax');
-    var check;
-
-
-
-    if ($('#nombre-input').prop('checked')){
-        check = 'nombre';
-    }else if ($('#telefono-input').prop('checked')){
-        check = 'telefono';
-    }else if ($('#id-input').prop('checked')){
-        check = 'ID_cliente';
-    }else{
-        alert('Que intentas hacer?');
-    }
-    console.log(check);
-
-
-
-    tabla.find("tbody tr").remove;
-    //$('#respuesta-ajax').empty()
-    $.ajax(
-        {
-            url:'/clientes/buscar',
-            type: 'POST',
-            data:{busqueda, check},
-            dataType: 'json',
-                success: function(data) {
-                
-                add.empty();
-                console.log(data.respuesta);
-                for (let i = 0; i < data.respuesta.length; i++){
-                    add.append(`
-                    <tr>
-                        <td> ${data.respuesta[i].ID_cliente} </td>
-                        <td> ${data.respuesta[i].nombre} </td>
-                        <td> ${data.respuesta[i].telefono} </td>
-                        <td> ${data.respuesta[i].direccion} </td>
-            
-                    </tr>
-                    `)
-                
-            }
-            },
-            error: function (jqXHR, textStatus, err){
-                alert('text status '+textStatus+', err '+ err)
-            }
-        }
-    )
-
-
-})
-
-
-
-</script>
 
 
 
 
+
+<script src="/js/index.js"></script>

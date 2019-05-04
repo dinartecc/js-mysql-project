@@ -1,4 +1,4 @@
-use `heroku_8e679e6d32fb43a`;
+use `Inventario`;
 
 -- ELEMENTOS DEL SKU
 
