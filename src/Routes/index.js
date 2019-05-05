@@ -10,8 +10,6 @@ import CreateConnection from '../ServerComponents/CreateConnection/CreateConnect
 
 
 router.get('/',(req, res) => {
-    console.log(req.user)
-    req.session.nombre = "Leonel";
     res.render('inicio.hbs');
 })
 
