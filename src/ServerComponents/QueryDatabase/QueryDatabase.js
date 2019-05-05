@@ -2,7 +2,6 @@ import CreateConnection from './../CreateConnection/CreateConnection';
 import fs from 'fs';
 import { join } from 'path';
 import mysql from 'mysql';
-const limitePagina = 25;
 
 /**
  * La función para hacer una query.
@@ -19,6 +18,9 @@ const QueryDatabase = ( obj ) => {
     }
     if ( !obj.hasOwnProperty('pagina')) {
       obj.pagina = 1;
+    }
+    if ( !obj.hasOwnProperty('limite')) {
+      obj.limite = 10
     }
 
     // Si se intenta modificar el registro 0, da un error
@@ -109,8 +111,9 @@ const QueryDatabase = ( obj ) => {
     mysqlQuery += `order by ${ ( obj.orden == 'id' )? obj.idname : obj.orden } ${ obj.desc ? 'desc ' : '' } `;
     
     // Pagina
-    mysqlQuery += `limit ${ limitePagina } ${ obj.pagina == 1 ? '' : `offset ${ (obj.pagina - 1) * limitePagina  }` };`;
+    mysqlQuery += `limit ${ obj.limite } ${ obj.pagina == 1 ? '' : `offset ${ (obj.pagina - 1) * limitePagina  }` };`;
 
+    // Realiza la query
     connection.query( mysqlQuery, (error, results, fields) => {
       if (error) {
         throw error;
