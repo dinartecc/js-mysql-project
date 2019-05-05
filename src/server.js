@@ -4,32 +4,55 @@ import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
+var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
 
+import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
 
-const connection = JSON.parse(fs.readFileSync(path.join(__dirname, 'ServerFiles/dbCredentials.json')));
-const sessionStore = new MySQLStore(connection);
 
+const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones en el backend
+  clearExpired: true, // Limpiar los registros de las sesiones ya expiradas
+  createDatabaseTable: true, // Si no existe la tabla sessions en la base de datos, la crea
+  checkExpirationInterval: 60000, // How frequently expired sessions will be cleared; milliseconds:
+  expiration: 60000 // The maximum age of a valid session; milliseconds. 
+}, CreateConnection);
 
+//Configuraciones
 const app = express();
 const PORT = process.env.PORT || 4020;
-//UpdateSchema();
 
-
-
-//Middlewares
-app.use(bodyParser.json())
-app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
 app.use(session({ //Configuracion del express-sessions
   key: 'session_cookie_name',
   secret: 'session_cookie_secret',
   store: sessionStore,
   resave: false,
-  saveUninitialized: true
+  cookie: {maxAge: 60000 }, // Despues de este tiempo, el cookie va a vencer.
+  saveUninitialized: false 
 }));
 
+//UpdateSchema();
+//app.use(morgan('tiny'));
+
+
+//Middlewares
+app.use(bodyParser.json())
+app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
+
+
+
+
+
+app.use((req, res, next) => {
+  console.log(req.session)
+  if(typeof req.session.user === 'undefined' && req.path !== '/login') {
+    res.render('login.hbs', {layout: 'login'});
+  }
+  else{
+    next();
+  }
+});
 
 
 

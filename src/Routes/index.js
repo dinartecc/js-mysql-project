@@ -7,7 +7,10 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 
-
+router.get('*', (req ,res , next) => {
+    console.log(req.session);
+    next()
+})
 
 router.get('/',(req, res) => {
     res.render('inicio.hbs');

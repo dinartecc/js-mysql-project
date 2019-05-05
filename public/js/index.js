@@ -16,9 +16,19 @@ var select = {
 }
 
 function invertir(){
-    $("#container-clientes-tabla").slideToggle(500);
+   
+    for (let i = 0; i < arguments.length; i++) {
+		$(`#${arguments[i]}`).slideToggle(500);
+	}
+
+    /*arreglo.forEach(function(id) {
+        $(`#${id}`).slideToggle(500);
+      });*/
+
+   
+    /*$("#container-clientes-tabla").slideToggle(500);
     $("#busqueda-bar").slideToggle(500);
-    $("#container-editar").slideToggle(500);
+    $("#container-editar").slideToggle(500);*/
 }
 /* Seleccion de tabla */
 $(".dropdown-menu").click(function(event) {
