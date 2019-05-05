@@ -49,7 +49,8 @@ router.get('/prueba', (req, res) => {
     columnas: ['nombre', 'direccion'],
     orden: 'direccion',
     desc: true,
-    condiciones: { telefono: 1 }
+    condiciones: { telefono: 1 },
+    limite: 25
   }
   QueryDatabase( test )
     .then( response => res.send( response ) )
