@@ -16,11 +16,6 @@ router.get('/',(req, res) => {
     res.render('inicio.hbs');
 })
 
-router.get('/hola',(req, res) => {
-    
-    res.send(req.session.nombre);
-})
-
 /* ----- Inicializar Database -----*/
 router.get('/initdb', ( req, res ) => {
   InitializeDatabase();
@@ -34,8 +29,6 @@ router.get('/updateschema', (req, res ) => {
   UpdateSchema();
   res.send('Good!');
 });
-
-
 
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
@@ -67,11 +60,6 @@ router.get('/prueba', (req, res) => {
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
 });
-
-
-
-/* ----- Clientes ----- */
-
 
 
 

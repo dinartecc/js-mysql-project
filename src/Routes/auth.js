@@ -1,6 +1,6 @@
 const router = require('express').Router();
-
-const _user = 'root';
+// Info temporal para loggearse 
+const _user = 'root'; 
 const _pass = 'admin';
 
 

@@ -15,6 +15,12 @@ var select = {
 
 }
 
+$('#editar-clientes-btn input').click(function(event){
+    SliderToggleId('container-clientes-tabla','busqueda-bar', 'container-editar')
+})
+
+
+
 function invertir(){
    
     for (let i = 0; i < arguments.length; i++) {
@@ -30,6 +36,7 @@ function invertir(){
     $("#busqueda-bar").slideToggle(500);
     $("#container-editar").slideToggle(500);*/
 }
+
 /* Seleccion de tabla */
 $(".dropdown-menu").click(function(event) {
    $(this).children(".drop").slideToggle(500);
@@ -46,7 +53,7 @@ $('#clientes-tabla tbody').on('click', 'tr', function() {
     $( "#container-editar input[name='nombre']").val(tableData[1])
     $( "#container-editar input[name='telefono']").val(tableData[2])
     $( "#container-editar input[name='direccion']").val(tableData[3])
-    invertir()
+    SliderToggleId('container-clientes-tabla','busqueda-bar', 'container-editar')
 
 });
 

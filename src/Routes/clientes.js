@@ -1,7 +1,6 @@
 const router = require('express').Router();
 import mysql from 'mysql';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
@@ -16,17 +15,19 @@ router.get('/clientes',(req, res) => {
         tabla: 'cliente',
         columnas: ['nombre', 'direccion','telefono'],
         orden: 'direccion',
-        desc: true
+        desc: true,
+        limite: 10
     }
 
-    QueryDatabase( cliente )//.then((response) => console.log(response))
-    connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
+    QueryDatabase( cliente ).then((response) => console.log(response))
+
+    /*connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
         if (error) throw error;
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;
         res.render('clientes.hbs', {respuesta, contar});
-    })
+    })*/
 });
 
 
