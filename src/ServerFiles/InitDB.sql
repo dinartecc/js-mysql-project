@@ -1,4 +1,3 @@
-use `Inventario`;
 
 -- ELEMENTOS DEL SKU
 
