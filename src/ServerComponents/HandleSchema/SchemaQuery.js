@@ -13,7 +13,7 @@ const SchemaQuery =  () => {
   return new Promise( ( resolve, reject ) => {
 
     //Se crea el string de la query y el objeto de a conexion
-    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.env.DB_DATABASE}'`,
+    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
           connection  = CreateConnection;
 
 
