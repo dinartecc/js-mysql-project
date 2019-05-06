@@ -11,15 +11,28 @@ const connection = CreateConnection;
 
 
 router.get('/clientes',(req, res) => {
+    console.log(req.session.permisos)
+   
+
+    /*if(req.session.permisos.clientes.leer === false){ 
+        res.redirect('/')
+    } 
+    else {
+        res.send("nel xd")
+    }
+*/
     const cliente = {
-        tabla: 'cliente',
-        columnas: ['nombre', 'direccion','telefono'],
+        tabla: 'Cliente',
+        columnas: ['nombre', 'direccion'],
         orden: 'direccion',
         desc: true,
-        limite: 10
-    }
+        limite: 20
+    };
+    
 
-    QueryDatabase( cliente ).then((response) => console.log(response))
+    QueryDatabase( cliente )
+    .then((response) => console.log(response))
+    .catch((response) => console.log(response))
 
     /*connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
         if (error) throw error;

@@ -14,7 +14,9 @@ router.get('*', (req ,res , next) => {
 })
 
 router.get('/',(req, res) => {
-    res.render('inicio.hbs');
+    const {permisos} = req.session;
+    console.log(permisos.clientes)
+    res.render('inicio.hbs',{ permisos});
 })
 
 /* ----- Inicializar Database -----*/
@@ -56,7 +58,7 @@ router.get('/prueba', (req, res) => {
   //   desc: true,
   //   limite: 25
   // }
-  UpdateDatabase( test )
+  QueryDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   

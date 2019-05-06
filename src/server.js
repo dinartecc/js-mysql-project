@@ -4,7 +4,9 @@ import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
+
 var morgan = require('morgan')
+
 const MySQLStore = require('express-mysql-session')(session);
 const expireTime = 300000;
 
@@ -16,6 +18,8 @@ import CreateConnection from './ServerComponents/CreateConnection/CreateConnecti
 
 const app = express();
 const PORT = process.env.PORT || 4020;
+
+
 
 
 
@@ -44,8 +48,8 @@ app.use(session({ //Configuracion del express-sessions
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
-/*app.use((req, res, next) => { // Si queres desactivar el login, comenta esta parte.
-  console.log(req.session)    // Las sesiones solo duran un minuto, lo tengo asi solo para probar
+app.use((req, res, next) => { // Si queres desactivar el login, comenta esta parte.
+  
   if(typeof req.session.user === 'undefined' && req.path !== '/login') {
     res.render('login.hbs', {layout: 'login'});
   }
@@ -53,7 +57,7 @@ app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
     next();
   }
 });
-*/
+
 
 
 /* ----- Configuraciones ----- */

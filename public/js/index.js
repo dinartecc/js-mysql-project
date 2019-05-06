@@ -10,7 +10,6 @@ var select = {
         this.nombre = $("#container-editar input[name='nombre']").val(),
         this.telefono = $("#container-editar input[name='telefono']").val(),
         this.direccion = $("#container-editar input[name='direccion']").val()
-
     }
 
 }

@@ -1,6 +1,10 @@
 use `Inventario`;
 
 -- ELEMENTOS DEL SKU
+create table if not exists Usuario(
+    UUID varchar not null,
+)
+
 
 create table if not exists Categoria (
 	ID_categoria int(3) not null ,
