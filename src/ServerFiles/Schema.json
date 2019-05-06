@@ -1,1 +1,1 @@
-{"lastUpdate":1557154325100}
+{"sessions":{"session_id":"varchar","id":"session_id","expires":"int","data":"text"},"lastUpdate":1557172180036}

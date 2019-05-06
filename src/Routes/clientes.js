@@ -1,6 +1,7 @@
 const router = require('express').Router();
 import mysql from 'mysql';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
+
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
@@ -11,36 +12,21 @@ const connection = CreateConnection;
 
 
 router.get('/clientes',(req, res) => {
-    console.log(req.session.permisos)
-   
-
-    /*if(req.session.permisos.clientes.leer === false){ 
-        res.redirect('/')
-    } 
-    else {
-        res.send("nel xd")
-    }
-*/
     const cliente = {
-        tabla: 'Cliente',
-        columnas: ['nombre', 'direccion'],
+        tabla: 'cliente',
+        columnas: ['nombre', 'direccion','telefono'],
         orden: 'direccion',
-        desc: true,
-        limite: 20
-    };
-    
+        desc: true
+    }
 
-    QueryDatabase( cliente )
-    .then((response) => console.log(response))
-    .catch((response) => console.log(response))
-
-    /*connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
+    QueryDatabase( cliente )//.then((response) => console.log(response))
+    connection.query('SELECT * FROM Cliente limit 10 ; SELECT Count(*) AS total from Cliente;', function (error, results, fields) {
         if (error) throw error;
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;
         res.render('clientes.hbs', {respuesta, contar});
-    })*/
+    })
 });
 
 

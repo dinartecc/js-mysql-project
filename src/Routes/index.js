@@ -14,9 +14,12 @@ router.get('*', (req ,res , next) => {
 })
 
 router.get('/',(req, res) => {
-    const {permisos} = req.session;
-    console.log(permisos.clientes)
-    res.render('inicio.hbs',{ permisos});
+    res.render('inicio.hbs');
+})
+
+router.get('/hola',(req, res) => {
+    
+    res.send(req.session.nombre);
 })
 
 /* ----- Inicializar Database -----*/
@@ -32,6 +35,8 @@ router.get('/updateschema', (req, res ) => {
   UpdateSchema();
   res.send('Good!');
 });
+
+
 
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
@@ -58,12 +63,17 @@ router.get('/prueba', (req, res) => {
   //   desc: true,
   //   limite: 25
   // }
-  QueryDatabase( test )
+  UpdateDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   
   // HandleSchema().then(ro=> res.send(ro));
 });
+
+
+
+/* ----- Clientes ----- */
+
 
 
 
