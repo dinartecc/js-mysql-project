@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
+const expireTime = 300000;
 
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
@@ -23,15 +24,15 @@ const PORT = process.env.PORT || 4020;
 const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones en el backend
   clearExpired: true, // Limpiar los registros de las sesiones ya expiradas
   createDatabaseTable: true, // Si no existe la tabla sessions en la base de datos, la crea
-  checkExpirationInterval: 60000, // How frequently expired sessions will be cleared; milliseconds:
-  expiration: 60000 // The maximum age of a valid session; milliseconds. 
+  checkExpirationInterval: expireTime, // How frequently expired sessions will be cleared; milliseconds:
+  expiration: expireTime // The maximum age of a valid session; milliseconds. 
 }, CreateConnection);
 app.use(session({ //Configuracion del express-sessions
   key: 'session_cookie_name',
   secret: 'session_cookie_secret',
   store: sessionStore,
   resave: false,
-  cookie: {maxAge: 60000 }, // Despues de este tiempo, el cookie va a vencer.
+  cookie: {maxAge: expireTime }, // Despues de este tiempo, el cookie va a vencer.
   saveUninitialized: false 
 }));
 

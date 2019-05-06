@@ -1,8 +1,6 @@
 import CreateConnection from './../CreateConnection/CreateConnection';
-import fs from 'fs';
-import { join } from 'path';
 import mysql from 'mysql';
-
+import HandleSchema from '../HandleSchema/HandleSchema';
 /**
  * La función para hacer una query.
  *
@@ -10,7 +8,7 @@ import mysql from 'mysql';
  * @returns
  */
 const QueryDatabase = ( obj ) => {
-  return new Promise(( resolve, reject ) => {
+  return new Promise( async( resolve, reject ) => {
 
     //Valores predeterminados
     if ( !obj.hasOwnProperty('orden') ) {
@@ -30,8 +28,9 @@ const QueryDatabase = ( obj ) => {
 
     //Crea el objeto para la conexión e importa el schema
     const connection = CreateConnection,
-          schema = JSON.parse(
-      fs.readFileSync(join(__dirname, '../../ServerFiles/Schema.json')));
+          schema = await HandleSchema()
+             .then( sch =>  sch )
+             .catch( err => {throw err});
 
       //Revisa si existe la tabla
     if ( !schema.hasOwnProperty(obj.tabla) )

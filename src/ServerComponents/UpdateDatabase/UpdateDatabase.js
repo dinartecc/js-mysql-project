@@ -1,7 +1,6 @@
 import CreateConnection from './../CreateConnection/CreateConnection';
-import fs from 'fs';
-import { join } from 'path';
 import mysql from 'mysql';
+import HandleSchema from '../HandleSchema/HandleSchema';
 
 /**
  * La función para actualizar información.
@@ -10,7 +9,7 @@ import mysql from 'mysql';
  * @returns
  */
 const UpdateDatabase = ( obj ) => {
-  return new Promise(( resolve, reject ) => {
+  return new Promise( async( resolve, reject ) => {
 
     // Si se intenta modificar el registro 0, da un error
     if(obj.id == 0) {
@@ -19,8 +18,8 @@ const UpdateDatabase = ( obj ) => {
 
     //Crea el objeto para la conexión e importa el schema
     const connection = CreateConnection,
-          schema = JSON.parse(
-      fs.readFileSync(join(__dirname, '../../ServerFiles/Schema.json')));
+          schema = await HandleSchema()
+          .then( sch =>  sch );
 
       //Revisa si existe la tabla
     if ( !schema.hasOwnProperty(obj.tabla) )
