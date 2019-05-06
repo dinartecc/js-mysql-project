@@ -7,6 +7,8 @@ import fs from 'fs';
 const credentials = JSON.parse(
   fs.readFileSync(join(__dirname, '../../ServerFiles/dbCredentials.json'))
   );
+
+
 process.db = credentials;
 
 
