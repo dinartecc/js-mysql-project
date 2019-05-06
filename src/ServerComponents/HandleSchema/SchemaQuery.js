@@ -13,13 +13,13 @@ const SchemaQuery =  () => {
   return new Promise( ( resolve, reject ) => {
 
     //Se crea el string de la query y el objeto de a conexion
-    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = 'heroku_8e679e6d32fb43a'`,
+    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
           connection  = CreateConnection;
 
 
     // Se realiza la query
       connection.query( mysqlQuery, (error, results, fields) => {
-
+        console.log(error);
         //Si no hubo error, se hace un objeto schema, donde cada nombre de la tabla es una 
         //propiedad del objeto, y cada columna es una propiedad anidada con el tipo de dato que es.
         const schema = {};

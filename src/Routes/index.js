@@ -7,6 +7,9 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
+import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
+
+SchemaQuery();
 
 router.get('*', (req ,res , next) => {
     console.log(req.session);

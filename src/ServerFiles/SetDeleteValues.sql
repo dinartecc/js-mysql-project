@@ -1,5 +1,5 @@
 insert into almacen ( ID_almacen, nombre ) values ( 0,'Borrado');
-insert into categoria ( nombre ) values ('Borrado');
+insert into categoria ( ID_categoria, nombre ) values ( 0, 'Borrado');
 insert into subcategoria ( ID_subcategoria, nombre, ID_categoria ) values (0, 'Borrado', 0);
 insert into cliente ( ID_cliente, nombre, telefono, direccion ) values ( 0, 'Borrado', '0', 'Borrado');
 insert into marca ( ID_marca, nombre ) values ( 0, 'Borrado');
