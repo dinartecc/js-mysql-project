@@ -1,7 +1,6 @@
 import AddToDatabaseCreateQuery from './AddToDatabaseCreateQuery';
 import CreateConnection from './../CreateConnection/CreateConnection';
-import fs from 'fs';
-import {join} from 'path';
+import HandleSchema from '../HandleSchema/HandleSchema';
 
 /**
  * La función genérica para añadir un objeto a la base de datos.
@@ -10,11 +9,11 @@ import {join} from 'path';
  * @returns
  */
 const AddToDatabase = ( obj ) => {
-  return new Promise(( resolve, reject ) => {
+  return new Promise( async ( resolve, reject ) => {
 
-    const schema = JSON.parse(
-      fs.readFileSync(join(__dirname, '../../ServerFiles/Schema.json'))
-      );
+    const schema = await HandleSchema()
+                .then( sch =>  sch )
+                .catch( err => {throw err}); 
 
     if ( !schema.hasOwnProperty(obj.tabla) )
     {

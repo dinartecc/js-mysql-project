@@ -1,6 +1,5 @@
 import CreateConnection from './../CreateConnection/CreateConnection';
-import fs from 'fs';
-import { join } from 'path';
+import HandleSchema from '../HandleSchema/HandleSchema'
 
 /**
  * La función para borrar una base de dato.
@@ -9,7 +8,7 @@ import { join } from 'path';
  * @returns
  */
 const DeleteFromDatabase = ( obj, cascade = false ) => {
-  return new Promise(( resolve, reject ) => {
+  return new Promise( async( resolve, reject ) => {
 
     if(obj.id == 0) {
       throw new Error('903: No pueden borrar el registro con ID 0');
@@ -17,9 +16,9 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
 
     //Crea el objeto para la conexión e importa el schema
     const connection = CreateConnection,
-          schema = JSON.parse(
-      fs.readFileSync(join(__dirname, '../../ServerFiles/Schema.json'))
-      );
+          schema = await HandleSchema()
+          .then( sch =>  sch )
+          .catch( err => {throw err});;
 
       if ( !schema.hasOwnProperty(obj.tabla) )
       {

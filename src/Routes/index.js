@@ -2,10 +2,11 @@ const router = require('express').Router();
 import mysql from 'mysql';
 import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-import UpdateSchema from '../ServerComponents/UpdateSchema/SchemaQuery';
+import HandleSchema from '../ServerComponents/HandleSchema/HandleSchema';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 
 router.get('*', (req ,res , next) => {
     console.log(req.session);
@@ -45,27 +46,28 @@ router.get('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  // const test = {
-  //   tabla : 'cliente',
-  //   id: 4,
-  //   nombre: 'Carlos',
-  //   telefono: 8
-  // }
+  const test = {
+    tabla : 'cliente',
+    id: 4,
+    nombre: 'MEKOS',
+    telefono: 8
+  }
   // const test = {
   //   tabla : 'cliente',
   //   id : 1
   // }
-  const test = {
-    tabla: 'cliente',
-    columnas: ['nombre', 'direccion'],
-    orden: 'direccion',
-    desc: true,
-    condiciones: { telefono: 1 },
-    limite: 25
-  }
-  QueryDatabase( test )
+  // const test = {
+  //   tabla: 'cliente',
+  //   columnas: ['nombre', 'direccion'],
+  //   orden: 'direccion',
+  //   desc: true,
+  //   limite: 25
+  // }
+  UpdateDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
+  
+  // HandleSchema().then(ro=> res.send(ro));
 });
 
 
