@@ -88,12 +88,14 @@ router.post('/clasificacion/buscar', (req, res) => {
     busqueda = busqueda.toLowerCase()
     tabla = tabla.toLowerCase()
     console.log(tabla)
+    
     const query = {
-        tabla: tabla,
-        condiciones: {
-            nombre: busqueda
-
+        tabla:  tabla,
+        desc: true,
+        condiciones : {
+        nombre: busqueda 
         }
+        
     }
     QueryDatabase( query )
     
