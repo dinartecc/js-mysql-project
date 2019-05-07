@@ -1,4 +1,47 @@
 
+-- Usuarios, Roles y Permisos >:D
+
+create table if not exists Secciones(
+    ID_seccion int not null,
+    nombre varchar(15) not null,
+    constraint PK_sec primary key (ID_seccion)
+)
+
+
+
+create table if not exists Permisos(
+    ID_permisos int not null ,
+    ID_secciones int not null,
+    nivelAcceso int not null,
+    constraint FK_prm_sec foreign key (ID_secciones) references Secciones(ID_seccion),
+    constraint PK_prm primary key (ID_permisos)
+) ENGINE = InnoDB;
+
+
+create table if not exists Roles(
+    ID_rol int not null,
+    rol varchar(15) not null,
+    constraint PK_rol primary key (ID_rol)
+) ENGINE = InnoDB;
+
+
+create table if not exists Permisos_Roles(
+    ID_rol int not null,
+    ID_permisos int not null,
+    constraint FK_rol foreign key (ID_rol) references Roles(ID_rol),
+    constraint FK_prm foreign key (ID_permisos) references Permisos(ID_permisos) 
+) ENGINE = InnoDB;
+
+
+create table if not exists Usuarios (
+    user varchar(30) not null,
+    pass varchar(30) not null,
+    ID_rol int not null, 
+    constraint PK_usr primary key (user),
+    constraint FK_usr_rol foreign key (ID_rol) references Roles(ID_rol)
+) ENGINE = InnoDB;
+
+
 -- ELEMENTOS DEL SKU
 
 create table if not exists Categoria (
