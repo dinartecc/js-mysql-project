@@ -1,9 +1,11 @@
+import '@babel/polyfill';
 import express from 'express';
 import path from 'path';
 import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
+
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
 const expireTime = 300000;
