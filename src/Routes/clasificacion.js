@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import connection from '../ServerComponents/CreateConnection/CreateConnection';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 
 // const subcategoria  = [
@@ -56,11 +56,7 @@ router.get('/clasificacion',async (req, res) => {
     const marca = JSON.parse(JSON.stringify(await QueryDatabase( marcaQuery )))
     console.log(subcategoria)
     res.render('clasificacion', {categoria, subcategoria, marca})
-    /*.then((response) => {
-        return categoria = JSON.parse(JSON.stringify(response))
-    }).then((response) => console.log(response))*/
 })
-
 
 
 
@@ -87,5 +83,24 @@ router.post('/clasificacion/marca', (req, res) => {
     console.log(req.body)
 })
 
+router.post('/clasificacion/buscar', (req, res) => {
+    let {busqueda, tabla} = req.body
+    busqueda = busqueda.toLowerCase()
+    tabla = tabla.toLowerCase()
+    console.log(tabla)
+    const query = {
+        tabla: tabla,
+        condiciones: {
+            nombre: busqueda
+
+        }
+    }
+    QueryDatabase( query )
+    
+    .then((response) => {console.log(response); res.json(response) })
+    .catch((response) => console.log(response))
+
+    
+    
+})
 module.exports = router;
-  

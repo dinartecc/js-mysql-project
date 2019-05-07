@@ -40,7 +40,9 @@ function HideAndShow(padre, mostrar){
 
 
 
-
+function getSelectBtn(){
+  return $(".radius-like-on").text()
+}
 
 
 $(function() {    
@@ -79,7 +81,7 @@ $(function() {
     }
     
     busquedaDinamica.val('')
-    busquedaDinamica.trigger( "keyup" );
+    busquedaDinamica.trigger( "change" );
     //$(this).css("background-color", "yellow");      //add the class to the clicked element
   });
 
