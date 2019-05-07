@@ -70,7 +70,7 @@ router.get('/prueba', (req, res) => {
     desc: true,
     columnas: ['id','ID_categoria', 'nombre' ],
     condiciones : {
-      nombre: 'car' 
+      nombre: 'ar' 
     },
     foranea: {
       ID_categoria: {
