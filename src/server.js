@@ -23,7 +23,7 @@ const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones 
 
 //Configuraciones
 const app = express();
-const PORT = process.env.PORT || 4020;
+const PORT = process.env.PORT || 5050;
 
 
 app.use(session({ //Configuracion del express-sessions
@@ -85,6 +85,6 @@ app.use(require('./Routes/categorias.js'));
 
 
 /* ----- Server Running ----- */
-app.listen(5050, function() {
+app.listen(PORT, function() {
     console.log('Your node js server is running');
 });
