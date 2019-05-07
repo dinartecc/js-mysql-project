@@ -25,13 +25,13 @@ function HideAndShow(padre, mostrar){
   arreglo.forEach(function (hola){
 
     if ($(`#${hola}`).is(':visible') && hola !== mostrar) {
-      console.log( mostrar);
+      //console.log( mostrar);
       ($(`#${hola}`).slideUp(500))
     } 
   })
 
   $(`#${mostrar}`).slideDown(500);
-  console.log(arreglo)
+  //console.log(arreglo)
 
   //mostrar.slideDown(500)
 
