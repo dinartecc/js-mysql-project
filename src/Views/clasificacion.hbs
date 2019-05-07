@@ -34,7 +34,7 @@
                     {{nombre}}
                 </td>
                 <td>
-                    {{id}}
+                    {{ID_categoria}}
                 </td>
             </tr>
 
@@ -42,11 +42,6 @@
         </tbody>
     </table>
 </div>
-
-
-
-    
-
 <div id="Subcategoria">
     <table>
         <thead>
@@ -74,7 +69,6 @@
         </tbody>
 </table>
 </div>
-
 <div id="Marca">
     <table>
             <thead>
@@ -90,7 +84,7 @@
                         {{nombre}}
                     </td>
                     <td>
-                        {{id}}
+                        {{ID_marca}}
                     </td>
                 </tr>
 
@@ -100,3 +94,26 @@
 </div>
 </div>
 
+
+
+<form action="/clasificacion/categoria" method="POST">
+<h2>Añadir Categoria</h2>
+    <input type="text" name="nombre">
+    <input type="submit">
+</form>
+
+
+<form action="/clasificacion/marca" method="POST">
+<h2>Añadir Marca</h2>
+    <input type="text" name="nombre">
+    <input type="submit" value="Submit">
+</form>
+
+
+
+
+<form action="/clasificacion/marca/borrar" method="POST">
+<h2>Añadir Marca</h2>
+    <input type="text" name="nombre">
+    <input type="submit" value="Submit">
+</form>

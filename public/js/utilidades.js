@@ -14,6 +14,9 @@ function SliderToggleClass(){ // Recibe un string de la clase del elemento para 
 
 
 function HideAndShow(padre, mostrar){
+
+  
+
   var arreglo = []
   padre.children().each(function () {
     arreglo.push($(this).text()) // "this" is the current element in the loop
@@ -21,12 +24,13 @@ function HideAndShow(padre, mostrar){
   
   arreglo.forEach(function (hola){
 
-    if ($(`#${hola}`).is(':visible')) {
+    if ($(`#${hola}`).is(':visible') && hola !== mostrar) {
+      console.log( mostrar);
       ($(`#${hola}`).slideUp(500))
     } 
   })
 
-  mostrar.slideDown(500);
+  $(`#${mostrar}`).slideDown(500);
   console.log(arreglo)
 
   //mostrar.slideDown(500)
@@ -69,7 +73,7 @@ $(function() {
       
       //$(tablas).children().not(`#${text}`).slideUp(500)
    
-      HideAndShow(btn, $(`#${text}`))
+      HideAndShow(btn, text) //
   
 
     }
