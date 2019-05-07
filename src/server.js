@@ -1,9 +1,11 @@
+import '@babel/polyfill';
 import express from 'express';
 import path from 'path';
 import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
+
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
 const expireTime = 30000000;
@@ -21,7 +23,7 @@ const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones 
 
 //Configuraciones
 const app = express();
-const PORT = process.env.PORT || 4020;
+const PORT = process.env.PORT || 5050;
 
 
 app.use(session({ //Configuracion del express-sessions
@@ -83,6 +85,6 @@ app.use(require('./Routes/clasificacion.js'));
 
 
 /* ----- Server Running ----- */
-app.listen(5050, function() {
+app.listen(PORT, function() {
     console.log('Your node js server is running');
 });
