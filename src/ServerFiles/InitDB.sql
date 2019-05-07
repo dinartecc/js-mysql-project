@@ -5,7 +5,7 @@ create table if not exists Secciones(
     ID_seccion int not null,
     nombre varchar(15) not null,
     constraint PK_sec primary key (ID_seccion)
-)
+) ENGINE = InnoDB;
 
 
 
@@ -54,7 +54,7 @@ create table if not exists Subcategoria (
 	ID_subcategoria int(3) unsigned not null,
     nombre varchar(15) not null,
     ID_categoria int(3) not null,
-    constraint PK_sub primary key (ID_subcategoria, ID_categoria),
+    constraint PK_sub primary key ( ID_subcategoria ),
     constraint FK_sub_cat foreign key (ID_categoria) references Categoria(ID_categoria)
 ) ENGINE = InnoDB;
 
@@ -72,7 +72,7 @@ create table if not exists SKU (
     variante int(3) unsigned not null,
     constraint PK_sku primary key (SKU),
     constraint FK_sku_cat foreign key (ID_categoria) references Categoria(ID_categoria),
-    constraint FK_sku_sub foreign key (ID_subcategoria, ID_categoria) references Subcategoria(ID_subcategoria, ID_categoria),
+    constraint FK_sku_sub foreign key (ID_subcategoria) references Subcategoria(ID_subcategoria),
     constraint FK_sku_mar foreign key (ID_marca) references Marca(ID_marca)
 ) ENGINE = InnoDB;
 
