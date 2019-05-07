@@ -54,7 +54,7 @@ router.get('/clasificacion',async (req, res) => {
     const categoria = JSON.parse(JSON.stringify(await QueryDatabase( categoriaQuery )))
     const subcategoria = JSON.parse(JSON.stringify(await QueryDatabase( subcategoriaQuery )))
     const marca = JSON.parse(JSON.stringify(await QueryDatabase( marcaQuery )))
-    console.log(subcategoria)
+    console.log(categoria)
     res.render('clasificacion', {categoria, subcategoria, marca})
     /*.then((response) => {
         return categoria = JSON.parse(JSON.stringify(response))

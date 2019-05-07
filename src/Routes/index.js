@@ -68,13 +68,16 @@ router.get('/prueba', (req, res) => {
   const test = {
     tabla: 'subcategoria',
     desc: true,
-    columnas: ['id','nombre','ID_categoria' ],
-    // foranea: {
-    //   ID_categoria: {
-    //     tabla: 'categoria',
-    //     columnas: ['nombre', 'ID_categoria']
-    //   }
-    // }
+    columnas: ['id','ID_categoria', 'nombre' ],
+    condiciones : {
+      nombre: 'car' 
+    },
+    foranea: {
+      ID_categoria: {
+        tabla: 'categoria',
+        columnas: ['nombre', 'ID_categoria']
+      }
+    }
 };
 
 
