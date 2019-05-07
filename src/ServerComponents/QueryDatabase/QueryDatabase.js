@@ -115,10 +115,10 @@ const QueryDatabase = ( obj ) => {
       //Itera sobre todos los atributos de condiciones
       for( const condicion in obj.condiciones ) {
         if ( condicion != 'id' ) {
-          condicionQuery += `${condicion} = ${mysql.escape(obj.condiciones[condicion])} and `;
+          condicionQuery += `upper(${obj.tabla}.${condicion}) regexp ${mysql.escape(obj.condiciones[condicion])} and `;
         }
         else {
-          condicionQuery += `${obj.idname} = ${mysql.escape(obj.condiciones[condicion])} and `;
+          condicionQuery += `${obj.tabla}.${obj.idname} = ${mysql.escape(obj.condiciones[condicion])} and `;
         }
       }
 
@@ -135,7 +135,7 @@ const QueryDatabase = ( obj ) => {
     }
 
     // Orden
-    mysqlQuery += `order by ${ ( obj.orden == 'id' )? obj.idname : obj.orden } ${ obj.desc ? 'desc ' : '' } `;
+    mysqlQuery += `order by ${ ( obj.orden == 'id' )? `${obj.tabla}.${obj.idname}` : `${obj.tabla}.${obj.orden}` } ${ obj.desc ? 'desc ' : '' } `;
     
     // Pagina
     mysqlQuery += `limit ${ obj.limite } ${ obj.pagina == 1 ? '' : `offset ${ (obj.pagina - 1) * limitePagina  }` };`;
