@@ -79,7 +79,7 @@ const QueryDatabase = ( obj ) => {
           }
         }
         else {
-          columnaQuery += `${ obj.idname } , `;
+          columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } , `;
         }
       }
 
@@ -114,22 +114,22 @@ const QueryDatabase = ( obj ) => {
 
       //Itera sobre todos los atributos de condiciones
       for( const condicion in obj.condiciones ) {
-        if ( condicion != 'id' ) {
-          condicionQuery += `upper(${obj.tabla}.${condicion}) regexp ${mysql.escape(obj.condiciones[condicion])} and `;
-        }
-        else {
-          condicionQuery += `${obj.tabla}.${obj.idname} = ${mysql.escape(obj.condiciones[condicion])} and `;
+        if ( obj.condiciones[condicion] != '' ){
+          if ( condicion != 'id' ) {
+            condicionQuery += `upper(${obj.tabla}.${condicion}) regexp ${mysql.escape(obj.condiciones[condicion])} and `;
+          }
+          else {
+            condicionQuery += `${obj.tabla}.${obj.idname} = ${mysql.escape(obj.condiciones[condicion])} and `;
+          }
         }
       }
+
+      
 
       //Si se mando un objeto condicion vacio, se retorna un error
-      if( condicionQuery == '' ) {
-        throw new Error('905: Mandaron un array vacio para los atributos');
-      }
 
       //Se quita el ultimo and y se pone esta seccion a la query
-      condicionQuery = condicionQuery.substr (0, condicionQuery.length-4);
-      mysqlQuery += `where ${condicionQuery} and ${obj.idname} != 0 `;
+      mysqlQuery += `where ${condicionQuery} ${obj.idname} != 0 `;
     
 
     }
@@ -147,6 +147,7 @@ const QueryDatabase = ( obj ) => {
       }
       resolve(results);
     });
+
   });
 }
 

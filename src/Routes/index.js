@@ -70,7 +70,11 @@ router.get('/prueba', (req, res) => {
     desc: true,
     columnas: ['id','ID_categoria', 'nombre' ],
     condiciones : {
+<<<<<<< HEAD
       nombre: '' 
+=======
+      nombre: 'ar' 
+>>>>>>> 39145460a69c0beb7f87150c6c67f1989d7041a8
     },
     foranea: {
       ID_categoria: {
