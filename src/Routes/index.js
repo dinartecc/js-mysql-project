@@ -49,10 +49,9 @@ router.get('/prueba', (req, res) => {
   //   direccion : 'Casita'
   // }
   const test = {
-    tabla : 'cliente',
-    id: 4,
-    nombre: 'MEKOS',
-    telefono: 8
+    tabla : 'subcategoria',
+    ID_categoria: 1,
+    nombre: '0w0'
   }
   // const test = {
   //   tabla : 'cliente',
@@ -65,7 +64,7 @@ router.get('/prueba', (req, res) => {
   //   desc: true,
   //   limite: 25
   // }
-  UpdateDatabase( test )
+  AddToDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   
