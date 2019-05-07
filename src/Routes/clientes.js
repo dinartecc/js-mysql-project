@@ -25,6 +25,7 @@ router.get('/clientes',(req, res) => {
         var respuesta = JSON.parse(JSON.stringify(results[0]));
         var contar = JSON.parse(JSON.stringify(results[1]));
         contar = contar[0].total;
+        console.log(respuesta)
         res.render('clientes.hbs', {respuesta, contar});
     })
 });

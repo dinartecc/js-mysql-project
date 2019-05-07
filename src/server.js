@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
-const expireTime = 300000;
+const expireTime = 30000000;
 
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
@@ -46,7 +46,7 @@ app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
 
 app.use((req, res, next) => {
-  console.log(req.session)
+
   if(typeof req.session.user === 'undefined' && req.path !== '/login') {
     res.render('login.hbs', {layout: 'login'});
   }
@@ -79,7 +79,7 @@ app.set('view engine', '.hbs');
 app.use(require('./Routes/index.js'));
 app.use(require('./Routes/clientes.js'));
 app.use(require('./Routes/auth.js'));
-app.use(require('./Routes/categorias.js'));
+app.use(require('./Routes/clasificacion.js'));
 
 
 /* ----- Server Running ----- */

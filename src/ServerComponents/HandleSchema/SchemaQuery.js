@@ -19,7 +19,6 @@ const SchemaQuery =  () => {
 
     // Se realiza la query
       connection.query( mysqlQuery, (error, results, fields) => {
-        console.log(error);
         //Si no hubo error, se hace un objeto schema, donde cada nombre de la tabla es una 
         //propiedad del objeto, y cada columna es una propiedad anidada con el tipo de dato que es.
         const schema = {};

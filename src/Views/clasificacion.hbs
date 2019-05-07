@@ -1,0 +1,102 @@
+
+<script src="/js/clasificacion.js"></script>
+<link rel="stylesheet" href="css/clasificacion.css">
+<div class="top-title">
+    <h2 class="title-color">Clasificación</h2>
+</div>
+<div id="main-bar" class="">
+
+    <input type="text" id="busqueda-dinamica" class="bg-dark border-color" placeholder="Buscar...">
+    <div id="seccion-btn" class="flex" style="height: 36px">
+        <div class="radius-like" id="default">Marca</div>
+        <div class="radius-like">Categoria</div>
+        <div class="radius-like">Subcategoria</div>
+    </div>
+        <img id="add" src="/img/mas.svg" alt="">
+</div>
+
+
+<div id="main-list">
+
+
+<div id="Categoria">
+    <table >
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each categoria}}
+            <tr>
+                <td>
+                    {{nombre}}
+                </td>
+                <td>
+                    {{id}}
+                </td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+
+
+    
+
+<div id="Subcategoria">
+    <table>
+        <thead>
+            <tr>
+                <th>Subcategoria</th>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each subcategoria}}
+            <tr>
+                <td>
+                    {{nombre}}
+                </td>
+                <td>
+                    {{padre}}
+                </td>
+                <td>
+                    {{id}}
+                </td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+</table>
+</div>
+
+<div id="Marca">
+    <table>
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each marca}}
+                <tr>
+                    <td>
+                        {{nombre}}
+                    </td>
+                    <td>
+                        {{id}}
+                    </td>
+                </tr>
+
+                {{/each}}
+            </tbody>
+    </table>    
+</div>
+</div>
+

@@ -12,7 +12,6 @@ import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
 SchemaQuery();
 
 router.get('*', (req ,res , next) => {
-    console.log(req.session);
     next()
 })
 
