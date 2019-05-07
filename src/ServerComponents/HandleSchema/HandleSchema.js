@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import fs from 'fs';
 
-const updateTime = 0;
+const updateTime = 300000;
 
 const HandleSchema = () => {
   return new Promise((resolve, reject) => {

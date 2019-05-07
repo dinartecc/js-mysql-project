@@ -8,6 +8,9 @@ HandlePermission.get = ( username ) => {
       throw new Error('Error: no se envio un usuario');
     }
 
+    
+    
+
   });
 
 

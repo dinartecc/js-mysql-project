@@ -48,11 +48,11 @@ router.get('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  const test = {
-    tabla : 'subcategoria',
-    ID_categoria: 1,
-    nombre: '0w0'
-  }
+  // const test = {
+  //   tabla : 'subcategoria',
+  //   ID_categoria: 1,
+  //   nombre: '0w0'
+  // }
   // const test = {
   //   tabla : 'cliente',
   //   id : 1
@@ -64,7 +64,21 @@ router.get('/prueba', (req, res) => {
   //   desc: true,
   //   limite: 25
   // }
-  AddToDatabase( test )
+
+  const test = {
+    tabla: 'subcategoria',
+    desc: true,
+    columnas: ['id','nombre','ID_categoria' ],
+    // foranea: {
+    //   ID_categoria: {
+    //     tabla: 'categoria',
+    //     columnas: ['nombre', 'ID_categoria']
+    //   }
+    // }
+};
+
+
+  QueryDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   

@@ -10,6 +10,9 @@ import HandleSchema from '../HandleSchema/HandleSchema';
 const QueryDatabase = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
 
+    let forCheck = false,
+        forNombres = [];
+
     //Valores predeterminados
     if ( !obj.hasOwnProperty('orden') ) {
       obj.orden = 'id';
@@ -19,6 +22,15 @@ const QueryDatabase = ( obj ) => {
     }
     if ( !obj.hasOwnProperty('limite')) {
       obj.limite = 10
+    }
+
+    
+
+    if (obj.hasOwnProperty('foranea')) {
+      forCheck = true;
+      for( let nombre in obj.foranea ) {
+        forNombres.push(nombre);
+      }
     }
 
     // Si se intenta modificar el registro 0, da un error
@@ -51,10 +63,20 @@ const QueryDatabase = ( obj ) => {
     // De lo contrario, itera sobre todos los atributos
     else {
       let columnaQuery = '';
-      for( let  columna of obj.columnas ) {
+      for( let columna of obj.columnas ) {
         //Si es id, se pone automaticamente el nombre del id
         if ( columna != 'id'  ) {
-          columnaQuery += `${columna} , `;
+          
+          if ( forNombres.includes(columna) ){
+
+            for( let columnaSub of obj.foranea[columna].columnas) {
+
+              columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}_${columnaSub}' , `;
+            }
+          }
+          else {
+            columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${columna} , `;
+          }
         }
         else {
           columnaQuery += `${ obj.idname } , `;
@@ -69,6 +91,12 @@ const QueryDatabase = ( obj ) => {
       columnaQuery = columnaQuery.substr (0, columnaQuery.length-2);
 
       mysqlQuery += `${columnaQuery} from ${obj.tabla} `;
+
+      if( forCheck ) {
+        for( let columna of forNombres ){
+          mysqlQuery += `join ${obj.foranea[columna].tabla} on ${obj.tabla}.${columna} = ${obj.foranea[columna].tabla}.${columna} `;
+        }
+      }
       
       
 
