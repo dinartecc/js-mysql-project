@@ -20,6 +20,28 @@
 
 
 <div id="main-list">
+<div id="Marca">
+        <table>
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each marca}}
+                    <tr>
+                        {{#each this}}
+                        <td>
+                            {{this}}
+                        </td>
+                        {{/each}}
+                    </tr>
+                    {{/each}}
+                </tbody>
+        </table>    
+    </div>
+
     <div id="Categoria">
         <table>
             <thead>
@@ -63,27 +85,7 @@
             </tbody>
     </table>
     </div>
-    <div id="Marca">
-        <table>
-                <thead>
-                    <tr>
-                        <th>Marca</th>
-                        <th>ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each marca}}
-                    <tr>
-                        {{#each this}}
-                        <td>
-                            {{this}}
-                        </td>
-                        {{/each}}
-                    </tr>
-                    {{/each}}
-                </tbody>
-        </table>    
-    </div>
+    
 </div>
 
 <div id="main-add" >
@@ -92,14 +94,14 @@
             <h3>Añadir marca</h3>
         </div>
         <div class="form-container">
-            <form action="/clasificacion/categoria" method="POST">
+            <form class="formulario-marca">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
                 </div>
                 <div class="group-input-button">
-                    <input type="submit" class="input-submit">
-                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                    <input type="submit" class="input-submit enviar-btn" >
+                    <input type="submit" class="cancelar-btn input-submit" value="Cancelar">
                 </div>
             </form>
         </div>
@@ -110,14 +112,15 @@
             <h3>Añadir Categoria</h3>
         </div>
         <div class="form-container">
-            <form action="/clasificacion/categoria" method="POST">
+            <form id="formulario-categoria">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
                 </div>
+
                 <div class="group-input-button">
-                    <input type="submit" class="input-submit">
-                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                    <input type="submit" class="input-submit enviar-btn" >
+                    <input type="submit" class="cancelar-btn input-submit" id="cancelar" value="Cancelar">
                 </div>
             </form>
         </div>
@@ -128,39 +131,17 @@
             <h3>Añadir Subcategoria</h3>
         </div>
         <div class="form-container">
-            <form action="/clasificacion/categoria" method="POST">
+            <form id="formulario-subcategoria">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
                 </div>
                 <div class="group-input-button">
-                    <input type="submit" class="input-submit">
-                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                    <input type="submit" class="input-submit enviar-btn">
+                    <input type="submit" class="input-submit cancelar-btn"  value="Cancelar">
                 </div>
             </form>
         </div>
 
     </div>    
 </div>
-
-<form action="/clasificacion/categoria" method="POST">
-<h2>Añadir Categoria</h2>
-    
-    <input type="text" name="nombre">
-    <input type="submit">
-</form>
-
-
-<form action="/clasificacion/marca" method="POST">
-<h2>Añadir Marca</h2>
-    <input type="text" name="nombre">
-    <input type="submit" value="Submit">
-</form>
-
-
-
-
-<form action="/clasificacion/marca/borrar" method="POST">
-<h2>Añadir Marca</h2>
-    <input type="text" name="nombre">
-</form>

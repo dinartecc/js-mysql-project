@@ -46,7 +46,6 @@ $(function() {
   var busquedaDinamica = $("#busqueda-dinamica");
   busquedaDinamica.prop('disabled', true);
   let active = 'radius-like-on';
-  
   var tablas = $("#main-list")
   boton.click(function() {  //use a class, since your ID gets mangled
    
@@ -79,8 +78,6 @@ $(function() {
     //$(this).css("background-color", "yellow");      //add the class to the clicked element
   });
 });
-
-
 $(function(){
   
   $('#main-list tbody').on('click', 'tr', function(){
@@ -96,12 +93,6 @@ $(function(){
   
 })
 
-
-
-
-
-
-
 $(function(){
   $("#add").click(function() {
     let seccion =  getSelectBtn();
@@ -110,17 +101,38 @@ $(function(){
     SliderToggleId(`${seccion}-add`);
   })
 
-  $('#cancelar').click(function(){
+  function edit_btn(){
     var active = 'radius-like-on';
     let mainList = $('#main-list')
     var boton = $(".radius-like")
     let seccion =  getSelectBtn();
+    
+    console.log(seccion)
+    var e = $.Event("keypress");
+    e.keyCode = 13; // # Some key code value
+    let searchBar = $('#busqueda-dinamica')
+    searchBar.val('')
+    searchBar.trigger(e);
     SliderToggleId(seccion);
     seccion = seccion.toLowerCase();
     SliderToggleId(`${seccion}-add`);
-    console.log(seccion)
-    
-    
+  }
+
+  $('.cancelar-btn').click(function(){
+      edit_btn()
+  })
+  $('.enviar-btn').click(function(){
+    let seccion =  getSelectBtn();
+    let seccionLower = seccion.toLowerCase();
+    $( `#formulario-${seccion}`).ajaxForm({
+      dataType: 'json' ,
+      url: `/categoria/${seccionLower}`,
+      type: 'post',
+      beforeSubmit: function(){alert("LISTO")},
+      success: function(){alert("ENVIADO CORRECTAMENTE")}
+    })
+    console.log(seccionLower)
+    edit_btn()
   })
 
 })

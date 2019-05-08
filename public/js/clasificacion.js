@@ -4,7 +4,7 @@ $(function(){
     busquedaDinamica.keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-          
+            console.log('TRIGER')
             let tablaModificar = $(`#${getSelectBtn()} tbody`)
             let busqueda = busquedaDinamica.val()
             if((busquedaDinamica.val() !== '')){
@@ -26,7 +26,6 @@ $(function(){
                 for (let arreglo of response) {
                     appendTable.push('<tr>')
                     for( let prop of arreglo){
-                        console.log(arreglo[prop])
                         appendTable.push('<td>')
                         appendTable.push(prop)
                         appendTable.push('</td>') 
