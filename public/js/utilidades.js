@@ -53,7 +53,6 @@ $(function() {
   var active = 'radius-like-on';
   
   var tablas = $("#main-list")
-
   boton.click(function() {  //use a class, since your ID gets mangled
    
     if($(this).hasClass(active)){ // Si el boton seleccionado ya tiene la misma clase...
@@ -83,8 +82,41 @@ $(function() {
     busquedaDinamica.val('')
     busquedaDinamica.trigger( "change" );
     //$(this).css("background-color", "yellow");      //add the class to the clicked element
+
+
+
   });
 
   
+
+});
+
+
+$(function(){
+
+  $('#main-list tbody').on('click', 'tr', function(){
+    
+    var tableData = $(this).children('td').map(function(){
+      return $(this).text()
+    })
+    console.log($(this).closest('div').attr('id'))
+
+    alert(tableData)
+    console.log(tableData)
+  })
+
+  
+})
+$('#clientes-tabla tbody').on('click', 'tr', function() {
+
+  //Obtiene el contenido de la fila y lo ingresa a un arreglo
+  var tableData = $(this).children("td").map(function() {
+      return $(this).text();
+  }).get();
+  select.id = tableData[0]
+  $( "#container-editar input[name='nombre']").val(tableData[1])
+  $( "#container-editar input[name='telefono']").val(tableData[2])
+  $( "#container-editar input[name='direccion']").val(tableData[3])
+  invertir()
 
 });

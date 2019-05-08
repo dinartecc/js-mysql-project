@@ -92,6 +92,9 @@
 
 #main-list > div{margin: 30px 10px; min-width: 350px;}
 
+#main-list table tbody tr:hover td{background-color: #14161b; transition: 0.5s}
+#main-list table tbody tr td{transition: 0.5s}
+
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
