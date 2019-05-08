@@ -20,7 +20,7 @@
 
 
 <div id="Categoria">
-    <table >
+    <table>
         <thead>
             <tr>
                 <th>Categoria</th>
@@ -28,16 +28,14 @@
             </tr>
         </thead>
         <tbody>
-            {{#each categoria}}
+            {{#each prueba}}
             <tr>
+                {{#each this}}
                 <td>
-                    {{nombre}}
+                    {{this}}
                 </td>
-                <td>
-                    {{ID_categoria}}
-                </td>
+                {{/each}}
             </tr>
-
             {{/each}}
         </tbody>
     </table>
@@ -54,17 +52,12 @@
         <tbody>
             {{#each subcategoria}}
             <tr>
+                {{#each this}}
                 <td>
-                    {{nombre}}
+                    {{this}}
                 </td>
-                <td>
-                    {{categoria_nombre}}
-                </td>
-                <td>
-                    {{ID_subcategoria}}
-                </td>
+                {{/each}}
             </tr>
-
             {{/each}}
         </tbody>
 </table>
@@ -80,14 +73,12 @@
             <tbody>
                 {{#each marca}}
                 <tr>
+                    {{#each this}}
                     <td>
-                        {{nombre}}
+                        {{this}}
                     </td>
-                    <td>
-                        {{ID_marca}}
-                    </td>
+                    {{/each}}
                 </tr>
-
                 {{/each}}
             </tbody>
     </table>    

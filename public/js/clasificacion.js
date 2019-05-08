@@ -12,7 +12,7 @@ $(function(){
                 //return undefined;
             }  
             var selected = getSelectBtn();
-            fetch('/clasificacion/buscar/', {
+            fetch(`/clasificacion/buscar/${tablaModificar}`, {
                 method: 'POST', // or 'PUT'
                 body: JSON.stringify({tabla: selected, busqueda: busqueda}), // data can be `string` or {object}!
                 headers:{
@@ -22,16 +22,20 @@ $(function(){
               .then( (response) => {return response.json()})
               .then ((response) => {
                 var appendTable = [];
+
+                
                 for (let arreglo of response) {
                     appendTable.push('<tr>')
-                    for( const prop in arreglo){
+                    for( let prop of arreglo){
                         console.log(arreglo[prop])
                         appendTable.push('<td>')
-                        appendTable.push(arreglo[prop])
-                        appendTable.push('</td>')  
+                        appendTable.push(prop)
+                        appendTable.push('</td>') 
                     }
                     appendTable.push('</tr>')
                 }
+
+
                 var append = appendTable.join("")
                 return append;
               })

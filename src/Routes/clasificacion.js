@@ -38,11 +38,10 @@ router.get('/clasificacion',async (req, res) => {
         tabla: 'marca',
         desc: true
     }
-
     const subcategoriaQuery = {
       tabla: 'subcategoria',
       desc: true,
-      columnas: ['id','nombre','ID_categoria'],
+      columnas: ['nombre','ID_categoria','id'],
       foranea: {
         ID_categoria: {
           tabla: 'categoria',
@@ -50,12 +49,10 @@ router.get('/clasificacion',async (req, res) => {
         }
       }
   };
-    
     const categoria = JSON.parse(JSON.stringify(await QueryDatabase( categoriaQuery )))
-    const subcategoria = JSON.parse(JSON.stringify(await QueryDatabase( subcategoriaQuery )))
+    //const subcategoria = JSON.parse(JSON.stringify(await QueryDatabase( subcategoriaQuery )))
     const marca = JSON.parse(JSON.stringify(await QueryDatabase( marcaQuery )))
-    
-    res.render('clasificacion', {categoria, subcategoria, marca})
+    res.render('clasificacion', {categoria, subcategoriaQuery, marca})
 })
 
 
@@ -84,16 +81,15 @@ router.post('/clasificacion/marca', (req, res) => {
 })
 
 router.post('/clasificacion/buscar', (req, res) => {
-    let {busqueda, tabla} = req.body
+    let {busqueda, tabla, } = req.body
     busqueda = busqueda.toLowerCase()
     tabla = tabla.toLowerCase()
     console.log(tabla)
-    
     const query = {
         tabla:  tabla,
         desc: true,
         condiciones : {
-        nombre: busqueda 
+            nombre: busqueda 
         }
         
     }
@@ -103,5 +99,18 @@ router.post('/clasificacion/buscar', (req, res) => {
 
     
     
+})
+
+
+
+router.get('/clasificacion/buscar/:seccion', (req, res) =>{
+    const query = {
+        tabla: 'hola'
+    }
+
+
+    if(req.params.seccion == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
+    
+
 })
 module.exports = router;
