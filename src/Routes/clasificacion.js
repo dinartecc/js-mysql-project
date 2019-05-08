@@ -32,10 +32,12 @@ router.get('/clasificacion',async (req, res) => {
     
     const categoriaQuery = {
         tabla: 'categoria',
+        columnas: ['nombre', 'id'],
         desc: true
     }
     const marcaQuery = {
         tabla: 'marca',
+        columnas: ['nombre', 'id'],
         desc: true
     }
     const subcategoriaQuery = {
@@ -49,10 +51,12 @@ router.get('/clasificacion',async (req, res) => {
         }
       }
   };
-    const categoria = JSON.parse(JSON.stringify(await QueryDatabase( categoriaQuery )))
-    //const subcategoria = JSON.parse(JSON.stringify(await QueryDatabase( subcategoriaQuery )))
-    const marca = JSON.parse(JSON.stringify(await QueryDatabase( marcaQuery )))
-    res.render('clasificacion', {categoria, subcategoriaQuery, marca})
+
+    const categoria = await QueryDatabase( categoriaQuery )
+    const subcategoria = await QueryDatabase( subcategoriaQuery )
+    const marca = await QueryDatabase( marcaQuery )
+    console.log(categoria)
+    res.render('clasificacion', {categoria, subcategoria, marca})
 })
 
 
