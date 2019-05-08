@@ -35,8 +35,6 @@ function HideAndShow(padre, mostrar){
  
 }
 
-
-
 function getSelectBtn(){
   return $(".radius-like-on").text()
 }
@@ -47,7 +45,7 @@ $(function() {
   var btn = $('#seccion-btn');
   var busquedaDinamica = $("#busqueda-dinamica");
   busquedaDinamica.prop('disabled', true);
-  var active = 'radius-like-on';
+  let active = 'radius-like-on';
   
   var tablas = $("#main-list")
   boton.click(function() {  //use a class, since your ID gets mangled
@@ -79,20 +77,13 @@ $(function() {
     busquedaDinamica.val('')
     busquedaDinamica.trigger( "change" );
     //$(this).css("background-color", "yellow");      //add the class to the clicked element
-
-
-
   });
-
-  
-
 });
 
 
 $(function(){
-
+  
   $('#main-list tbody').on('click', 'tr', function(){
-    
     var tableData = $(this).children('td').map(function(){
       return $(this).text()
     })
@@ -104,16 +95,32 @@ $(function(){
 
   
 })
-$('#clientes-tabla tbody').on('click', 'tr', function() {
 
-  //Obtiene el contenido de la fila y lo ingresa a un arreglo
-  var tableData = $(this).children("td").map(function() {
-      return $(this).text();
-  }).get();
-  select.id = tableData[0]
-  $( "#container-editar input[name='nombre']").val(tableData[1])
-  $( "#container-editar input[name='telefono']").val(tableData[2])
-  $( "#container-editar input[name='direccion']").val(tableData[3])
-  invertir()
 
-});
+
+
+
+
+
+$(function(){
+  $("#add").click(function() {
+    let seccion =  getSelectBtn();
+    SliderToggleId(`${seccion}`);
+    seccion = seccion.toLowerCase()
+    SliderToggleId(`${seccion}-add`);
+  })
+
+  $('#cancelar').click(function(){
+    var active = 'radius-like-on';
+    let mainList = $('#main-list')
+    var boton = $(".radius-like")
+    let seccion =  getSelectBtn();
+    SliderToggleId(seccion);
+    seccion = seccion.toLowerCase();
+    SliderToggleId(`${seccion}-add`);
+    console.log(seccion)
+    
+    
+  })
+
+})
