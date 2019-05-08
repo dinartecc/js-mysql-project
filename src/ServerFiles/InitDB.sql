@@ -46,13 +46,13 @@ create table if not exists Usuarios (
 
 create table if not exists Categoria (
 	ID_categoria int(3) not null ,
-    nombre varchar(15) not null,
+    nombre varchar(30) not null,
     constraint PK_cat primary key (ID_categoria)
 ) ENGINE = InnoDB;
 
 create table if not exists Subcategoria (
 	ID_subcategoria int(3) unsigned not null,
-    nombre varchar(15) not null,
+    nombre varchar(30) not null,
     ID_categoria int(3) not null,
     constraint PK_sub primary key ( ID_subcategoria ),
     constraint FK_sub_cat foreign key (ID_categoria) references Categoria(ID_categoria)
@@ -60,7 +60,7 @@ create table if not exists Subcategoria (
 
 create table if not exists Marca (
 	ID_marca int(3) unsigned not null,
-    nombre varchar(15) not null,
+    nombre varchar(30) not null,
     constraint PK_mar primary key (ID_marca)
 ) ENGINE = InnoDB;
 
