@@ -1,13 +1,8 @@
 const router = require('express').Router();
-import mysql from 'mysql';
-import InitializeDatabase from '../ServerComponents/InitializeDatabase/InitializeDatabase';
-import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-import HandleSchema from '../ServerComponents/HandleSchema/HandleSchema';
-import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
-import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
-import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
+import ResetDatabase from '../ServerComponents/InitializeDatabase/ResetDatabase';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
+import DefaultDatabase from '../ServerComponents/InitializeDatabase/DefaultDatabase';
 
 SchemaQuery();
 
@@ -25,8 +20,13 @@ router.get('/hola',(req, res) => {
 })
 
 /* ----- Inicializar Database -----*/
-router.get('/initdb', ( req, res ) => {
-  InitializeDatabase();
+router.get('/db/reset', ( req, res ) => {
+  ResetDatabase();
+  res.send('xd');
+});
+
+router.get('/db/default', ( req, res ) => {
+  DefaultDatabase();
   res.send('xd');
 });
 

@@ -5,14 +5,17 @@ import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
+import InitializeDatabase from './ServerComponents/InitializeDatabase/InitializeDatabase';
 
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
-const expireTime = 30000000;
+const expireTime = 60000;
 
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
-
+InitializeDatabase()
+  .then( () => {
+    
 
 const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones en el backend
   clearExpired: true, // Limpiar los registros de las sesiones ya expiradas
@@ -85,3 +88,9 @@ app.use(require('./Routes/clasificacion.js'));
 app.listen(PORT, function() {
     console.log('Your node js server is running');
 });
+  }
+    
+)
+.catch (error => {console.log(error); throw error;} );
+
+

@@ -1,11 +1,8 @@
+import VerificarLogin from '../AuthComponents/VerificarLogin/VericarLogin';
 const router = require('express').Router();
-
-const _user = 'root';
-const _pass = 'admin';
 
 
 router.get('/login',(req, res) => {
-    console.log(req.session.id)
     
     res.render('login.hbs', {layout: 'login'});
 })
@@ -18,14 +15,14 @@ router.get('/logout' , (req,res) => {
 
 router.post('/login', ( req, res ) => {
     const { user, pass} = req.body;
-    console.log(_user, _pass)
-    if(_user == user && _pass == pass){
+    VerificarLogin(user,pass)
+      .then( () => {
         req.session.user = user;
         req.session.pass = pass;
         res.redirect('/')
-    }else{
-        res.redirect('login')
-    }
+      })
+      .catch( () => res.redirect('login') );
+    
     
 })
 
