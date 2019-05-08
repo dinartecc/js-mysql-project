@@ -11,7 +11,8 @@ const QueryDatabase = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
 
     let forCheck = false,
-        forNombres = [];
+        forNombres = [],
+        arrayOrdenado = [];
 
     //Valores predeterminados
     if ( !obj.hasOwnProperty('orden') ) {
@@ -22,6 +23,9 @@ const QueryDatabase = ( obj ) => {
     }
     if ( !obj.hasOwnProperty('limite')) {
       obj.limite = 10
+    }
+    if ( !obj.hasOwnProperty('columnas') || obj.columnas.length == 0 ) {
+      throw new Error ('Error: no se envio un array en .columnas')
     }
 
     
@@ -72,14 +76,17 @@ const QueryDatabase = ( obj ) => {
             for( let columnaSub of obj.foranea[columna].columnas) {
 
               columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}_${columnaSub}' , `;
+              arrayOrdenado.push(`${obj.foranea[columna].tabla}_${columnaSub}`);
             }
           }
           else {
             columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${columna} , `;
+            arrayOrdenado.push(columna);
           }
         }
         else {
           columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } , `;
+          arrayOrdenado.push(obj.idname);
         }
       }
 
@@ -145,7 +152,23 @@ const QueryDatabase = ( obj ) => {
       if (error) {
         throw error;
       }
-      resolve(results);
+
+      const respuesta = [];
+      //Itero sobre todo los registros retornados
+      for( let registro of results ) {
+        //Inicializo el array por registro
+        const arrayRegistro = [];
+        
+        for ( let columna of arrayOrdenado ) {
+          //Por cada nombre de columna, hago el push al arrayRegistro 
+          arrayRegistro.push(registro[columna]);
+        }
+        //Mando un registro terminado con sus atributos al array respuesta
+        respuesta.push(arrayRegistro);
+      }
+
+
+      resolve(respuesta);
     });
 
   });
