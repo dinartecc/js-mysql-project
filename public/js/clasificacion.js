@@ -4,26 +4,25 @@ $(function(){
     busquedaDinamica.keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            let tablaModificar = getSelectBtn();
-            tablaModificar = $(`#${getSelectBtn()} tbody`)
+          
+            let tablaModificar = $(`#${getSelectBtn()} tbody`)
             let busqueda = busquedaDinamica.val()
             if((busquedaDinamica.val() !== '')){
             }else{
                 //return undefined;
             }  
+            var tipo = 'nombre';
             var selected = getSelectBtn();
-            fetch(`/clasificacion/buscar/${tablaModificar}`, {
+            fetch(`/clasificacion/buscar/`, {
                 method: 'POST', // or 'PUT'
-                body: JSON.stringify({tabla: selected, busqueda: busqueda}), // data can be `string` or {object}!
+                body: JSON.stringify({tabla: selected, busqueda: busqueda, tipo: tipo }), // data can be `string` or {object}!
                 headers:{
                   'Content-Type': 'application/json'
                 }
               })
-              .then( (response) => {return response.json()})
+              .then( (response) => { return response.json()})
               .then ((response) => {
                 var appendTable = [];
-
-                
                 for (let arreglo of response) {
                     appendTable.push('<tr>')
                     for( let prop of arreglo){
@@ -34,8 +33,6 @@ $(function(){
                     }
                     appendTable.push('</tr>')
                 }
-
-
                 var append = appendTable.join("")
                 return append;
               })
@@ -50,3 +47,9 @@ $(function(){
 })
 
 
+
+$(function(){
+    $('.cancelar').click(function(event){
+        event.preventDefault();
+    })
+})

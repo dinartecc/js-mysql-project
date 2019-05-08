@@ -4,6 +4,7 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import connection from '../ServerComponents/CreateConnection/CreateConnection';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 
+
 // const subcategoria  = [
 //     {
 //         id: 1,
@@ -49,7 +50,7 @@ router.get('/clasificacion',async (req, res) => {
           tabla: 'categoria',
           columnas: ['nombre']
         }
-      }
+    }
   };
 
     const categoria = await QueryDatabase( categoriaQuery )
@@ -84,7 +85,7 @@ router.post('/clasificacion/marca', (req, res) => {
     console.log(req.body)
 })
 
-router.post('/clasificacion/buscar', (req, res) => {
+/*router.post('/clasificacion/buscar', (req, res) => {
     let {busqueda, tabla, } = req.body
     busqueda = busqueda.toLowerCase()
     tabla = tabla.toLowerCase()
@@ -104,16 +105,52 @@ router.post('/clasificacion/buscar', (req, res) => {
     
     
 })
+*/
 
 
+router.post('/clasificacion/buscar/', (req, res) =>{
 
-router.get('/clasificacion/buscar/:seccion', (req, res) =>{
+    
+    for( let variable in req.body ){
+        //req.body[variable] = req.body[variable].toLowerCase()
+        typeof req.body[variable] == 'string' ? req.body[variable] = req.body[variable].toLowerCase() : null 
+    }   
+    let {tabla, busqueda, tipo} = req.body;
+
+    if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) {
+        res.response("NEL")
+    }
     const query = {
-        tabla: 'hola'
+        tabla:  tabla,
+        desc: true
+    }
+    query.condiciones = {};
+    query.condiciones[tipo] = busqueda;
+    console.log(tabla)
+    switch (tabla) {
+        case 'categoria':
+            query.columnas = ['nombre', 'id']
+            break;
+        case 'subcategoria':
+            query.columnas = ['nombre','ID_categoria','id']
+            query.foranea = { 
+                ID_categoria: {
+                    tabla: 'categoria',
+                    columnas: ['nombre']
+                }
+            }
+            break;
+        case 'marca':
+            query.columnas = ['nombre', 'id']
+            break;
+        default:
+
+            break;
     }
 
-
-    if(req.params.seccion == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
+    QueryDatabase ( query ).then((response) => res.send(JSON.stringify(response)))
+   
+    //if(req.params == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
     
 
 })

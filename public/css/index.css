@@ -56,30 +56,7 @@
     background-color: #4a5864;
 }
 
-#formulario-cliente{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-width: 800px;
-}
 
-
-input[type=submit], button{
-    background-color: #50B9CE;
-    background-color: #6D7AE0;
-    color: white;
-}
-
-form input,select,.boton{
-    border:0;
-    border-bottom: 1px solid black;
-    
-    margin: 10px 0;
-    height: 40px;
-    border-radius: ;
-    width: 90%;
-    padding-left:10px; 
-}
 
 .doble{display:flex;}
 .doble input, .doble select{

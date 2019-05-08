@@ -16,62 +16,20 @@
 </div>
 
 
+
+
+
 <div id="main-list">
-
-
-<div id="Categoria">
-    <table>
-        <thead>
-            <tr>
-                <th>Categoria</th>
-                <th>ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each categoria}}
-            <tr>
-                {{#each this}}
-                <td>
-                    {{this}}
-                </td>
-                {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
-<div id="Subcategoria">
-    <table>
-        <thead>
-            <tr>
-                <th>Subcategoria</th>
-                <th>Categoria</th>
-                <th>ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each subcategoria}}
-            <tr>
-                {{#each this}}
-                <td>
-                    {{this}}
-                </td>
-                {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-</table>
-</div>
-<div id="Marca">
-    <table>
+    <div id="Categoria">
+        <table>
             <thead>
                 <tr>
-                    <th>Marca</th>
+                    <th>Categoria</th>
                     <th>ID</th>
                 </tr>
             </thead>
             <tbody>
-                {{#each marca}}
+                {{#each categoria}}
                 <tr>
                     {{#each this}}
                     <td>
@@ -81,14 +39,113 @@
                 </tr>
                 {{/each}}
             </tbody>
-    </table>    
-</div>
+        </table>
+    </div>
+    <div id="Subcategoria">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subcategoria</th>
+                    <th>Categoria</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each subcategoria}}
+                <tr>
+                    {{#each this}}
+                    <td>
+                        {{this}}
+                    </td>
+                    {{/each}}
+                </tr>
+                {{/each}}
+            </tbody>
+    </table>
+    </div>
+    <div id="Marca">
+        <table>
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each marca}}
+                    <tr>
+                        {{#each this}}
+                        <td>
+                            {{this}}
+                        </td>
+                        {{/each}}
+                    </tr>
+                    {{/each}}
+                </tbody>
+        </table>    
+    </div>
 </div>
 
+<div id="main-add" >
+    <div id="marca-add" class="form-add">
+        <div class="form-title-add">
+            <h3>Añadir marca</h3>
+        </div>
+        <div class="form-container">
+            <form action="/clasificacion/categoria" method="POST">
+                <div class="group-input-one">
+                    <p>Nombre</p>
+                    <input type="text" class="input-default border-color" name="nombre">
+                </div>
+                <div class="group-input-button">
+                    <input type="submit" class="input-submit">
+                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                </div>
+            </form>
+        </div>
 
+    </div>
+    <div id="categoria-add" class="form-add">
+        <div class="form-title-add">
+            <h3>Añadir Categoria</h3>
+        </div>
+        <div class="form-container">
+            <form action="/clasificacion/categoria" method="POST">
+                <div class="group-input-one">
+                    <p>Nombre</p>
+                    <input type="text" class="input-default border-color" name="nombre">
+                </div>
+                <div class="group-input-button">
+                    <input type="submit" class="input-submit">
+                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div id="subcategoria-add" class="form-add">
+        <div class="form-title-add">
+            <h3>Añadir Subcategoria</h3>
+        </div>
+        <div class="form-container">
+            <form action="/clasificacion/categoria" method="POST">
+                <div class="group-input-one">
+                    <p>Nombre</p>
+                    <input type="text" class="input-default border-color" name="nombre">
+                </div>
+                <div class="group-input-button">
+                    <input type="submit" class="input-submit">
+                    <input type="submit" class="cancelar input-submit" id="cancelar" value="Cancelar">
+                </div>
+            </form>
+        </div>
+
+    </div>    
+</div>
 
 <form action="/clasificacion/categoria" method="POST">
 <h2>Añadir Categoria</h2>
+    
     <input type="text" name="nombre">
     <input type="submit">
 </form>
@@ -106,5 +163,4 @@
 <form action="/clasificacion/marca/borrar" method="POST">
 <h2>Añadir Marca</h2>
     <input type="text" name="nombre">
-    <input type="submit" value="Submit">
 </form>
