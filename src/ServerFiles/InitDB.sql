@@ -247,3 +247,5 @@ create table if not exists Compra_Lotes (
 ) ENGINE = InnoDB;
 
 SET SQL_SAFE_UPDATES = 0;
+
+

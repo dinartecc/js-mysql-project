@@ -24,5 +24,9 @@ drop table if exists venta_descuentogeneral;
 drop table if exists venta_lotes;
 drop table if exists ventasdescuento;
 drop table if exists ventasimpuestos;
+drop table if exists usuarios;
+drop table if exists roles;
+drop table if exists permisos;
+drop table if exists permisos_roles;
 
 SET FOREIGN_KEY_CHECKS = 1;
