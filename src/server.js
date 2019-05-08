@@ -44,9 +44,6 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
 
-
-
-
 app.use((req, res, next) => {
 
   if(typeof req.session.user === 'undefined' && req.path !== '/login') {
