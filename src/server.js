@@ -9,7 +9,7 @@ import InitializeDatabase from './ServerComponents/InitializeDatabase/Initialize
 
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
-const expireTime = 60000;
+const expireTime = 6000000;
 
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 

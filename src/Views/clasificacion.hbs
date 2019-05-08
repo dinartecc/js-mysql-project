@@ -94,7 +94,7 @@
             <h3>Añadir marca</h3>
         </div>
         <div class="form-container">
-            <form class="formulario-marca">
+            <form class="formulario-marca" action="/clasificacion/marca" method="POST">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
@@ -112,7 +112,7 @@
             <h3>Añadir Categoria</h3>
         </div>
         <div class="form-container">
-            <form id="formulario-categoria">
+            <form id="formulario-categoria" action="/clasificacion/categoria" method="POST">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
@@ -131,10 +131,14 @@
             <h3>Añadir Subcategoria</h3>
         </div>
         <div class="form-container">
-            <form id="formulario-subcategoria">
+            <form id="formulario-subcategoria" action="/clasificacion/subcategoria" method="POST">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
+                </div>
+                <div class="group-input-one">
+                    <p>ID Categoria</p>
+                    <input type="text" class="input-default border-color" name="ID_categoria">
                 </div>
                 <div class="group-input-button">
                     <input type="submit" class="input-submit enviar-btn">
@@ -142,6 +146,30 @@
                 </div>
             </form>
         </div>
-
     </div>    
+</div>
+
+
+
+<div id="main-delete">
+
+    <div class="form-add">
+        <div class="form-title-add">
+            <h3>Borrar</h3>
+        </div>
+        <div class="form-container">
+            <form id="formulario-subcategoria" action="/clasificacion/eliminar" method="POST">
+                <div class="group-input-one">
+                    <p>ID del elemento a borrar</p>
+                    <input type="text" class="input-default border-color" name="id">
+                </div>
+                
+                <input type="text" id="hidden-section" name="seccion">
+                <div class="group-input-button">
+                    <input type="submit" class="input-submit enviar-btn" style="background-color: #e66f66 !important;">
+                   
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

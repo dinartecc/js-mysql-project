@@ -39,7 +39,7 @@ $(function(){
                   tablaModificar.empty()
                   tablaModificar.append(response)
               })
-              .catch(error => console.error('Error:', error))
+              .catch(error => console.error('Error:'+ error))
               event.stopPropagation();
         }
     })
@@ -48,7 +48,8 @@ $(function(){
 
 
 $(function(){
-    $('.cancelar').click(function(event){
+    $("input").prop('required',true);
+    $('.cancelar-btn').click(function(event){
         event.preventDefault();
     })
 })

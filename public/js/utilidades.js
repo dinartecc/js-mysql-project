@@ -48,21 +48,26 @@ $(function() {
   let active = 'radius-like-on';
   var tablas = $("#main-list")
   boton.click(function() {  //use a class, since your ID gets mangled
-   
     if($(this).hasClass(active)){ // Si el boton seleccionado ya tiene la misma clase...
-
+      $('#main-add > div').slideUp(500);
       $(tablas).children().slideDown(500) // muestra todas las tablas
       $(this).removeClass(active)  //Quita la clase del boton seleccionado
       busquedaDinamica.prop('disabled', true); // Si no hay ningun activo, desactiva la barra de busqueda
+      $('#hidden-section').val('')
+      $('#main-delete').slideUp(500);
     }
     else{
-
+      $('#main-add > div').slideUp(500);
+      let a =$(this).text()
+      a = a.toLowerCase()
+      $('#hidden-section').val(a)
+      $('#main-delete').slideDown(500);
       $(boton).removeClass(active) // Remueve la clase de todos los botones
       busquedaDinamica.prop('disabled', false); // Activa la barra de busqueda
 
       $(this).addClass(active) //Le añade la clase activa al boton seleccionado
 
-
+      
       var text = $('.radius-like-on').text();
 
       
@@ -72,6 +77,10 @@ $(function() {
   
 
     }
+    let seccion =  getSelectBtn();
+    seccion = seccion.toLowerCase()
+    $('#hidden-section').val(seccion)
+    console.log(seccion)
     
     busquedaDinamica.val('')
     busquedaDinamica.trigger( "change" );
@@ -81,20 +90,25 @@ $(function() {
 $(function(){
   
   $('#main-list tbody').on('click', 'tr', function(){
-    var tableData = $(this).children('td').map(function(){
-      return $(this).text()
+    
+    let dataSelected = []  
+    $(this).children('td').each(() => {
+      dataSelected.push($(this).text()) 
     })
-    console.log($(this).closest('div').attr('id'))
 
-    alert(tableData)
-    console.log(tableData)
+    dataSelected.forEach((res) => console.log(res))
+    
+    
   })
 
   
 })
 
 $(function(){
+
+  
   $("#add").click(function() {
+    SliderToggleId(`main-delete`);
     let seccion =  getSelectBtn();
     SliderToggleId(`${seccion}`);
     seccion = seccion.toLowerCase()
@@ -122,17 +136,7 @@ $(function(){
       edit_btn()
   })
   $('.enviar-btn').click(function(){
-    let seccion =  getSelectBtn();
-    let seccionLower = seccion.toLowerCase();
-    $( `#formulario-${seccion}`).ajaxForm({
-      dataType: 'json' ,
-      url: `/categoria/${seccionLower}`,
-      type: 'post',
-      beforeSubmit: function(){alert("LISTO")},
-      success: function(){alert("ENVIADO CORRECTAMENTE")}
-    })
-    console.log(seccionLower)
-    edit_btn()
+    
   })
 
 })

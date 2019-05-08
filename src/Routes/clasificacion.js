@@ -1,8 +1,10 @@
 
 const router = require('express').Router();
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-import connection from '../ServerComponents/CreateConnection/CreateConnection';
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
+
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
+import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 
 // const subcategoria  = [
@@ -56,7 +58,7 @@ router.get('/clasificacion',async (req, res) => {
     const categoria = await QueryDatabase( categoriaQuery )
     const subcategoria = await QueryDatabase( subcategoriaQuery )
     const marca = await QueryDatabase( marcaQuery )
-    console.log(categoria)
+   
     res.render('clasificacion', {categoria, subcategoria, marca})
 })
 
@@ -69,7 +71,7 @@ router.post('/clasificacion/categoria', (req, res) => {
     }
     AddToDatabase( categoria )
     .then(console.log("bien hecho :D"))
-    .catch( (response) => console.log(response))
+    .catch( (response) => console.log(response)).then(res.redirect('/clasificacion'))
     console.log(req.body)
 })
 
@@ -81,8 +83,36 @@ router.post('/clasificacion/marca', (req, res) => {
     }
     AddToDatabase( marca )
     .then(console.log("bien hecho :D"))
+    .catch( (response) => console.log(response)).then(res.redirect('/clasificacion'))
+    console.log(req.body)
+})
+
+
+router.post('/clasificacion/subcategoria', (req, res) => {
+    const subcategoria = {
+        tabla: 'subcategoria',
+        nombre: req.body.nombre,
+        ID_categoria: req.body.ID_categoria
+    }
+    AddToDatabase( subcategoria )
+    .then(console.log("bien hecho :D")).then(res.redirect('/clasificacion'))
     .catch( (response) => console.log(response))
     console.log(req.body)
+})
+
+
+router.post('/clasificacion/eliminar' ,(req, res) => {
+    const {seccion, id} = req.body;
+    console.log(req.body)
+    const borrar = {
+        tabla: seccion,
+        id: id
+    }
+    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D"))
+    
+    .then(setTimeout(function() {res.redirect('/clasificacion')}, 100)) // A veces pasa que se renderiza y no se ha borrao :v
+    .catch((response) => console.log(response))
+    
 })
 
 /*router.post('/clasificacion/buscar', (req, res) => {

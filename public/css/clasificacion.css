@@ -124,9 +124,10 @@ table td{
     
 }
 .form-container{margin: 10px 10px}
-
+#hidden-section{display:none;}
+#main-delete{display:none}
 .form-add p{ margin:0 ; padding: 10px 0 10px 0; color: white;}
-#main-add{ width: 90%}
+#main-add, #main-delete{ width: 90%}
 .form-add{background-color: #2a3141}
 .form-add form{
     padding: 10px 0;
