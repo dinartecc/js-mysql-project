@@ -52,10 +52,10 @@
     
 }
 
-.radius-like-on{
+.boton-seccion-activo{
     background-color: #6a7cab !important;
 }
-.radius-like{
+.boton-seccion{
     -webkit-user-select: none; /* Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
@@ -115,7 +115,7 @@ table th{
     color:#dedfe0;
 }
 table td{
-    text-align: ;
+    
     background-color: #2a3141;
     color:#dedfe0;
     font-weight: 300 !important;

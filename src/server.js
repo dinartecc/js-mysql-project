@@ -6,6 +6,12 @@ import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
 import InitializeDatabase from './ServerComponents/InitializeDatabase/InitializeDatabase';
+import graphqlHTTP from 'express-graphql';
+var { buildSchema } = require('graphql');
+
+
+
+
 
 var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
@@ -15,8 +21,6 @@ import CreateConnection from './ServerComponents/CreateConnection/CreateConnecti
 
 InitializeDatabase()
   .then( () => {
-    
-
 const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones en el backend
   clearExpired: true, // Limpiar los registros de las sesiones ya expiradas
   createDatabaseTable: true, // Si no existe la tabla sessions en la base de datos, la crea
@@ -38,6 +42,9 @@ app.use(session({ //Configuracion del express-sessions
   saveUninitialized: false 
 }));
 
+
+
+
 //UpdateSchema();
 //app.use(morgan('tiny'));
 
@@ -46,7 +53,7 @@ app.use(session({ //Configuracion del express-sessions
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
-
+/*
 app.use((req, res, next) => {
 
   if(typeof req.session.user === 'undefined' && req.path !== '/login') {
@@ -57,7 +64,7 @@ app.use((req, res, next) => {
   }
 });
 
-
+*/
 
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd
@@ -77,6 +84,31 @@ app.set('view engine', '.hbs');
 
 
 /* ----- Rutas ----- */
+
+// GRAPHQL TEST
+
+// Construct a schema, using GraphQL schema language
+var schema = buildSchema(`
+  type Query {
+    hello: String
+  }
+`);
+
+var root = {
+  hello: () => {
+    return 'Hello world!';
+  },
+};
+
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true
+}));
+
+
+
+
 
 app.use(require('./Routes/index.js'));
 app.use(require('./Routes/clientes.js'));

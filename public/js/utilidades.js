@@ -36,18 +36,22 @@ function HideAndShow(padre, mostrar){
 }
 
 function getSelectBtn(){
-  return $(".radius-like-on").text()
+  return $(".boton-seccion-activo").text()
 }
 
 
+
+
+
+
 $(function() {    
-  var boton = $(".radius-like")
-  var btn = $('#seccion-btn');
-  var busquedaDinamica = $("#busqueda-dinamica");
-  busquedaDinamica.prop('disabled', true);
-  let active = 'radius-like-on';
-  var tablas = $("#main-list")
-  boton.click(function() {  //use a class, since your ID gets mangled
+  let boton = $(".boton-seccion")
+  let btn = $('#seccion-btn');
+  let busquedaDinamica = $("#busqueda-dinamica");
+  busquedaDinamica.prop('disabled', true); // Desactiva por defecto la barra de busqueda
+  let active = 'boton-seccion-activo'; // Asi se llama 
+  var tablas = $("#main-list") // Padre de todas las tablas
+  boton.click(function() {  //Cuando se da click en algun div con la clase boton...
     if($(this).hasClass(active)){ // Si el boton seleccionado ya tiene la misma clase...
       $('#main-add > div').slideUp(500);
       $(tablas).children().slideDown(500) // muestra todas las tablas
@@ -68,7 +72,7 @@ $(function() {
       $(this).addClass(active) //Le añade la clase activa al boton seleccionado
 
       
-      var text = $('.radius-like-on').text();
+      var text = $('.boton-seccion-activo').text();
 
       
       //$(tablas).children().not(`#${text}`).slideUp(500)
@@ -116,9 +120,9 @@ $(function(){
   })
 
   function edit_btn(){
-    var active = 'radius-like-on';
+    var active = 'boton-seccion-activo';
     let mainList = $('#main-list')
-    var boton = $(".radius-like")
+    var boton = $(".boton-seccion")
     let seccion =  getSelectBtn();
     
     console.log(seccion)

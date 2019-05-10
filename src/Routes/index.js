@@ -12,6 +12,7 @@ router.get('*', (req ,res , next) => {
 
 router.get('/',(req, res) => {
     res.render('inicio.hbs');
+    console.log()
 })
 
 router.get('/hola',(req, res) => {
