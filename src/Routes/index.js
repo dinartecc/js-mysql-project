@@ -57,10 +57,10 @@ router.get('/prueba', (req, res) => {
   //   ID_categoria: 1,
   //   nombre: '0w0'
   // }
-  // const test = {
-  //   tabla : 'cliente',
-  //   id : 1
-  // }
+  const test = {
+    tabla : 'categoria',
+    id : 2
+  }
   // const test = {
   //   tabla: 'cliente',
   //   columnas: ['nombre', 'direccion'],

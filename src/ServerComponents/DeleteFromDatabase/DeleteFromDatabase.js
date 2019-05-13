@@ -29,7 +29,7 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
 
     //Checkea si la tabla tiene hijos foreign keys
     connection.query(`select TABLE_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-    where REFERENCED_TABLE_SCHEMA = 'heroku_8e679e6d32fb43a' AND REFERENCED_TABLE_NAME = '${obj.tabla}';`, (error, results, fields) => {
+    where REFERENCED_TABLE_SCHEMA = '${process.db.database}' AND REFERENCED_TABLE_NAME = '${obj.tabla}';`, (error, results, fields) => {
       if (error) {
         throw error;
       }
