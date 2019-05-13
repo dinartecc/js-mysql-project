@@ -3,6 +3,7 @@ import ResetDatabase from '../ServerComponents/InitializeDatabase/ResetDatabase'
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
 import DefaultDatabase from '../ServerComponents/InitializeDatabase/DefaultDatabase';
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 SchemaQuery();
 
@@ -54,10 +55,10 @@ router.get('/prueba', (req, res) => {
   //   ID_categoria: 1,
   //   nombre: '0w0'
   // }
-  // const test = {
-  //   tabla : 'cliente',
-  //   id : 1
-  // }
+  const test = {
+    tabla : 'categoria',
+    id : 2
+  }
   // const test = {
   //   tabla: 'cliente',
   //   columnas: ['nombre', 'direccion'],
@@ -66,23 +67,24 @@ router.get('/prueba', (req, res) => {
   //   limite: 25
   // }
 
-  const test = {
-    tabla: 'subcategoria',
-    desc: true,
-    columnas: ['id','ID_categoria', 'nombre' ],
-    condiciones : {
-      nombre: '' 
-    },
-    foranea: {
-      ID_categoria: {
-        tabla: 'categoria',
-        columnas: ['nombre', 'ID_categoria']
-      }
-    }
-};
+  // const test = {
+  //   tabla: 'subcategoria',
+  //   desc: true,
+  //   columnas: ['id','ID_categoria', 'nombre' ],
+  //   condiciones : {
+  //     nombre: '' 
+  //   },
+  //   foranea: {
+  //     ID_categoria: {
+  //       tabla: 'categoria',
+  //       columnas: ['nombre', 'ID_categoria']
+  //     }
+  //   }
+
+// };
 
 
-  QueryDatabase( test )
+  DeleteFromDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   
