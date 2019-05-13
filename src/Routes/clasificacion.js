@@ -4,7 +4,6 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
-import { SSL_OP_EPHEMERAL_RSA } from 'constants';
 
 
 // const subcategoria  = [
@@ -58,48 +57,33 @@ router.get('/clasificacion',async (req, res) => {
     const categoria = await QueryDatabase( categoriaQuery )
     const subcategoria = await QueryDatabase( subcategoriaQuery )
     const marca = await QueryDatabase( marcaQuery )
-   
-    res.render('clasificacion', {categoria, subcategoria, marca})
+    console.log(categoria)
+    res.render('clasificacion', {categoria, subcategoria, marca} )
 })
 
 
 
-router.post('/clasificacion/categoria', (req, res) => {
-    const categoria = {
-        tabla: 'categoria',
-        nombre: req.body.nombre,
+
+router.post('/clasificacion/nuevo', (req, res) => {
+    const {seccion, nombre,categoria} = req.body.query;
+    console.log(req.body);
+    let resp;
+    const query = {
+        tabla: seccion,
+        nombre
     }
-    AddToDatabase( categoria )
-    .then(console.log("bien hecho :D"))
-    .catch( (response) => console.log(response)).then(res.redirect('/clasificacion'))
-    console.log(req.body)
-})
-
-
-router.post('/clasificacion/marca', (req, res) => {
-    const marca = {
-        tabla: 'marca',
-        nombre: req.body.nombre,
+    if(typeof categoria !== 'undefined'){
+        query.ID_categoria = categoria
     }
-    AddToDatabase( marca )
-    .then(console.log("bien hecho :D"))
-    .catch( (response) => console.log(response)).then(res.redirect('/clasificacion'))
-    console.log(req.body)
+    AddToDatabase( query )
+    .then(() => console.log(`Registro añadido a la tabla ${seccion} exitosamente`))
+    .then(() => { return resp = 'Elemento añadido exitosamente!'} )
+    .then((resp) => res.send(JSON.stringify(resp)))
+    .catch((response) => console.log(response))
+    /*.catch(() => { return resp.error = 'Hubo un error al añadir el elemento :('})
+    .catch((resp) => res.send(JSON.stringify({resp})))*/
+
 })
-
-
-router.post('/clasificacion/subcategoria', (req, res) => {
-    const subcategoria = {
-        tabla: 'subcategoria',
-        nombre: req.body.nombre,
-        ID_categoria: req.body.ID_categoria
-    }
-    AddToDatabase( subcategoria )
-    .then(console.log("bien hecho :D")).then(res.redirect('/clasificacion'))
-    .catch( (response) => console.log(response))
-    console.log(req.body)
-})
-
 
 router.post('/clasificacion/eliminar' ,(req, res) => {
     const {seccion, id} = req.body;
@@ -108,10 +92,13 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
         tabla: seccion,
         id: id
     }
-    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D"))
-    
-    .then(setTimeout(function() {res.redirect('/clasificacion')}, 100)) // A veces pasa que se renderiza y no se ha borrao :v
-    .catch((response) => console.log(response))
+    console.log(borrar)
+    res.send(borrar)
+    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D")).catch((response) => console.log(response))
+    /*.then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
+    .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
+    .then((resp) => res.send(JSON.stringify(resp)))
+    */
     
 })
 
@@ -139,21 +126,22 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
 
 
 router.post('/clasificacion/buscar/', (req, res) =>{
-
-    
-    for( let variable in req.body ){
-        //req.body[variable] = req.body[variable].toLowerCase()
+    for( let variable in req.body ){ // Cambia a minuscula todas las variables en req.body
         typeof req.body[variable] == 'string' ? req.body[variable] = req.body[variable].toLowerCase() : null 
     }   
-    let {tabla, busqueda, tipo} = req.body;
 
-    if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) {
+    let {tabla, busqueda, tipo} = req.body;
+    console.log("aaaaaaaaaaaaaaaa" + busqueda)
+    if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
         res.response("NEL")
     }
+
     const query = {
         tabla:  tabla,
         desc: true
     }
+
+
     query.condiciones = {};
     query.condiciones[tipo] = busqueda;
     console.log(tabla)
@@ -174,12 +162,12 @@ router.post('/clasificacion/buscar/', (req, res) =>{
             query.columnas = ['nombre', 'id']
             break;
         default:
-
+            res.send("NEL")
             break;
     }
 
     QueryDatabase ( query ).then((response) => res.send(JSON.stringify(response)))
-   
+    console.log(query)
     //if(req.params == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
     
 

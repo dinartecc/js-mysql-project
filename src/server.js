@@ -46,7 +46,7 @@ app.use(session({ //Configuracion del express-sessions
 
 
 //UpdateSchema();
-//app.use(morgan('tiny'));
+app.use(morgan('tiny'));
 
 
 //Middlewares
@@ -68,17 +68,23 @@ app.use((req, res, next) => {
 
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd
-app.set('views', path.join(__dirname,'/Views'));
+
+
+app.set('views', path.join(__dirname,'/views'));
 
 
 
 /* ----- Configurando handlebars ----- */
+
+
+
 app.engine('.hbs',hbs({
   defaultLayout: 'main',
   layoutsDir: path.join(app.get('views'),'layouts'),
   partialsDir: path.join(app.get('views'),'partials'),
   extname: '.hbs'
 }))
+
 app.set('view engine', '.hbs');
 
 

@@ -13,10 +13,11 @@
         <div class="boton-seccion">Subcategoria</div>
     </div>
         <img id="add" src="/img/mas.svg" alt="">
+
 </div>
+<div class="alerta-success"> <p></p> </div>
 
-
-
+<div class="alerta-error"> <p></p> </div>
 
 
 <div id="main-list">
@@ -28,63 +29,58 @@
                         <th>ID</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {{#each marca}}
                     <tr>
                         {{#each this}}
-                        <td>
-                            {{this}}
-                        </td>
+                        <td>{{this}}</td>
                         {{/each}}
                     </tr>
                     {{/each}}
                 </tbody>
         </table>    
-    </div>
+</div>
 
-    <div id="Categoria">
-        <table>
-            <thead>
-                <tr>
-                    <th>Categoria</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each categoria}}
-                <tr>
-                    {{#each this}}
-                    <td>
-                        {{this}}
-                    </td>
-                    {{/each}}
-                </tr>
+<div id="Categoria">
+    <table>
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each categoria}}
+            <tr>
+                {{#each this}}
+                <td>{{this}}</td>
                 {{/each}}
-            </tbody>
-        </table>
-    </div>
-    <div id="Subcategoria">
-        <table>
-            <thead>
-                <tr>
-                    <th>Subcategoria</th>
-                    <th>Categoria</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each subcategoria}}
-                <tr>
-                    {{#each this}}
-                    <td>
-                        {{this}}
-                    </td>
-                    {{/each}}
-                </tr>
-                {{/each}}
-            </tbody>
+            </tr>
+            {{/each}}
+        </tbody>
     </table>
-    </div>
+</div>
+<div id="Subcategoria">
+    <table>
+        <thead>
+            <tr>
+                <th>Subcategoria</th>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each subcategoria}}
+            <tr>
+                {{#each this}}
+                <td>{{this}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+</table>
+</div>
     
 </div>
 
@@ -95,6 +91,7 @@
         </div>
         <div class="form-container">
             <form class="formulario-marca" action="/clasificacion/marca" method="POST">
+                <input type="text" class="hidden-input" name="seccion" value="marca">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
@@ -113,6 +110,7 @@
         </div>
         <div class="form-container">
             <form id="formulario-categoria" action="/clasificacion/categoria" method="POST">
+                <input type="text" class="hidden-input" name="seccion" value="categoria">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
@@ -132,13 +130,14 @@
         </div>
         <div class="form-container">
             <form id="formulario-subcategoria" action="/clasificacion/subcategoria" method="POST">
+                <input type="text" class="hidden-input" name="seccion" value="subcategoria">
                 <div class="group-input-one">
                     <p>Nombre</p>
                     <input type="text" class="input-default border-color" name="nombre">
                 </div>
                 <div class="group-input-one">
                     <p>ID Categoria</p>
-                    <input type="text" class="input-default border-color" name="ID_categoria">
+                    <input type="text" class="input-default border-color" name="categoria">
                 </div>
                 <div class="group-input-button">
                     <input type="submit" class="input-submit enviar-btn">
@@ -149,27 +148,27 @@
     </div>    
 </div>
 
-
-
 <div id="main-delete">
-
-    <div class="form-add">
+    <div class=""> 
         <div class="form-title-add">
             <h3>Borrar</h3>
         </div>
         <div class="form-container">
-            <form id="formulario-subcategoria" action="/clasificacion/eliminar" method="POST">
+            <form action="/clasificacion/eliminar" class="form-delete" method="POST">
                 <div class="group-input-one">
                     <p>ID del elemento a borrar</p>
                     <input type="text" class="input-default border-color" name="id">
                 </div>
                 
-                <input type="text" id="hidden-section" name="seccion">
+                <input type="text" class="hidden-input" id="delete-seccion" name="seccion">
                 <div class="group-input-button">
-                    <input type="submit" class="input-submit enviar-btn" style="background-color: #e66f66 !important;">
+                    <input type="submit"  class="input-submit enviar-btn" style="background-color: #e66f66 !important;">
                    
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
+<input type="text" id="prueba">

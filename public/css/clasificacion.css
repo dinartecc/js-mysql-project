@@ -124,7 +124,7 @@ table td{
     
 }
 .form-container{margin: 10px 10px}
-#hidden-section{display:none;}
+.hidden-input{display:none;}
 #main-delete{display:none}
 .form-add p{ margin:0 ; padding: 10px 0 10px 0; color: white;}
 #main-add, #main-delete{ width: 90%}
@@ -196,4 +196,19 @@ table td{
 .group-input-button{
     display: flex;
     justify-content: center;
+}
+
+.alerta-success{
+    height: 50px;
+    width: 90%;
+    background-color: #5EF2A0;
+    display: none;
+}
+
+
+.alerta-error{
+    height: 50px;
+    width: 90%;
+    background-color: #e66f66;
+    display: none;
 }
