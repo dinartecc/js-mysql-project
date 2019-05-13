@@ -198,17 +198,3 @@ table td{
     justify-content: center;
 }
 
-.alerta-success{
-    height: 50px;
-    width: 90%;
-    background-color: #5EF2A0;
-    display: none;
-}
-
-
-.alerta-error{
-    height: 50px;
-    width: 90%;
-    background-color: #e66f66;
-    display: none;
-}

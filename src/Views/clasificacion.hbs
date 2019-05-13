@@ -7,21 +7,24 @@
 <div id="main-bar" class="">
 
     <input type="text" id="busqueda-dinamica" class="bg-dark border-color" placeholder="Buscar...">
+
+    
     <div id="seccion-btn" class="flex" style="height: 36px">
-        <div class="boton-seccion" id="default">Marca</div>
-        <div class="boton-seccion">Categoria</div>
-        <div class="boton-seccion">Subcategoria</div>
+        <div class="boton-seccion" data-boton="marca">Marca</div>
+        <div class="boton-seccion" data-boton="categoria">Categoria</div>
+        <div class="boton-seccion" data-boton="subcategoria">Subcategoria</div>
     </div>
-        <img id="add" src="/img/mas.svg" alt="">
+
+
+
+    <img id="add" src="/img/mas.svg" alt="">
 
 </div>
-<div class="alerta-success"> <p></p> </div>
 
-<div class="alerta-error"> <p></p> </div>
-
+{{> alerts }}
 
 <div id="main-list">
-<div id="Marca">
+<div id="marca-table">
         <table>
                 <thead>
                     <tr>
@@ -42,7 +45,7 @@
         </table>    
 </div>
 
-<div id="Categoria">
+<div id="categoria-table">
     <table>
         <thead>
             <tr>
@@ -61,7 +64,7 @@
         </tbody>
     </table>
 </div>
-<div id="Subcategoria">
+<div id="subcategoria-table">
     <table>
         <thead>
             <tr>

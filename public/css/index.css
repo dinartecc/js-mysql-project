@@ -26,7 +26,7 @@ body{
     width: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: ;
+   
     align-items: center;
 }
 
@@ -108,14 +108,26 @@ a{
     background-color: #353942;
 }
 
-
-
-
-.busqueda{
-    
-}
-
-
 .flex{display:flex}
 .justify-items-center{justify-items: center}
 .flex-column{flex-direction: column}
+
+
+
+/*   Seccion de alertas */
+.alerta-success{
+    height: 50px;
+    width: 90%;
+    background-color: #5EF2A0;
+    display: none;
+}
+
+
+.alerta-error{
+    height: 50px;
+    width: 90%;
+    background-color: #e66f66;
+    display: none;
+}
+
+/*  ----------------    */

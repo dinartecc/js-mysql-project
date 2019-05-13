@@ -1,81 +1,86 @@
-function SliderToggleId(){ //Recibe string del id del elemento para invertir su visibilidad
+
+// -- Togglea la visibilidad de los elementos que tengan los ids que se le pasa como argumentos --
+function SliderToggleId(){ // Los parametros son de tipo String
     if(arguments.length == 0 ) return "Se necesita al menos un id";
     for (let i = 0; i < arguments.length; i++) {
 		$(`#${arguments[i]}`).slideToggle(500);
 	}
 }
-function SliderToggleClass(){ // Recibe un string de la clase del elemento para invertir su visibilidad
+// -- Togglea la visibilidad de los elementos que tengan las clases que se le pasa como argumentos --
+function SliderToggleClass(){ // Los parametros son de tipo String
     if(arguments.length == 0 ) return "Se necesita al menos una clase";
     for (let i = 0; i < arguments.length; i++) {
     $(`.${arguments[i]}`).slideToggle(500);
-    var hola = document.querySelector('#hola');
-    hola = $('#hola');
 	}
 }
 
-function HideAndShow(padre, mostrar){ // 
-  var arreglo = []                  
+
+
+
+// -- HideAndShow --
+// Esta funcion es la mas rara.
+// Le pasas el contenedor de todos los botones, luego en la funcion hace un ciclo por cada hijo
+// Le saca el valor del atributo data-table a cada hijo 
+// Lo concatena con -table
+// Ya concatenado esconde el elemento que matchee, a no ser que sea
+// el mismo elemento que le mandaste como segundo argumento.
+// Ejemplo:
+// Hay 3 botones con un data-table de: categoria, subcategoria y marca
+// Se quiere esconder todas las tablas menos la tabla categoria
+// Entonces la funcion va a esconder los elementos 'subcategoria-tabla' y 'marca-table' menos 'tabla-categoria'
+// Se puede hacer aun mas modular modificando el '-tabla' al recibir otro parametro con ese valor a sustituir
+function HideAndShow(padre, mostrar){      
   padre.children().each(function () {
-    arreglo.push($(this).text()) // Agarra el texto de los hijos del padre y los mete a un arreglo
-  });
-  arreglo.forEach(function (hola){
-
-    if ($(`#${hola}`).is(':visible') && hola !== mostrar) {
-      console.log( mostrar);
-      ($(`#${hola}`).slideUp(500))
+    let temp = $(this).attr('data-boton')
+    if ($(`#${temp}-table`).is(':visible') && temp != mostrar) { // Si el elemento es visible y es diferente del que se
+      ($(`#${temp}-table`).slideUp(500))                         // quiere mostrar, entonces lo esconde...
     } 
-  })
-  $(`#${mostrar}`).slideDown(500);
-  //console.log(arreglo)
-
-  //mostrar.slideDown(500)
-}
-function getSelectBtn(){
-  return $(".boton-seccion-activo").text()
+  });
+  $(`#${mostrar}-table`).slideDown(500); // Muestra el elemento que se quiere mostrar :v
 }
 
 
-
-
-
-
-
+function getSelectBtn(){ // Retorna el valor del atributo data-boton del boton actualmente activo
+  return $(".boton-seccion-activo").attr('data-boton')
+}
 
 $(function() {    
-  let boton = $(".boton-seccion")
-  let btn = $('#seccion-btn');
+  let boton = $(".boton-seccion") // Los botones de las secciones
+  let btnPadre = $('#seccion-btn'); // Padre de los botones
   let busquedaDinamica = $("#busqueda-dinamica");
-  busquedaDinamica.prop('disabled', true); // Desactiva por defecto la barra de busqueda
-  let active = 'boton-seccion-activo'; // Asi se llama 
+  let active = 'boton-seccion-activo'; // Asi se llama la clase del boton activo
   var tablas = $("#main-list") // Padre de todas las tablas
-  boton.click(function() {  //Cuando se da click en algun div con la clase boton...
-    $('#main-add > div').slideUp(500); // Esconde todas las secciones de añadir 
-    if($(this).hasClass(active)){ // Si el boton seleccionado ya tenia la clase...
-      $(tablas).children().slideDown(500) // Muestra todas las tablas 
-      $(this).removeClass(active)  //Luego, quita la clase del boton seleccionado. Para así estar en la vista general
-      busquedaDinamica.prop('disabled', true); // Ya que está en "la vista general". Se bloquea la barra de busqueda
 
-      $('#main-delete').slideUp(500);
+  busquedaDinamica.prop('disabled', true); // Desactiva por defecto la barra de busqueda
+
+  boton.click(function() {  //Cuando se da click en algun "boton"...
+    
+    $('#main-add > div').slideUp(500); // Esconde todas las secciones de añadir 
+
+
+
+    if($(this).hasClass(active)){ // Si el boton seleccionado ya tenia la clase...
+
+
+      $(tablas).children().slideDown(500) // Muestra todas las tablas ( Esto hace que se muestre la vista principal )
+      $(this).removeClass(active)  //Luego, quita la clase del boton seleccionado. ( Apagar el boton ps )
+      busquedaDinamica.prop('disabled', true); // Ya que está en "la vista general". Se bloquea la barra de busqueda
+      $('#main-delete').slideUp(500); // Se esconde lo de borrar
+
     }
     else{ // Si el boton no tiene la clase (Osea que es otro boton)
+      
       $('#main-delete').slideDown(500);
-      $(boton).removeClass(active) // Remueve la clase de todos los botones
+      boton.removeClass(active) // Remueve la clase de todos los botones
       busquedaDinamica.prop('disabled', false); // Activa la barra de busqueda
       
       $(this).addClass(active) //Le añade la clase activa al boton seleccionado
-      var texto = $('.boton-seccion-activo').text(); 
-      console.log(texto)
-      //$(tablas).children().not(`#${text}`).slideUp(500)
-      
-      HideAndShow(btn, texto) //
-      
-     
+      var btnActivado = $('.boton-seccion-activo').attr('data-boton'); 
 
+      HideAndShow(btnPadre, btnActivado)  
     }
-    
-    busquedaDinamica.val('')
+    busquedaDinamica.val('') // Reset de la barra de busqueda
     busquedaDinamica.trigger( "change" );
-    //$(this).css("background-color", "yellow");      //add the class to the clicked element
   });
 });
 
@@ -228,7 +233,6 @@ $(function(){
     SliderToggleId(`main-delete`);
     let seccion =  getSelectBtn();
     SliderToggleId(`${seccion}`);
-    seccion = seccion.toLowerCase()
     SliderToggleId(`${seccion}-add`);
   })
 

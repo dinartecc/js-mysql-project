@@ -86,19 +86,20 @@ router.post('/clasificacion/nuevo', (req, res) => {
 })
 
 router.post('/clasificacion/eliminar' ,(req, res) => {
-    const {seccion, id} = req.body;
+    const {seccion, id} = req.body.query;
+    let resp;
     console.log(req.body)
     const borrar = {
         tabla: seccion,
         id: id
     }
     console.log(borrar)
-    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D")).catch((response) => console.log(response))
-    res.send(borrar)
-    /*.then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
+    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D"))
+    .then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
     .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
     .then((resp) => res.send(JSON.stringify(resp)))
-    */
+    .catch((response) => console.log(response))
+    
     
 })
 
