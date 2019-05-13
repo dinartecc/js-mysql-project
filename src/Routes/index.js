@@ -3,6 +3,7 @@ import ResetDatabase from '../ServerComponents/InitializeDatabase/ResetDatabase'
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
 import DefaultDatabase from '../ServerComponents/InitializeDatabase/DefaultDatabase';
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 SchemaQuery();
 
@@ -43,6 +44,8 @@ router.get('/updateschema', (req, res ) => {
 
 /* ----- Prueba ---- */
 router.get('/prueba', (req, res) => {
+
+
   // const test = {
   //   tabla : 'cliente',
   //   nombre : 'cliente1',
@@ -66,7 +69,7 @@ router.get('/prueba', (req, res) => {
   //   limite: 25
   // }
 
-  const test = {
+  /*const test = {
     tabla: 'subcategoria',
     desc: true,
     columnas: ['id','ID_categoria', 'nombre' ],
@@ -79,13 +82,22 @@ router.get('/prueba', (req, res) => {
         columnas: ['nombre', 'ID_categoria']
       }
     }
-};
+};*/
+
+const borrar = {
+  tabla: 'categoria',
+  id: 2
+}
+
+console.log(borrar)
+DeleteFromDatabase( borrar )
 
 
-  QueryDatabase( test )
+
+  /*QueryDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
-  
+  */
   // HandleSchema().then(ro=> res.send(ro));
 });
 

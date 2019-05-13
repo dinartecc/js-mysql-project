@@ -93,8 +93,8 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
         id: id
     }
     console.log(borrar)
-    res.send(borrar)
     DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D")).catch((response) => console.log(response))
+    res.send(borrar)
     /*.then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
     .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
     .then((resp) => res.send(JSON.stringify(resp)))
