@@ -61,7 +61,16 @@ router.get('/clasificacion',async (req, res) => {
     res.render('clasificacion', {categoria, subcategoria, marca} )
 })
 
-
+router.post('/clasificacion', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5050');
+    const categoriaQuery = {
+        tabla: 'categoria',
+        columnas: ['nombre', 'id'],
+        desc: true
+    }
+    const categoria = await QueryDatabase( categoriaQuery )
+    .then((response) => {console.log(response); res.send(response)})
+})
 
 
 router.post('/clasificacion/nuevo', (req, res) => {

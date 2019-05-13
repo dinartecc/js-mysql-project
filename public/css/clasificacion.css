@@ -72,17 +72,12 @@
     background: #3a4560;
     border-radius: 10px;
     cursor: pointer;
-
 }
-
-
 #add{
     width: 40px;
     cursor: pointer;
     margin-left: 20px;
 }
-
-
 /* LISTA TABLE */   
 #main-list{
     display:block ;
@@ -101,10 +96,6 @@ table{
     box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     border-collapse: collapse;
     width: 100%;
-    
-   
-
-  
 }
 table td, table th {
     height: 30px;
@@ -115,7 +106,6 @@ table th{
     color:#dedfe0;
 }
 table td{
-    
     background-color: #2a3141;
     color:#dedfe0;
     font-weight: 300 !important;
@@ -131,7 +121,6 @@ table td{
 .form-add{background-color: #2a3141}
 .form-add form{
     padding: 10px 0;
-    
     width: 100%;
     height: auto;
     display: flex;
