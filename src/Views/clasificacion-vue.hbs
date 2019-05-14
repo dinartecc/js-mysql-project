@@ -6,7 +6,7 @@
 </div>
 <div id="main-bar" class="">
     <button @click="actualizar"></button>
-    <input type="text" id="busqueda-dinamica" class="bg-dark border-color" placeholder="Buscar...">
+    <input type="text" id="busqueda-dinamica" v-on:keyup.enter="busqueda" class="bg-dark border-color" v-model="searchBar" value="{{seachBar}}" placeholder="Buscar...">
 
     
     <div id="seccion-btn" class="flex" style="height: 36px">
@@ -102,8 +102,8 @@
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr  v-for="marca of marcas">
+                <tbody >
+                    <tr  v-for="marca of marcas" v-bind:key="marca.key">
                         <td v-for="items of marca">
                             \{{items}}
                         </td>

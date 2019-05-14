@@ -103,6 +103,24 @@ function clearInputs(element){ // Pasas el id del elemento
  });
 }
 
+
+function Alertas(Type, Titulo, Tiempo , Text){ // Tipo 'success' o 'error'\
+
+var alerta = {
+  position: 'center',
+  type: Type,
+  title: Titulo,
+  showConfirmButton: false
+}
+
+  Type !== 'error' ? alerta.timer = Tiempo : alerta.showConfirmButton = true;
+
+  var long = arguments.length;
+  long >= 4 && Text !== undefined ? alerta.text = Text : null;
+  Swal.fire(alerta)
+}
+
+
 //Funcion que recibe dos parametros.
 //EndPoint es la direccion a mandar el request '/clasificacion/nuevo'
 //
@@ -133,26 +151,13 @@ $(function() { // AGREGAR NUEVOS REGISTROS
     })
       let response = await sendToBackend('/clasificacion/nuevo', query)
       if (response.status !== 200) {
-        Swal.fire({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Ha ocurrido un error!',
-        })
+        Alertas('error', "Ha ocurrido un error",0,"Si este problema sigue ocurriendo, contactate con un técnico")
       }else{
         response = await response.json()
-        console.log(response)
         await app.actualizar()
-        Swal.fire({
-          position: 'center',
-          type: 'success',
-          title: 'Exito :D',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        clearInputs('.form-add') // Limpia todos los inputs de las clases form-add menos los que tienen clase Hidden
-        
-          
+        Alertas('success', response, 1500)
 
+        clearInputs('.form-add') // Limpia todos los inputs de las clases form-add menos los que tienen clase Hidden
       }
      
       
@@ -167,28 +172,6 @@ $(function() { // AGREGAR NUEVOS REGISTROS
     })
 })
 
-
-/*
-
-
-.then(async (response) => { // FUNCION DE ACTUALIZAR
-      await app.actualizar()
-      return response;
-    }).then( (response) => { // POPUP
-      Swal.fire({
-        position: 'center',
-        type: 'success',
-        title: response,
-        showConfirmButton: false,
-        timer: 1500
-      })
-    })
-    .then(() => {
-      clearInputs('.form-add') // Limpia todos los inputs de las clases form-add menos los que tienen clase Hidden
-    })
-
-
-*/
 
 
 $(function(){
@@ -212,7 +195,8 @@ $(function(){
       console.log("PRESS")
       var keycode = (event.keyCode ? event.keyCode : event.which);
       if(keycode == '13'){
-          let tablaModificar = $(`#${getSelectBtn()} tbody`)
+        app.busqueda()
+          /*let tablaModificar = $(`#${getSelectBtn()} tbody`)
           let busqueda = busquedaDinamica.val()
           
           var tipo = 'id';
@@ -244,7 +228,7 @@ $(function(){
                 tablaModificar.empty()
                 tablaModificar.append(response)
             })
-            .catch(error => console.error('Error:'+ error))
+            .catch(error => console.error('Error:'+ error))*/
             event.stopPropagation();
       }
   })
