@@ -1,14 +1,11 @@
 
-<script src="/js/clasificacion.js"></script>
-<link rel="stylesheet" href="css/clasificacion.css">
-
 
 
 <div class="top-title">
     <h2 class="title-color">Clasificación</h2>
 </div>
 <div id="main-bar" class="">
-
+    <button @click="actualizar"></button>
     <input type="text" id="busqueda-dinamica" class="bg-dark border-color" placeholder="Buscar...">
 
     
@@ -19,94 +16,14 @@
     </div>
 
 
+    <div >
+        <img id="add" src="/img/mas.svg" >
 
-    <img id="add" src="/img/mas.svg" alt="">
+    </div>
 
 </div>
 
 {{> alerts }}
-
-<div id="main-list">
-<div id="marca-table">
-        <table>
-                <thead>
-                    <tr>
-                        <th>Marca</th>
-                        <th>ID</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {{#each marca}}
-                    <tr>
-                        {{#each this}}
-                        <td>{{this}}</td>
-                        {{/each}}
-                    </tr>
-                    {{/each}}
-                </tbody>
-        </table>    
-</div>
-
-<div id="categoria-table">
-    <table>
-        <thead>
-            <tr>
-                <th>Categoria</th>
-                <th>ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each categoria}}
-            <tr>
-                {{#each this}}
-                <td>{{this}}</td>
-                {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
-<div id="subcategoria-table">
-    <table>
-        <thead>
-            <tr>
-                <th>Subcategoria</th>
-                <th>Categoria</th>
-                <th>ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each subcategoria}}
-            <tr>
-                {{#each this}}
-                <td>{{this}}</td>
-                {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-</table>
-</div>
-    
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <div id="main-add" >
@@ -122,7 +39,8 @@
                     <input type="text" class="input-default border-color" name="nombre">
                 </div>
                 <div class="group-input-button">
-                    <input type="submit" class="input-submit enviar-btn" >
+                    <input type="submit" class="input-submit enviar-btn"
+                    >
                     <input type="submit" class="cancelar-btn input-submit" value="Cancelar">
                 </div>
             </form>
@@ -172,6 +90,72 @@
         </div>
     </div>    
 </div>
+
+
+<div id="main-list">
+<div id="marca-table">
+        <table >
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr  v-for="marca of marcas">
+                        <td v-for="items of marca">
+                            \{{items}}
+                        </td>
+                    </tr>
+                </tbody>
+        </table>    
+</div>
+
+<div id="categoria-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr v-for="categoria of categorias ">
+                <td v-for="items of categoria">
+                    \{{items}}
+                </td>
+            </tr>
+           
+        </tbody>
+    </table>
+</div>
+<div id="subcategoria-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Subcategoria</th>
+                <th>Categoria</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+         
+            <tr v-for="subcategoria of subcategorias ">
+                <td v-for="items of subcategoria">
+                    \{{items}}
+                </td>
+            </tr>
+            
+        </tbody>
+</table>
+</div>
+    
+</div>
+
+
+
 
 <div id="main-delete">
     <div class=""> 

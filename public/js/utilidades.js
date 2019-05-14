@@ -96,12 +96,34 @@ function alertas(error, alertType, time){ // String error  -  String tipo = 'err
 
 function clearInputs(element){ // Pasas el id del elemento
  let Element = $(`${element}`);
- Element.find('input[type="text"]').val('');
+ Element.find('input[type="text"]').each(function(){
+   if(!$(this).hasClass('hidden-input')){
+    $(this).val('')
+   }
+ });
 }
 
+//Funcion que recibe dos parametros.
+//EndPoint es la direccion a mandar el request '/clasificacion/nuevo'
+//
+async function sendToBackend(EndPoint, Query){
+  let config = {                  
+    method: 'POST',
+    body: JSON.stringify({query: Query}),
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }
+  try {
+    let response = await fetch(EndPoint,config)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 $(function() { // AGREGAR NUEVOS REGISTROS
-  $(".form-add").submit(function(e){
+  $(".form-add").submit(async function(e){
     e.preventDefault();
     let query = {}
     $(this).find('input[type="text"]').each(function(){
@@ -109,19 +131,34 @@ $(function() { // AGREGAR NUEVOS REGISTROS
       let valor = $(this).val()
       query[nombre] =  valor;
     })
-    fetch(`/clasificacion/nuevo/`, {
-      method: 'POST',
-      body: JSON.stringify({query}), 
-      headers:{
-        'Content-Type': 'application/json'
+      let response = await sendToBackend('/clasificacion/nuevo', query)
+      if (response.status !== 200) {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Ha ocurrido un error!',
+        })
+      }else{
+        response = await response.json()
+        console.log(response)
+        await app.actualizar()
+        Swal.fire({
+          position: 'center',
+          type: 'success',
+          title: 'Exito :D',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        clearInputs('.form-add') // Limpia todos los inputs de las clases form-add menos los que tienen clase Hidden
+        
+          
+
       }
-    })
-    .then((response) => { return response.json() })
-    .then((resp) => {
-      alertas(resp, 'success',5000)
-      clearInputs('.form-add') // Limpia todos los inputs de las clases form-add
-      console.log(resp);
-    })
+     
+      
+      
+
+    
   });
 
     $(".form-add input").prop('required',true);
@@ -129,6 +166,30 @@ $(function() { // AGREGAR NUEVOS REGISTROS
         event.preventDefault();
     })
 })
+
+
+/*
+
+
+.then(async (response) => { // FUNCION DE ACTUALIZAR
+      await app.actualizar()
+      return response;
+    }).then( (response) => { // POPUP
+      Swal.fire({
+        position: 'center',
+        type: 'success',
+        title: response,
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+    .then(() => {
+      clearInputs('.form-add') // Limpia todos los inputs de las clases form-add menos los que tienen clase Hidden
+    })
+
+
+*/
+
 
 $(function(){
 
@@ -230,6 +291,7 @@ $(function(){
 
   
   $("#add").click(function() {
+    
     SliderToggleId(`main-delete`);
     let seccion =  getSelectBtn();
     SliderToggleId(`${seccion}`);
@@ -241,7 +303,6 @@ $(function(){
     let mainList = $('#main-list')
     var boton = $(".boton-seccion")
     let seccion =  getSelectBtn();
-    
     console.log(seccion)
     var e = $.Event("keypress");
     e.keyCode = 13; // # Some key code value
@@ -287,7 +348,8 @@ $(function(){
     })
     .then((response) => { return response.json() })
     .then((resp) => {
-      alertas(resp, 'success',5000)
+      //alertas(resp, 'success',5000)\
+      
       clearInputs('.form-delete') // Limpia todos los inputs de las clases form-add
       console.log(resp);
     })

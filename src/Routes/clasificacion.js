@@ -4,6 +4,7 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
+import { promises } from 'fs';
 
 
 // const subcategoria  = [
@@ -30,8 +31,9 @@ import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 // ]
 
 
-router.get('/clasificacion',async (req, res) => {
-    
+
+router.get('/clasificacion/info',async(req, res) => {
+        
     const categoriaQuery = {
         tabla: 'categoria',
         columnas: ['nombre', 'id'],
@@ -52,30 +54,43 @@ router.get('/clasificacion',async (req, res) => {
           columnas: ['nombre']
         }
     }
-  };
+    };
 
-    const categoria = await QueryDatabase( categoriaQuery )
-    const subcategoria = await QueryDatabase( subcategoriaQuery )
-    const marca = await QueryDatabase( marcaQuery )
-    console.log(categoria)
-    res.render('clasificacion', {categoria, subcategoria, marca} )
-})
-
-router.post('/clasificacion', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5050');
-    const categoriaQuery = {
-        tabla: 'categoria',
-        columnas: ['nombre', 'id'],
-        desc: true
+    function sleep(ms){
+        return new Promise(resolve=>{
+            setTimeout(resolve,ms)
+        })
     }
-    const categoria = await QueryDatabase( categoriaQuery )
-    .then((response) => {console.log(response); res.send(response)})
+    console.time("Time this");
+    const [categoria, subcategoria, marca] = await Promise.all([
+        QueryDatabase( categoriaQuery ),
+        QueryDatabase( subcategoriaQuery ),
+        QueryDatabase( marcaQuery )
+    ])
+
+    /*const categoria = respuestas[0],
+          subcategoria = respuestas[1],
+          marca = respuestas[2];
+    */
+    //await sleep(2000);
+
+    /*const categoria = await QueryDatabase( categoriaQuery )
+    const subcategoria = await QueryDatabase( subcategoriaQuery )
+    const marca = await QueryDatabase( marcaQuery )*/
+    res.json({categoria, subcategoria, marca})
+    console.timeEnd("Time this");
+   
 })
 
 
-router.post('/clasificacion/nuevo', (req, res) => {
-    const {seccion, nombre,categoria} = req.body.query;
+router.get('/clasificacion', (req, res) => {
+    res.render('clasificacion-vue') // temporal ex di
+})
+
+
+router.post('/clasificacion/nuevo',async (req, res) => {
     console.log(req.body);
+    const {seccion, nombre,categoria} = req.body.query;
     let resp;
     const query = {
         tabla: seccion,
@@ -84,11 +99,18 @@ router.post('/clasificacion/nuevo', (req, res) => {
     if(typeof categoria !== 'undefined'){
         query.ID_categoria = categoria
     }
-    AddToDatabase( query )
-    .then(() => console.log(`Registro añadido a la tabla ${seccion} exitosamente`))
-    .then(() => { return resp = 'Elemento añadido exitosamente!'} )
-    .then((resp) => res.send(JSON.stringify(resp)))
-    .catch((response) => console.log(response))
+    console.log(query)
+
+    
+    try{
+        await AddToDatabase( query )
+        console.log(`Registro añadido a la tabla ${seccion} exitosamente`)
+        let resp = 'Elemento añadido exitosamente!';
+        res.send(JSON.stringify(resp))
+    }catch(e){
+        console.log(e)
+        res.status(404).end();
+    }
     /*.catch(() => { return resp.error = 'Hubo un error al añadir el elemento :('})
     .catch((resp) => res.send(JSON.stringify({resp})))*/
 
