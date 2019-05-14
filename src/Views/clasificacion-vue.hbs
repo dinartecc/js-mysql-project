@@ -5,7 +5,7 @@
     <h2 class="title-color">Clasificación</h2>
 </div>
 <div id="main-bar" class="">
-    <button @click="actualizar"></button>
+
     <input type="text" id="busqueda-dinamica" v-on:keyup.enter="busqueda" class="bg-dark border-color" v-model="searchBar" value="{{seachBar}}" placeholder="Buscar...">
 
     
@@ -103,7 +103,7 @@
                 </thead>
 
                 <tbody >
-                    <tr  v-for="marca of marcas" v-bind:key="marca.key">
+                    <tr  v-for="marca of marcas">
                         <td v-for="items of marca">
                             \{{items}}
                         </td>
