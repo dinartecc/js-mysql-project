@@ -134,30 +134,7 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
     
 })
 
-/*router.post('/clasificacion/buscar', (req, res) => {
-    let {busqueda, tabla, } = req.body
-    busqueda = busqueda.toLowerCase()
-    tabla = tabla.toLowerCase()
-    console.log(tabla)
-    const query = {
-        tabla:  tabla,
-        desc: true,
-        condiciones : {
-            nombre: busqueda 
-        }
-        
-    }
-    QueryDatabase( query )
-    .then((response) => {console.log(response); res.json(response) })
-    .catch((response) => console.log(response))
-
-    
-    
-})
-*/
-
-
-router.post('/clasificacion/buscar/', (req, res) =>{
+router.post('/clasificacion/buscar/',async (req, res) =>{
     for( let variable in req.body ){ // Cambia a minuscula todas las variables en req.body
         typeof req.body[variable] == 'string' ? req.body[variable] = req.body[variable].toLowerCase() : null 
     }   
@@ -174,8 +151,6 @@ router.post('/clasificacion/buscar/', (req, res) =>{
         tabla:  tabla,
         desc: true
     }
-
-
     query.condiciones = {};
     query.condiciones[tipo] = busqueda;
     switch (tabla) {
@@ -194,18 +169,59 @@ router.post('/clasificacion/buscar/', (req, res) =>{
         case 'marca':
             query.columnas = ['nombre', 'id']
             break;
+
         default:
-            res.send("NEL")
+            //res.send("NEL")
             break;
     }
 
-    QueryDatabase ( query )
-    .then((response) => {
+    if( tabla == 'todo' ){
+
+        const categoriaQuery = {
+            tabla: 'categoria',
+            columnas: ['nombre', 'id'],
+            desc: true,
+        }
+        
+        const marcaQuery = {
+            tabla: 'marca',
+            columnas: ['nombre', 'id'],
+            desc: true
+        }
+        const subcategoriaQuery = {
+          tabla: 'subcategoria',
+          desc: true,
+          columnas: ['nombre','ID_categoria','id'],
+          foranea: {
+            ID_categoria: {
+              tabla: 'categoria',
+              columnas: ['nombre']
+            }
+        }
+        };
+        console.log(busqueda)
+        categoriaQuery.condiciones = {}
+        marcaQuery.condiciones = {}
+        subcategoriaQuery.condiciones = {}
+
+
+        categoriaQuery.condiciones[tipo] = busqueda
+        marcaQuery.condiciones[tipo]= busqueda
+        subcategoriaQuery.condiciones[tipo] = busqueda
+        const [categoria, subcategoria, marca] = await Promise.all([
+            QueryDatabase( categoriaQuery ),
+            QueryDatabase( subcategoriaQuery ),
+            QueryDatabase( marcaQuery )
+        ])
+        res.json({categoria, subcategoria, marca})
+    
+    }else{
+        QueryDatabase ( query )
+        .then((response) => {
         console.log(response)
         res.send(JSON.stringify(response))
     })
+    }
     //if(req.params == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
-    
-
 })
 module.exports = router;

@@ -57,17 +57,8 @@ router.get('/prueba', (req, res) => {
   //   ID_categoria: 1,
   //   nombre: '0w0'
   // }
-  const test = {
-    tabla : 'categoria',
-    id : 2
-  }
-  // const test = {
-  //   tabla: 'cliente',
-  //   columnas: ['nombre', 'direccion'],
-  //   orden: 'direccion',
-  //   desc: true,
-  //   limite: 25
-  // }
+
+   
 
   /*const test = {
     tabla: 'subcategoria',
@@ -84,20 +75,22 @@ router.get('/prueba', (req, res) => {
     }
 };*/
 
-const borrar = {
-  tabla: 'categoria',
-  id: 2
+const test = {
+  tabla: ['categoria'],
+  columnas: ['nombre', 'direccion'],
+  condiciones: { id: '2'},
+  columnas: ['nombre', 'id'],
+  limite: 25
 }
-
-console.log(borrar)
-DeleteFromDatabase( borrar )
-
+//console.log(borrar)
+//DeleteFromDatabase( borrar )
 
 
-  /*QueryDatabase( test )
+
+  QueryDatabase( test )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
-  */
+  
   // HandleSchema().then(ro=> res.send(ro));
 });
 
