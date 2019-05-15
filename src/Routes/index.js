@@ -4,6 +4,7 @@ import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import SchemaQuery from '../ServerComponents/HandleSchema/SchemaQuery';
 import DefaultDatabase from '../ServerComponents/InitializeDatabase/DefaultDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
+import ValidateInput from '../ServerComponents/ValidateInput/ValidateInput';
 
 SchemaQuery();
 
@@ -58,8 +59,10 @@ router.get('/prueba', (req, res) => {
   //   nombre: '0w0'
   // }
   const test = {
-    tabla : 'categoria',
-    id : 2
+    tabla : 'lotes',
+    id : 2,
+    fecha_ingreso : '1999-01-01',
+    cantidad: 18181981.10
   }
   // const test = {
   //   tabla: 'cliente',
@@ -84,14 +87,15 @@ router.get('/prueba', (req, res) => {
     }
 };*/
 
-const borrar = {
-  tabla: 'categoria',
-  id: 2
-}
+// const borrar = {
+//   tabla: 'categoria',
+//   id: 2
+// }
 
-console.log(borrar)
-DeleteFromDatabase( borrar )
+// console.log(borrar)
+// DeleteFromDatabase( borrar )
 
+  res.send(ValidateInput(test));
 
 
   /*QueryDatabase( test )
