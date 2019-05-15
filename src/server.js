@@ -10,10 +10,6 @@ import graphqlHTTP from 'express-graphql';
 var { buildSchema } = require('graphql');
 
 
-
-
-
-var morgan = require('morgan')
 const MySQLStore = require('express-mysql-session')(session);
 const expireTime = 6000000;
 
@@ -46,7 +42,7 @@ app.use(session({ //Configuracion del express-sessions
 
 
 //UpdateSchema();
-app.use(morgan('tiny'));
+
 
 
 //Middlewares

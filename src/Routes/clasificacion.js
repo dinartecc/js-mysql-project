@@ -163,7 +163,9 @@ router.post('/clasificacion/buscar/', (req, res) =>{
     }   
 
     let {tabla, busqueda, tipo} = req.body;
-    console.log("aaaaaaaaaaaaaaaa" + busqueda)
+    console.log(tabla)
+    console.log(busqueda)
+    console.log(tipo)
     if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
         res.response("NEL")
     }
@@ -176,7 +178,6 @@ router.post('/clasificacion/buscar/', (req, res) =>{
 
     query.condiciones = {};
     query.condiciones[tipo] = busqueda;
-    console.log(tabla)
     switch (tabla) {
         case 'categoria':
             query.columnas = ['nombre', 'id']
@@ -198,8 +199,11 @@ router.post('/clasificacion/buscar/', (req, res) =>{
             break;
     }
 
-    QueryDatabase ( query ).then((response) => res.send(JSON.stringify(response)))
-    console.log(query)
+    QueryDatabase ( query )
+    .then((response) => {
+        console.log(response)
+        res.send(JSON.stringify(response))
+    })
     //if(req.params == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
     
 
