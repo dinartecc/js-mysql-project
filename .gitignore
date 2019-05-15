@@ -3,3 +3,5 @@ npm-debug.log
 .DS_Store
 /.env
 build/
+src/ServerFiles/Schema.json
+src/ServerFiles/dbCredentialsLocal.json
