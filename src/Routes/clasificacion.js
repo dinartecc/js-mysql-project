@@ -97,8 +97,15 @@ router.post('/clasificacion/nuevo',async (req, res) => {
         nombre
     }
     if(typeof categoria !== 'undefined'){
-        query.ID_categoria = categoria
+        if(typeof categoria == Number){
+            query.ID_categoria = categoria
+        }else{
+            res.status(404).end();
+        }
+
     }
+
+
     console.log(query)
 
     
@@ -108,7 +115,7 @@ router.post('/clasificacion/nuevo',async (req, res) => {
         let resp = 'Elemento añadido exitosamente!';
         res.send(JSON.stringify(resp))
     }catch(e){
-        console.log(e)
+        console.log(e)  
         res.status(404).end();
     }
     /*.catch(() => { return resp.error = 'Hubo un error al añadir el elemento :('})

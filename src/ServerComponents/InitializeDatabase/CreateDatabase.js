@@ -4,7 +4,7 @@ import { join, resolve } from 'path';
 
 const CreateDatabase = () => {
   return new Promise( (resolve, reject) => {
-    const connectobj = JSON.parse(readFileSync(join(__dirname, '../../ServerFiles/dbCredentialsLocal.json'))),
+    const connectobj = JSON.parse(readFileSync(join(__dirname, '../../ServerFiles/dbCredentials.json'))),
       query = `create database if not exists ${ connectobj.database };`
 
     delete connectobj.database;

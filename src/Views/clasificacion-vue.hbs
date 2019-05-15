@@ -93,10 +93,10 @@
 
 
 <div id="main-list">
-<results-not class="results-not" v-if="showWarning"></results-not>
+<div class="results-not" v-if="showEmptyMsg">No se ha encontrado resultados</div>
 <div id="marca-table">
     
-        <table v-if="marcas.length > 0 || !showWhenEmpy">
+        <table v-if="marcas.length > 0 ">
                 <thead>
                     <tr>
                         <th>Marca</th>
@@ -115,7 +115,7 @@
 </div>
 
 <div id="categoria-table">
-    <table>
+    <table v-if="categorias.length > 0 ">
         <thead>
             <tr>
                 <th>Categoria</th>
@@ -134,7 +134,7 @@
     </table>
 </div>
 <div id="subcategoria-table">
-    <table>
+    <table v-if="subcategorias.length > 0 || showWhenEmpy">
         <thead>
             <tr>
                 <th>Subcategoria</th>
@@ -180,6 +180,3 @@
         </div>
     </div>
 </div>
-
-
-<input type="text" id="prueba">

@@ -56,12 +56,10 @@ $(function() {
   boton.click(function() {  //Cuando se da click en algun "boton"...
     
     $('#main-add > div').slideUp(500); // Esconde todas las secciones de añadir 
-
-
-
     if($(this).hasClass(active)){ // Si el boton seleccionado ya tenia la clase...
 
-
+      cambiar()
+      console.log("Ha sido ejecutada la funcion")
       $(tablas).children().slideDown(500) // Muestra todas las tablas ( Esto hace que se muestre la vista principal )
       $(this).removeClass(active)  //Luego, quita la clase del boton seleccionado. ( Apagar el boton ps )
       //busquedaDinamica.prop('disabled', true); // Ya que está en "la vista general". Se bloquea la barra de busqueda
@@ -69,7 +67,7 @@ $(function() {
 
     }
     else{ // Si el boton no tiene la clase (Osea que es otro boton)
-      
+      app.showEmptyMsg = false;
       $('#main-delete').slideDown(500);
       boton.removeClass(active) // Remueve la clase de todos los botones
       //busquedaDinamica.prop('disabled', false); // Activa la barra de busqueda
