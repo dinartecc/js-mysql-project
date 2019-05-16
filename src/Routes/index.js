@@ -83,6 +83,8 @@ const test = {
   columnas: ['nombre', 'id'],
   limite: 25
 }
+
+
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
@@ -96,7 +98,11 @@ const test = {
   // HandleSchema().then(ro=> res.send(ro));
 });
 
-
+router.post('/intento',(req,res) => {
+  const {hola, usuario} = req.body;
+  console.log(req.body)
+  res.json(JSON.stringify({hola, usuario}))
+})
 
 /* ----- Clientes ----- */
 

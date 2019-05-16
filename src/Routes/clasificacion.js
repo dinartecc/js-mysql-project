@@ -102,10 +102,8 @@ router.post('/clasificacion/nuevo',async (req, res) => {
         }else{
             res.status(404).end();
         }
-
     }
-
-
+    
     console.log(query)
 
     
