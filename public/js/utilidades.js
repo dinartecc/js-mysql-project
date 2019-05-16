@@ -67,6 +67,7 @@ $(function() {
 
     }
     else{ // Si el boton no tiene la clase (Osea que es otro boton)
+      cambiar()
       app.showEmptyMsg = false;
       $('#main-delete').slideDown(500);
       boton.removeClass(active) // Remueve la clase de todos los botones

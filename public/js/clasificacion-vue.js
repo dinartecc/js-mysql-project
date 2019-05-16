@@ -110,4 +110,4 @@ var app = new Vue({
 
 Vue.component('results-not', {
     template: '<div > NO SE HA ENCONTRADO RESULTADOS </div>'
-  })
+})
