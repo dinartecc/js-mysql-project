@@ -26,7 +26,7 @@ const sessionStore = new MySQLStore({ // Esta configuracion es para la sesiones 
 
 //Configuraciones
 const app = express();
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 5051;
 
 
 app.use(session({ //Configuracion del express-sessions
