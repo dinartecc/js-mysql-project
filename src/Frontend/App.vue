@@ -1,37 +1,55 @@
 
 
+
 <template>
-    <Table title="titulo"></Table>
+
+    <div id="container">
+        <div id="sidebar">
+            <Sidebar></Sidebar> 
+        </div>
+        <div id="content">
+            <router-view></router-view>
+        </div>
+
+
+    </div>
+    
 </template>
+
+
 <script>
-const titulo = [
-    'hola',
-    'Que ta',
-    'Prro'
-]
 
 
-import EmptyMsg from './Components/EmptyMsg.vue'
-import Table from './Components/Table.vue'
+import Sidebar from './Components/Layout/Sidebar.vue'
 
 export default {
     
     data: () => {
         return {
-
         }
     },
-
-
-    components :{
-        EmptyMsg,
-        Table
+    components: {
+        Sidebar
     }
 
 }
 </script>
 
 
-<style scoped>
 
+
+<style scoped>
+    #container{
+        display: flex;
+        width: 100%;
+        font-family: 'Raleway', sans-serif;
+    }
+    #content{
+        width: 90%;
+        background-color: #232730;
+    }
+    #sidebar{
+        width: 10%;
+        min-width: 160px ;
+    }
 </style>

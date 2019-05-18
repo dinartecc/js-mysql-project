@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/index.css">
+    
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script> 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
-    <link rel="stylesheet" href="css/clasificacion.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="/css/snackbar.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@8.10.7/dist/sweetalert2.min.css">
@@ -24,112 +20,14 @@
 </head>
 
 <body>
- 
-    <div id="app">
-        <div id="menu">
-
-
-            <div id="titulo">
-
-                <a href="/" style=""><h3 style="margin-left:50px;">Dashboard</h3></a>
-            </div>
-
-
-
- 
-            <div id="database-img" class="dropdown-menu"> 
-                <div>
-                    <img src="img/database.svg" alt=""> <p>Base de datos</p>
-                </div>
-                <div class="drop">
-                    <p>Configuraciones</p>
-                    <a href="/categorias"><p>Categorias</p></a>
-                </div>
-            </div>
-
-            <div>
-                <a href="/clasificacion">
-                    <div>
-                        <img src="img/clasificacion.svg" alt=""> <p>Clasificación</p>
-                    </div>
-                </a> 
-            </div>
-
-            <div class="dropdown-menu">
-                <a href="/clientes">
-                    <div>
-                        <img src="img/usuario.svg" alt=""> <p>Clientes</p>
-                    </div>
-
-                </a>
-
-            </div>
-
-
-
-        
-
-
-            <div class="dropdown-menu">
-                <div>
-                    <img src="img/reportes.svg" alt=""> <p>Reportes</p>
-                </div>
-
-                <div class="drop">
-                    <p>Prueba 1</p>
-                    <p>Prueba 2</p>
-                </div>
-            </div>
-
-
-            <div class="dropdown-menu">
-                <div>
-                    <img src="img/ajustes.svg" alt=""> <p>Configuraciones</p>
-                </div>
-
-            
-                <div class="drop">
-                    <p>Prueba 1</p>
-                    <p>Prueba 2</p>
-                </div>
-            </div>
-            
-
-            <div>
-                <a href="/logout">
-                    <div>
-                        <img src="img/logout.svg" alt=""> <p>Cerrar Sesión</p>
-                    </div>
-                </a> 
-            </div>
-            <div>
-                <a href="/db/default">
-                    <div>
-                         <p>Set default</p>
-                    </div>
-                </a> 
-            </div>
-            <div>
-                <a href="/db/reset">
-                    <div>
-                         <p>Reset</p>
-                    </div>
-                </a> 
-            </div>
-        </div>
-        <div id="main">
-        
-          {{{body}}}
-
-
-        </div>
+    <div id="main">
+   
     </div>
-    
-<script src="/js/vue.js"></script>
-<script src="/js/snackbar.min.js"></script>
-<script src="/js/clasificacion.js"></script>
-<script src="/js/clasificacion-vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.10.7/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+  
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/bundle.js"></script>
 </body>
 
 

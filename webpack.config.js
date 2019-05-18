@@ -3,7 +3,11 @@ const {VueLoaderPlugin} =require('vue-loader')
 
 
 module.exports = {
-    entry: './src/Frontend/App.js',
+    mode: 'development',
+    watch: true,
+    entry: {
+        Vue: ['./src/Frontend/App.js',]
+    },
     output: {
         path: __dirname + '/public/js',
         filename: 'bundle.js'
