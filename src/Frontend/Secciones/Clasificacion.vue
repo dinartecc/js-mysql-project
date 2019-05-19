@@ -27,22 +27,42 @@
         <div id="table-container">
             <transition name="slide-fade">
                 <Table class="margin-tables"
-                :title="MarcaTitle" 
+                :tabla="'marca'"
+                :orden="marcaOrden" 
                 :body="marca"
-                v-if="Selected == 'marca' || Selected == 'todo'" ></Table>
+                v-if="Selected == 'marca' || Selected == 'todo'" >
+                </Table>
             </transition>  
+
             <transition name="slide-fade">
                 <Table class="margin-tables"
                 :title="CategoriaTitle" 
                 :body="categoria" 
-                v-if="Selected == 'categoria' || Selected == 'todo'"></Table>
+                v-if="Selected == 'categoria' || Selected == 'todo'"
+                @clicked="consola"
+                ></Table>
+            </transition>  
+            
+            <transition name="slide-fade">
+
+                <Table class="margin-tables"
+                :tabla="'categoria'"
+                :orden="categoriaOrden" 
+                :body="categoria"
+                @clicked="consola" 
+                v-if="Selected == 'categoria' || Selected == 'todo'"
+                ></Table>
             </transition>
 
             <transition name="slide-fade">
+
                 <Table class="margin-tables"
-                :title="SubcategoriaTitle"
+                :tabla="'subcategoria'"
+                :orden="marcaOrden"
                 :body="subcategoria" 
-                v-if="Selected == 'subcategoria' || Selected == 'todo'"></Table>
+                @clicked="consola" 
+                v-if="Selected == 'subcategoria' || Selected == 'todo'"
+                ></Table>
 
             </transition>
         </div>
@@ -68,6 +88,40 @@ export default {
             categoria: [],
             subcategoria: [],
             marca: [],
+            marcaOrden : [
+                {
+                    titulo: 'Marca',
+                    campo: 'nombre'
+                },
+                {
+                    titulo: 'ID',
+                    campo: 'id'
+                }
+            ],
+            categoriaOrden: [
+                {
+                    titulo: 'Categoria',
+                    campo: 'nombre'
+                },
+                {
+                    titulo: 'ID',
+                    campo: 'id'
+                }
+            ],
+            subcategoriaOrden: [
+                {
+                    titulo: 'Subcategoria',
+                    campo: 'nombre'
+                },
+                {
+                    titulo: 'Categoria',
+                    campo: 'categoria_nombre'
+                },
+                {
+                    titulo: 'ID',
+                    campo: 'id'
+                }
+            ],
         }
     },
     components: {
@@ -78,10 +132,13 @@ export default {
         this.actualizar()
     },
     methods: {
+        consola: function(value){
+            console.log(value)
+        },
         actualizar:async function(){
             await axios.get('/clasificacion/info')
             .then((response) => {
-                let {categoria, subcategoria, marca} = response.data;
+                let {schema, categoria, subcategoria, marca} = response.data;
                 this.marca = marca;
                 this.categoria = categoria;
                 this.subcategoria = subcategoria;

@@ -4,8 +4,13 @@ import HandleSchema from '../HandleSchema/HandleSchema';
 /**
  * La función para hacer una query.
  *
- * @param Object Se manda el object con los parametros pagina, columnas, tabla, orden, condiciones, y desc. Tabla es el unico requerido.
- * @returns
+ *  @param {number} obj.pagina El número de la página
+ *  @param {array.<string>} obj.columnas Las columnas a ser buscadas, en su respectivo orden
+ *  @param {object} foranea Un objeto con objetos que representan las columnas que pertenecen a otra tabla.
+ *  @param {string} obj.orden La columna por la cual se va a ordenar
+ *  @param {boolean} obj.desc Invertir el orden del buscar
+ *  @param {number} obj.limite La cantidad de resultados por query.
+ * @return {Array } El array con los resultados.
  */
 const QueryDatabase = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
@@ -76,17 +81,14 @@ const QueryDatabase = ( obj ) => {
             for( let columnaSub of obj.foranea[columna].columnas) {
 
               columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}_${columnaSub}' , `;
-              arrayOrdenado.push(`${obj.foranea[columna].tabla}_${columnaSub}`);
             }
           }
           else {
             columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${columna} , `;
-            arrayOrdenado.push(columna);
           }
         }
         else {
-          columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } , `;
-          arrayOrdenado.push(obj.idname);
+          columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } as id , `;
         }
       }
 
@@ -153,22 +155,8 @@ const QueryDatabase = ( obj ) => {
         throw error;
       }
 
-      const respuesta = [];
-      //Itero sobre todo los registros retornados
-      for( let registro of results ) {
-        //Inicializo el array por registro
-        const arrayRegistro = [];
-        
-        for ( let columna of arrayOrdenado ) {
-          //Por cada nombre de columna, hago el push al arrayRegistro 
-          arrayRegistro.push(registro[columna]);
-        }
-        //Mando un registro terminado con sus atributos al array respuesta
-        respuesta.push(arrayRegistro);
-      }
 
-
-      resolve(respuesta);
+      resolve(results);
     });
 
   });

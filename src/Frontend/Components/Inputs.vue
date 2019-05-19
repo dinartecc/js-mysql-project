@@ -4,12 +4,13 @@
             <caption>{{ formatearTitulo }}</caption>
             <thead>
                 <tr>
-                    <th :key="titulos.titulo" v-for="titulos of orden">{{titulos.titulo}}</th>
+             
+                    <th v-bind:key="titulos" v-for="titulos in orden">{{orden.titulo}}</th>
                 </tr>
             </thead>    
             <tbody>
-                <tr :key="contenido.id" v-for="contenido of body" @click="respuesta(contenido)">
-                    <td :key="items.campo" v-for="items in orden">{{contenido[items.campo]}}</td>
+                <tr :key="contenido" v-for="contenido in body" @click="respuesta(contenido[contenido.id])">
+                    <td :key="items" v-for="items in orden">{{contenido[items.campo]}}</td>
                 </tr>
             </tbody>
         </table>
@@ -30,10 +31,10 @@ export default {
     methods: {
         respuesta( id ) {
             const res = {
-                elemento: id,
+                id: id,
                 tabla: this.tabla
             }
-            this.$emit('clicked', res )
+            this.$emit('clickeado', res )
         }
     },
     computed: {
@@ -48,14 +49,14 @@ export default {
 
 </script>
 
-<style scoped>
 
+<style scoped>
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     border-collapse: collapse;
-    width: 100%;
+    width: 90%;
 }
 table td, table th {
     height: 30px;
@@ -80,7 +81,4 @@ div{
     justify-content: center;
 }
 </style>
-
-
-
 
