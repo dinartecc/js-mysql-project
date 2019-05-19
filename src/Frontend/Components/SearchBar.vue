@@ -1,5 +1,5 @@
 <template>
-    <input type="text" id="busqueda-dinamica" v-on:keyup.enter="enviar" class="bg-dark border-color" placeholder="Buscar..." v-model="busqueda">
+    <input type="text" id="busqueda-dinamica" v-on:keyup.enter="enviar" class="bg-dark border-color" placeholder="Buscar..." v-model="busqueda"> 
 </template>
 
 
@@ -12,8 +12,8 @@ export default {
         }
     },
     methods: {
-        enviar: () => {
-            this.$emit('SearchData', this.busqueda)
+        enviar: function(event) {
+            this.$emit('SendSearchData', this.busqueda)
         }
     }
 }

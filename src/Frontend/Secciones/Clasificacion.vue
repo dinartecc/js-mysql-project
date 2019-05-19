@@ -1,12 +1,14 @@
 <template>
     <div id="container">
-        <input type="radio" id="all" name="menu" value="all" v-model="Selected">
+        <input type="radio" id="all" name="menu" value="todo" v-model="Selected">
         <input type="radio" id="marca" name="menu" value="marca" v-model="Selected">
         <input type="radio" id="categoria" name="menu" value="categoria" v-model="Selected">
         <input type="radio" id="subcategoria" name="menu" value="subcategoria" v-model="Selected">
 
         <div id="search-container">
-            <SearchBar></SearchBar>
+
+            <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
+
             <div id="seccion-btn">
                 <label for="all">
                     <div class="boton-seccion">Todos</div>
@@ -27,20 +29,20 @@
                 <Table class="margin-tables"
                 :title="MarcaTitle" 
                 :body="marca"
-                v-if="Selected == 'marca' || Selected == 'all'" ></Table>
+                v-if="Selected == 'marca' || Selected == 'todo'" ></Table>
             </transition>  
             <transition name="slide-fade">
                 <Table class="margin-tables"
                 :title="CategoriaTitle" 
                 :body="categoria" 
-                v-if="Selected == 'categoria' || Selected == 'all'"></Table>
+                v-if="Selected == 'categoria' || Selected == 'todo'"></Table>
             </transition>
 
             <transition name="slide-fade">
                 <Table class="margin-tables"
                 :title="SubcategoriaTitle"
                 :body="subcategoria" 
-                v-if="Selected == 'subcategoria' || Selected == 'all'"></Table>
+                v-if="Selected == 'subcategoria' || Selected == 'todo'"></Table>
 
             </transition>
         </div>
@@ -58,7 +60,7 @@ export default {
     
     data: () => {
         return{
-            Selected : 'all',
+            Selected : 'todo',
             MarcaTitle : ['Marca', 'ID'],
             CategoriaTitle : ['Categoria', 'ID'],
             SubcategoriaTitle: ['Subcategoria', 'Categoria', 'ID'],
@@ -85,31 +87,33 @@ export default {
                 this.subcategoria = subcategoria;
             })
         },
-        busqueda: async function(){
+        onClickChild (value) {
+            console.log(value) // someValue
+        },
+        Buscar:async function(value){
+            let busqueda = value;
             var tipo = 'nombre';
-            var selected = getSelectBtn();
-            await axios.post('/clasificacion/buscar/', {tabla: selected, busqueda: this.searchBar, tipo: tipo })
+            
+            await axios.post('/clasificacion/buscar/', {tabla: this.Selected, busqueda: busqueda, tipo: tipo })
             .then((response) => {
-                if(selected == 'todo'){
-                    this.showWhenEmpy = false;
+                if(this.Selected == 'todo'){
                     const {categoria, subcategoria, marca} = response.data;
-                    this.marcas = marca;
-                    this.categorias = categoria;
-                    this.subcategorias = subcategoria;
+                    
+                    this.marca = marca;
+                    this.categoria = categoria;
+                    this.subcategoria = subcategoria;
 
 
 
-                    if(this.marcas.length == 0 && this.categorias.length == 0 && this.subcategorias.length == 0){
+                    /*if(this.marcas.length == 0 && this.categorias.length == 0 && this.subcategorias.length == 0){
                         this.showEmptyMsg = true;
                     }else{
                         this.showEmptyMsg = false
                     }
-
+                    */
 
                 }else{
                     
-                    this.showWhenEmpy = false;
-                    selected += 's'
                     console.log( response.data )
                     if(response.data.length == 0 ) this.showEmptyMsg = true;
                     this[selected] = response.data;
@@ -117,8 +121,9 @@ export default {
                     console.log( this[selected] )
                 }
             })
-        }
-
+        },
+        
+        
         
 
 
