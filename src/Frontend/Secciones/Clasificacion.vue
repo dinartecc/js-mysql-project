@@ -1,9 +1,9 @@
 <template>
     <div>
         <h1>CLASIFICACION</h1>
-        <Table :title="['Marca', 'ID']" :body="marca"></Table>
-        <Table :title="['Categoria', 'ID']" :body="categoria"></Table>
-        <Table :title="['Subcategoria', 'Categoria', 'ID']" :body="subcategoria"></Table>
+        <Table :tabla="'marca'" :title="['Marca', 'ID']" :body="marca" @clickeado="consola"></Table>
+        <Table :tabla="'categoria'" :title="['Categoria', 'ID']" :body="categoria" @clickeado="consola"></Table>
+        <Table :tabla="'subcategoria'" :title="['Subcategoria', 'Categoria', 'ID']" :body="subcategoria" @clickeado="consola"></Table>
     </div>
     
 </template>
@@ -31,13 +31,17 @@ export default {
         actualizar:async function(){
             await axios.get('/clasificacion/info')
             .then((response) => {
-                let {categoria, subcategoria, marca} = response.data;
+                let {schema, categoria, subcategoria, marca} = response.data;
                 this.marca = marca;
                 this.categoria = categoria;
                 this.subcategoria = subcategoria;
+                this.schema = schema;
                
                 
             })
+        },
+        consola (e) {
+            console.log (e)
         }
     }
 }

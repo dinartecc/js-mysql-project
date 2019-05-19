@@ -4,7 +4,8 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
-import { promises } from 'fs';
+import { promises, readFileSync } from 'fs';
+import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
 
 
 // const subcategoria  = [
@@ -68,6 +69,8 @@ router.get('/clasificacion/info',async(req, res) => {
         QueryDatabase( marcaQuery )
     ])
 
+    const schema = GetSchema();
+
     /*const categoria = respuestas[0],
           subcategoria = respuestas[1],
           marca = respuestas[2];
@@ -77,7 +80,7 @@ router.get('/clasificacion/info',async(req, res) => {
     /*const categoria = await QueryDatabase( categoriaQuery )
     const subcategoria = await QueryDatabase( subcategoriaQuery )
     const marca = await QueryDatabase( marcaQuery )*/
-    res.json({categoria, subcategoria, marca})
+    res.json({categoria, subcategoria, marca, schema})
     console.timeEnd("Time this");
    
 })

@@ -4,8 +4,13 @@ import HandleSchema from '../HandleSchema/HandleSchema';
 /**
  * La función para hacer una query.
  *
- * @param Object Se manda el object con los parametros pagina, columnas, tabla, orden, condiciones, y desc. Tabla es el unico requerido.
- * @returns
+ *  @param {number} obj.pagina El número de la página
+ *  @param {array.<string>} obj.columnas Las columnas a ser buscadas, en su respectivo orden
+ *  @param {object} foranea Un objeto con objetos que representan las columnas que pertenecen a otra tabla.
+ *  @param {string} obj.orden La columna por la cual se va a ordenar
+ *  @param {boolean} obj.desc Invertir el orden del buscar
+ *  @param {number} obj.limite La cantidad de resultados por query.
+ * @return {Array } El array con los resultados.
  */
 const QueryDatabase = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
