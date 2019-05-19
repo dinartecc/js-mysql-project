@@ -22,7 +22,6 @@
 export default {
     props: {
         tabla: String,
-        title: Array,
         body: Array,
         orden: Array
 

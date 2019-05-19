@@ -69,7 +69,8 @@ router.get('/clasificacion/info',async(req, res) => {
         QueryDatabase( marcaQuery )
     ])
 
-    const schema = GetSchema();
+    const schemaFull = GetSchema(),
+          schema = (({ categoria, subcategoria, marca }) => ({ subcategoria, categoria, marca }))(schemaFull);
 
     /*const categoria = respuestas[0],
           subcategoria = respuestas[1],

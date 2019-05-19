@@ -60,6 +60,7 @@
                 ></Table>
 
             </transition>
+            <Inputs :schema="schema" :tabla="Selected" />
         </div>
     </div>
     
@@ -70,6 +71,7 @@
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
+import Inputs from '../Components/Inputs.vue';
 import 'babel-polyfill';
 
 export default {
@@ -85,6 +87,7 @@ export default {
             categoria: [],
             subcategoria: [],
             marca: [],
+            schema: {},
             marcaOrden : [
                 {
                     titulo: 'Marca',
@@ -124,7 +127,8 @@ export default {
     components: {
         Table,
         SearchBar,
-        EmptyMsg
+        EmptyMsg,
+        Inputs
     },
     created(){
         this.actualizar()
@@ -135,7 +139,7 @@ export default {
             this.actualizar()
         },
         consola: function(value){
-            console.log(value)
+            console.log(value, this.schema)
         },
         actualizar:async function(){
             await axios.get('/clasificacion/info')

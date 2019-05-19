@@ -1,19 +1,9 @@
 <template>
-    <div>
-        <table>
-            <caption>{{ formatearTitulo }}</caption>
-            <thead>
-                <tr>
-             
-                    <th v-bind:key="titulos" v-for="titulos in orden">{{orden.titulo}}</th>
-                </tr>
-            </thead>    
-            <tbody>
-                <tr :key="contenido" v-for="contenido in body" @click="respuesta(contenido[contenido.id])">
-                    <td :key="items" v-for="items in orden">{{contenido[items.campo]}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="input-menu">
+        <h1>Agregar a {{formatearTitulo}}</h1>
+        <div class="input-list" v-for="llave of llaves" :key="llave">
+            xd
+        </div>
     </div>
 </template>
 
@@ -22,11 +12,8 @@
 <script>
 export default {
     props: {
-        tabla: String,
-        title: Array,
-        body: Array,
-        orden: Array
-
+        schema: Object,
+        tabla: String
     },
     methods: {
         respuesta( id ) {
@@ -43,7 +30,14 @@ export default {
             .split('_')
             .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
             .join(' ');
-        }
+        
+        },
+        schemaKeys() {
+            const llaves = Object.keys(this.schema);
+
+            return llaves.filter( llave => llave !=='id' && llave !== schema.id );
+        },
+
     }
 }
 
