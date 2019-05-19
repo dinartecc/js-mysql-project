@@ -81,17 +81,14 @@ const QueryDatabase = ( obj ) => {
             for( let columnaSub of obj.foranea[columna].columnas) {
 
               columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}_${columnaSub}' , `;
-              arrayOrdenado.push(`${obj.foranea[columna].tabla}_${columnaSub}`);
             }
           }
           else {
             columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${columna} , `;
-            arrayOrdenado.push(columna);
           }
         }
         else {
-          columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } , `;
-          arrayOrdenado.push(obj.idname);
+          columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${ obj.idname } as id , `;
         }
       }
 
@@ -158,22 +155,8 @@ const QueryDatabase = ( obj ) => {
         throw error;
       }
 
-      const respuesta = [];
-      //Itero sobre todo los registros retornados
-      for( let registro of results ) {
-        //Inicializo el array por registro
-        const arrayRegistro = [];
-        
-        for ( let columna of arrayOrdenado ) {
-          //Por cada nombre de columna, hago el push al arrayRegistro 
-          arrayRegistro.push(registro[columna]);
-        }
-        //Mando un registro terminado con sus atributos al array respuesta
-        respuesta.push(arrayRegistro);
-      }
 
-
-      resolve(respuesta);
+      resolve(results);
     });
 
   });

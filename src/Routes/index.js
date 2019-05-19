@@ -61,34 +61,40 @@ router.get('/prueba', (req, res) => {
 
    
 
-  /*const test = {
+  const test = {
     tabla: 'subcategoria',
-    desc: true,
-    columnas: ['id','ID_categoria', 'nombre' ],
-    condiciones : {
-      nombre: '' 
-    },
-    foranea: {
-      ID_categoria: {
-        tabla: 'categoria',
-        columnas: ['nombre', 'ID_categoria']
+      desc: true,
+      columnas: ['nombre','ID_categoria','id'],
+      foranea: {
+        ID_categoria: {
+          tabla: 'categoria',
+          columnas: ['nombre']
+        }
       }
-    }
-};*/
+    // condiciones : {
+    //   nombre: '' 
+    // },
+    // foranea: {
+    //   ID_categoria: {
+    //     tabla: 'categoria',
+    //     columnas: ['nombre', 'ID_categoria']
+    //   }
+    // }
+};
 
-const test = {
-  tabla: ['categoria'],
-  columnas: ['nombre', 'direccion'],
-  condiciones: { id: '2'},
-  columnas: ['nombre', 'id'],
-  limite: 25
-}
+// const test = {
+//   tabla: ['categoria'],
+//   columnas: ['nombre', 'direccion'],
+//   condiciones: { id: '2'},
+//   columnas: ['nombre', 'id'],
+//   limite: 25
+// }
 
 
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
-  res.send(ValidateInput(test));
+  // res.send(ValidateInput(test));
 
 
   QueryDatabase( test )

@@ -5,12 +5,12 @@
             <thead>
                 <tr>
              
-                    <th v-bind:key="titulos" v-for="titulos in title">{{titulos}}</th>
+                    <th v-bind:key="titulos" v-for="titulos in orden">{{orden.titulo}}</th>
                 </tr>
             </thead>    
             <tbody>
-                <tr :key="contenido" v-for="contenido in body" @click="respuesta(contenido[contenido.length-1])">
-                    <td :key="items" v-for="items in contenido">{{items}}</td>
+                <tr :key="contenido" v-for="contenido in body" @click="respuesta(contenido[contenido.id])">
+                    <td :key="items" v-for="items in orden">{{contenido[items.campo]}}</td>
                 </tr>
             </tbody>
         </table>
@@ -25,6 +25,7 @@ export default {
         tabla: String,
         title: Array,
         body: Array,
+        orden: Array
 
     },
     methods: {
