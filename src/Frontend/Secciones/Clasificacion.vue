@@ -11,37 +11,31 @@
 
             <div id="seccion-btn">
                 <label for="all">
-                    <div class="boton-seccion">Todos</div>
+                    <div class="boton-seccion" @click="cambioSeccion">Todos</div>
                 </label>
                 <label for="marca">
-                    <div class="boton-seccion">Marca</div>
+                    <div class="boton-seccion" @click="cambioSeccion">Marca</div>
                 </label>
                 <label for="categoria">
-                    <div class="boton-seccion">Categoria</div>
+                    <div class="boton-seccion" @click="cambioSeccion">Categoria</div>
                 </label>
                 <label for="subcategoria">
-                    <div class="boton-seccion">Subcategoria</div>
+                    <div class="boton-seccion" @click="cambioSeccion">Subcategoria</div>
                 </label>
             </div>
         </div>
         <div id="table-container">
+            <EmptyMsg v-show="Show"></EmptyMsg>
             <transition name="slide-fade">
                 <Table class="margin-tables"
                 :tabla="'marca'"
                 :orden="marcaOrden" 
                 :body="marca"
-                v-if="Selected == 'marca' || Selected == 'todo'" >
-                </Table>
-            </transition>  
-
-            <transition name="slide-fade">
-                <Table class="margin-tables"
-                :title="CategoriaTitle" 
-                :body="categoria" 
-                v-if="Selected == 'categoria' || Selected == 'todo'"
-                @clicked="consola"
+                v-if="(Selected == 'marca' || Selected == 'todo')"
                 ></Table>
             </transition>  
+
+
             
             <transition name="slide-fade">
 
@@ -51,14 +45,15 @@
                 :body="categoria"
                 @clicked="consola" 
                 v-if="Selected == 'categoria' || Selected == 'todo'"
+                id="oli"
                 ></Table>
             </transition>
 
             <transition name="slide-fade">
-
+                
                 <Table class="margin-tables"
                 :tabla="'subcategoria'"
-                :orden="marcaOrden"
+                :orden="subcategoriaOrden"
                 :body="subcategoria" 
                 @clicked="consola" 
                 v-if="Selected == 'subcategoria' || Selected == 'todo'"
@@ -74,12 +69,14 @@
 
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
+import EmptyMsg from '../Components/EmptyMsg.vue'
 import 'babel-polyfill';
 
 export default {
     
     data: () => {
         return{
+            Show: false,
             Selected : 'todo',
             MarcaTitle : ['Marca', 'ID'],
             CategoriaTitle : ['Categoria', 'ID'],
@@ -126,12 +123,17 @@ export default {
     },
     components: {
         Table,
-        SearchBar
+        SearchBar,
+        EmptyMsg
     },
     created(){
         this.actualizar()
     },
     methods: {
+        cambioSeccion: function(){
+            this.Show = false;
+            this.actualizar()
+        },
         consola: function(value){
             console.log(value)
         },
@@ -144,9 +146,6 @@ export default {
                 this.subcategoria = subcategoria;
             })
         },
-        onClickChild (value) {
-            console.log(value) // someValue
-        },
         Buscar:async function(value){
             let busqueda = value;
             var tipo = 'nombre';
@@ -155,35 +154,18 @@ export default {
             .then((response) => {
                 if(this.Selected == 'todo'){
                     const {categoria, subcategoria, marca} = response.data;
-                    
+                    categoria.length == 0 && subcategoria.length == 0 && marca.length == 0 ? this.Show = true : this.Show = false;
                     this.marca = marca;
                     this.categoria = categoria;
                     this.subcategoria = subcategoria;
-
-
-
-                    /*if(this.marcas.length == 0 && this.categorias.length == 0 && this.subcategorias.length == 0){
-                        this.showEmptyMsg = true;
-                    }else{
-                        this.showEmptyMsg = false
-                    }
-                    */
-
                 }else{
-                    
                     console.log( response.data )
-                    if(response.data.length == 0 ) this.showEmptyMsg = true;
-                    this[selected] = response.data;
-
-                    console.log( this[selected] )
+                    response.data.length == 0 ? this.Show = true : this.Show = false;
+                    this[this.Selected] = response.data
+                    console.log( this[this.Selected] )
                 }
             })
         },
-        
-        
-        
-
-
     }
 }
 </script>
