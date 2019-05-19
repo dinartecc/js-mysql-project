@@ -5,3 +5,4 @@ npm-debug.log
 build/
 src/ServerFiles/Schema.json
 src/ServerFiles/dbCredentialsLocal.json
+src/Frontend/.cache/

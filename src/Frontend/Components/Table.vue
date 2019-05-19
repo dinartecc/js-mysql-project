@@ -8,7 +8,7 @@
                 </tr>
             </thead>    
             <tbody>
-                <tr :key="contenido.id" v-for="contenido of body" @click="respuesta(contenido[contenido.id])">
+                <tr :key="contenido.id" v-for="contenido of body" @click="respuesta(contenido)">
                     <td :key="items.campo" v-for="items in orden">{{contenido[items.campo]}}</td>
                 </tr>
             </tbody>
@@ -30,10 +30,10 @@ export default {
     methods: {
         respuesta( id ) {
             const res = {
-                id: id,
+                elemento: id,
                 tabla: this.tabla
             }
-            this.$emit('clickeado', res )
+            this.$emit('clicked', res )
         }
     },
     computed: {
@@ -48,14 +48,14 @@ export default {
 
 </script>
 
-
 <style scoped>
+
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     border-collapse: collapse;
-    width: 90%;
+    width: 100%;
 }
 table td, table th {
     height: 30px;
@@ -80,4 +80,7 @@ div{
     justify-content: center;
 }
 </style>
+
+
+
 
