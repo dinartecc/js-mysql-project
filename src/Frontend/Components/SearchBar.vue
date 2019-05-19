@@ -1,12 +1,21 @@
 <template>
-    <input type="text" id="busqueda-dinamica" v-on:keyup.enter="1+1" class="bg-dark border-color" placeholder="Buscar...">
+    <input type="text" id="busqueda-dinamica" v-on:keyup.enter="enviar" class="bg-dark border-color" placeholder="Buscar..." v-model="busqueda">
 </template>
 
 
 
 <script>
 export default {
-    
+    data: () => {
+        return{
+            busqueda: ''
+        }
+    },
+    methods: {
+        enviar: () => {
+            this.$emit('SearchData', this.busqueda)
+        }
+    }
 }
 </script>
 
@@ -15,6 +24,7 @@ export default {
 <style scoped>
 
 input{
+    outline: 0;
     width: 100%;
     max-height:30px;;
     border: 2px solid #555861;
