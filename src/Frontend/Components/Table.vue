@@ -3,12 +3,11 @@
         <table>
             <thead>
                 <tr>
-             
-                    <th v-bind:key="titulos" v-for="titulos in title">{{titulos}}</th>
+                    <th v-for="titulos in title">{{titulos}}</th>
                 </tr>
             </thead>    
             <tbody>
-                <tr :key="contenido" v-for="contenido in body">
+                <tr  v-for="contenido in body">
                     <td :key="items" v-for="items in contenido">{{items}}</td>
                 </tr>
             </tbody>
@@ -28,14 +27,14 @@ export default {
 
 </script>
 
-
 <style scoped>
+
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     border-collapse: collapse;
-    width: 90%;
+    width: 100%;
 }
 table td, table th {
     height: 30px;
@@ -60,4 +59,7 @@ div{
     justify-content: center;
 }
 </style>
+
+
+
 
