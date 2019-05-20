@@ -1,13 +1,18 @@
-import Vue from 'vue';
+import Routes from './Router/index.js'
 import App from './App.vue';
 import 'babel-polyfill';
-import VueRouter from 'vue-router';
-import Routes from './Router/index.js'
-import axios from 'axios'
+import Vue from 'vue';
 import Vuex from 'vuex'
+import axios from 'axios'
 import 'babel-polyfill';
-Vue.use(Vuex)
+import store from './Store/store.js'
+
+
+
+Vue.use(Vuex);
 Vue.use(VueRouter)
+
+
 
 
 
@@ -17,20 +22,6 @@ const router = new VueRouter({
 })
 
 
-const store = new Vuex.Store({
-    state:{
-        IsLogged: false,
-        Permissions: {},
-        User: {},
-        CookieTimer: 10000
-    }, 
-    mutations: {
-        LogginFalse: state => state.IsLogged = false,
-        LogginTrue: state => state.IsLogged = true
-    },
-    actions: {
-    }
-})
 router.beforeEach(async(to, from, next) => {
     /*window.setInterval(function(){
         axios.get('/islogged')

@@ -32,15 +32,17 @@ export default {
             axios.post('/login', {user: this.user, pass: this.pass })
            .then((response) => {
                console.log(response.status)
-                if(response.status !== 200){
-                    this.error = true;
-                }else{
+                if(response.status == 200){
+
                     let {permissions , user} = response.data
                     this.$store.state.User = user
                     this.$store.state.Permissions = permissions;
                     console.log(this.$store.state.Permissions)
                     this.$store.state.IsLogged = true
                     //window.location.href = '/'
+                    this.$router.push({name: 'inicio'})
+                }else{
+                    this.error = true;
                 }
            })
            .catch((response) => console.log(response))

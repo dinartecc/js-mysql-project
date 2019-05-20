@@ -21,7 +21,7 @@ router.get('/userinfo', (req, res) =>{
   if(typeof req.session !== 'undefined'){
 
     const permissions =  {
-      clasificacion: 1
+      clasificacion: 0
     };
     const _user = {
       nombre: 'Leonel'
