@@ -63,13 +63,14 @@ router.get('/clasificacion/info',async(req, res) => {
         })
     }
     console.time("Time this");
+
     const [categoria, subcategoria, marca] = await Promise.all([
         QueryDatabase( categoriaQuery ),
         QueryDatabase( subcategoriaQuery ),
         QueryDatabase( marcaQuery )
     ])
 
-    const schema = GetSchema();
+    //const schema = GetSchema();
 
     /*const categoria = respuestas[0],
           subcategoria = respuestas[1],
@@ -80,7 +81,8 @@ router.get('/clasificacion/info',async(req, res) => {
     /*const categoria = await QueryDatabase( categoriaQuery )
     const subcategoria = await QueryDatabase( subcategoriaQuery )
     const marca = await QueryDatabase( marcaQuery )*/
-    res.json({categoria, subcategoria, marca, schema})
+    
+    res.json({categoria, subcategoria, marca})
     console.timeEnd("Time this");
    
 })

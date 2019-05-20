@@ -22,6 +22,7 @@
                 <label for="subcategoria">
                     <div class="boton-seccion" @click="cambioSeccion">Subcategoria</div>
                 </label>
+                <AddBtn @add="add" :seleccion="Selected"></AddBtn>
             </div>
         </div>
         <div id="table-container">
@@ -61,15 +62,18 @@
 
             </transition>
         </div>
+        
     </div>
     
 </template>
 
 <script>
-
+import axios from 'axios'
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
+import AddBtn from '../Components/AddBtn.vue'
+import AddForm from '../Components/AddForm.vue'
 import 'babel-polyfill';
 
 export default {
@@ -124,12 +128,17 @@ export default {
     components: {
         Table,
         SearchBar,
-        EmptyMsg
+        EmptyMsg,
+        AddBtn,
+        
     },
     created(){
         this.actualizar()
     },
     methods: {
+        add: function(value) {
+            console.log(value)
+        },
         cambioSeccion: function(){
             this.Show = false;
             this.actualizar()

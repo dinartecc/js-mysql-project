@@ -8,7 +8,7 @@
 export default {
     data: () => {
         return {
-            titulo: 'MENSsss BORRADO'
+            titulo: 'No se ha encontrado ningun elemento'
         }
     }
 }

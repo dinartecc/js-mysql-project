@@ -69,7 +69,7 @@ var app = new Vue({
         busqueda: async function(){
             var tipo = 'nombre';
             var selected = getSelectBtn();
-    
+            
             if(selected  == undefined) selected = 'todo';
             
             await axios.post('/clasificacion/buscar/', {tabla: selected, busqueda: this.searchBar, tipo: tipo })
