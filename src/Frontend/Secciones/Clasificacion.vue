@@ -118,7 +118,7 @@ export default {
                 },
                 {
                     titulo: 'Categoria',
-                    campo: 'categoria_nombre'
+                    campo: 'categoria__nombre'
                 },
                 {
                     titulo: 'ID',

@@ -1,7 +1,8 @@
 <template>
     <div class="input-menu">
-        <h1>Agregar a {{formatearTitulo}}</h1>
+        <h1>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h1>
         <form class="input-form">
+            <input v-if="boolDefault" v-model="valores.id" type="text" disabled />
             <div v-for="llave of schemaLlaves" :key="llave">
                 <label>
                     <input v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
@@ -34,7 +35,8 @@ export default {
         return{
             Schema: {},
             valores: {},
-            errores: {}
+            errores: {},
+            boolDefault : false
         }
     },
     components: {
@@ -46,7 +48,6 @@ export default {
     methods: {
         consola(e) {
             e.preventDefault();
-            console.log(e);
         },
         obtenerLlaves () {
              return this.schemaLlaves;
@@ -114,7 +115,7 @@ export default {
         
         },
         schemaLlaves() {
-            console.log(this.schema);
+
             const llaves = Object.keys( this.schema );
 
             return llaves.filter( llave => llave !=='id' && llave !== this.schema.id );
@@ -123,14 +124,14 @@ export default {
     },
     created() {
         const llaves = this.obtenerLlaves();
-        const boolDefault = this.default.hasOwnProperty('elemento');
+        this.boolDefault = this.default.hasOwnProperty('elemento');
+        console.log(this.default.elemento);
 
         for( let llave of llaves ) {
-            console.log(llave);
-            boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
+            this.boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
             this.errores[llave] = '';
-            
         }
+        this.valores.id = this.default.elemento.id; 
     }
 }
 

@@ -77,10 +77,10 @@ const QueryDatabase = ( obj ) => {
         if ( columna != 'id'  ) {
           
           if ( forNombres.includes(columna) ){
-
+            columnaQuery += `${ forCheck ? `${obj.tabla}.` : '' }${columna} , `;
             for( let columnaSub of obj.foranea[columna].columnas) {
-
-              columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}_${columnaSub}' , `;
+              
+              columnaQuery += `${obj.foranea[columna].tabla}.${columnaSub} as '${obj.foranea[columna].tabla}__${columnaSub}' , `;
             }
           }
           else {
