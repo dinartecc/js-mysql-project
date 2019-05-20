@@ -60,7 +60,7 @@
                 ></Table>
 
             </transition>
-            <Inputs v-if="schema.subcategoria != undefined" :schema="schema.subcategoria" :tabla="'subcategoria'" />
+            <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{}}' :tabla="'Producto'" />
         </div>
     </div>
     
