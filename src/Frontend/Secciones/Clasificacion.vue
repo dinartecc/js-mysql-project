@@ -60,7 +60,7 @@
                 ></Table>
 
             </transition>
-            <Inputs :schema="schema" :tabla="Selected" />
+            <Inputs v-if="schema.subcategoria != undefined" :schema="schema.subcategoria" :tabla="'subcategoria'" />
         </div>
     </div>
     
@@ -148,6 +148,7 @@ export default {
                 this.marca = marca;
                 this.categoria = categoria;
                 this.subcategoria = subcategoria;
+                this.schema = schema;
             })
         },
         Buscar:async function(value){

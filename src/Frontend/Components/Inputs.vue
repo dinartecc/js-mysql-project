@@ -1,27 +1,45 @@
 <template>
     <div class="input-menu">
         <h1>Agregar a {{formatearTitulo}}</h1>
-        <div class="input-list" v-for="llave of llaves" :key="llave">
-            xd
-        </div>
+        <form class="input-form">
+            <div v-for="llave of schemaLlaves" :key="llave">
+                <Entero v-if="schema[llave].tipo == 'int'" :default="''" :longitud="schema[llave].longitud" />
+                <Varchar v-else-if="schema[llave].tipo == 'varchar'" :default="''" :longitud="schema[llave].longitud" />
+            </div>
+            <input type="submit" @click="consola">
+        </form>
+        
     </div>
 </template>
 
 
 
 <script>
+import Date from './InputTypes/Date.vue';
+import Entero from './InputTypes/Entero.vue';
+import Moneda from './InputTypes/Moneda.vue';
+import Varchar from './InputTypes/Varchar.vue';
 export default {
     props: {
         schema: Object,
-        tabla: String
+        tabla: String,
+        default: Object
+    },
+    data: () => {
+        return{
+            Schema: {}
+        }
+    },
+    components: {
+        Date,
+        Entero,
+        Moneda,
+        Varchar
     },
     methods: {
-        respuesta( id ) {
-            const res = {
-                id: id,
-                tabla: this.tabla
-            }
-            this.$emit('clickeado', res )
+        consola(e) {
+            e.preventDefault();
+            console.log('owo');
         }
     },
     computed: {
@@ -32,10 +50,11 @@ export default {
             .join(' ');
         
         },
-        schemaKeys() {
-            const llaves = Object.keys(this.schema);
+        schemaLlaves() {
+            console.log(this.schema);
+            const llaves = Object.keys( this.schema );
 
-            return llaves.filter( llave => llave !=='id' && llave !== schema.id );
+            return llaves.filter( llave => llave !=='id' && llave !== this.schema.id );
         },
 
     }
