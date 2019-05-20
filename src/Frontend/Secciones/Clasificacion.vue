@@ -31,6 +31,7 @@
                 :tabla="'marca'"
                 :orden="marcaOrden" 
                 :body="marca"
+                @clicked="editar"
                 v-if="(Selected == 'marca' || Selected == 'todo')"
                 ></Table>
             </transition>  
@@ -43,7 +44,7 @@
                 :tabla="'categoria'"
                 :orden="categoriaOrden" 
                 :body="categoria"
-                @clicked="consola" 
+                @clicked="editar" 
                 v-if="Selected == 'categoria' || Selected == 'todo'"
                 id="oli"
                 ></Table>
@@ -55,12 +56,13 @@
                 :tabla="'subcategoria'"
                 :orden="subcategoriaOrden"
                 :body="subcategoria" 
-                @clicked="consola" 
+                @clicked="editar" 
                 v-if="Selected == 'subcategoria' || Selected == 'todo'"
                 ></Table>
 
             </transition>
-            <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{}}' :tabla="'Producto'" />
+            <!-- <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{"tipo":"boolean"}}' :tabla="'Producto'" /> -->
+            <Inputs v-if="Selected == 'editar'" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
         </div>
     </div>
     
@@ -80,6 +82,7 @@ export default {
         return{
             Show: false,
             Selected : 'todo',
+            ClickedData: {},
             MarcaTitle : ['Marca', 'ID'],
             CategoriaTitle : ['Categoria', 'ID'],
             SubcategoriaTitle: ['Subcategoria', 'Categoria', 'ID'],
@@ -138,8 +141,10 @@ export default {
             this.Show = false;
             this.actualizar()
         },
-        consola: function(value){
-            console.log(value, this.schema)
+        editar: function(value){
+            console.log(this.schema, value);
+            this.ClickedData = value;
+            this.Selected = 'editar';
         },
         actualizar:async function(){
             await axios.get('/clasificacion/info')

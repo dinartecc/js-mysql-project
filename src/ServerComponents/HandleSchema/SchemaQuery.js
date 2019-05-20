@@ -47,6 +47,9 @@ const SchemaQuery =  () => {
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].tipo = 'fecha';
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].longitud = 11;
               break;
+            case 'tinyint':
+              schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].tipo = 'boolean';
+              break;
             case 'varchar':
             case 'char':
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].tipo = tupla.DATA_TYPE;

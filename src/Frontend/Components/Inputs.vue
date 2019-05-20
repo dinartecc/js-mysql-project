@@ -3,12 +3,14 @@
         <h1>Agregar a {{formatearTitulo}}</h1>
         <form class="input-form">
             <div v-for="llave of schemaLlaves" :key="llave">
-                <input v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                <input v-else-if="schema[llave].tipo == 'varchar'" @blur="validarMoneda(llave)" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                <input v-else-if="schema[llave].tipo == 'date'"  type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                <input v-else-if="schema[llave].tipo == 'moneda'"  type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                <input v-else-if="schema[llave].tipo == 'int'"  type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                <span :key="errores[llave]" :class="{ 'error' : errores[llave] == '', 'error activo' : errores[llave] != '' }" @click="consola">{{errores[llave]}}</span>
+                <label>
+                    <input v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                    <input v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                    <input v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                    <input v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                    <input v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
+                </label>
+                <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }" @click="consola">{{errores[llave]}}</span>
             </div>
             <input type="submit" @click="consola">
         </form>
@@ -26,7 +28,6 @@ import Varchar from './InputTypes/Varchar.vue';
 export default {
     props: {
         schema: Object,
-        tabla: String,
         default: Object
     },
     data: () => {
@@ -106,7 +107,7 @@ export default {
     },
     computed: {
         formatearTitulo () {
-            return this.tabla.toLowerCase()
+            return this.default.tabla.toLowerCase()
             .split('_')
             .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
             .join(' ');
@@ -122,10 +123,13 @@ export default {
     },
     created() {
         const llaves = this.obtenerLlaves();
+        const boolDefault = this.default.hasOwnProperty('elemento');
+
         for( let llave of llaves ) {
             console.log(llave);
-            this.valores[llave] = '';
+            boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
             this.errores[llave] = '';
+            
         }
     }
 }
@@ -158,7 +162,11 @@ table td{
     
 }
 
-.error.activo {
+input.error {
+    border-color: red;
+}
+
+span.error {
     color: red;
 }
 
