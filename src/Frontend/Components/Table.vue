@@ -71,6 +71,7 @@ table td{
     font-weight: 300 !important;
     border-left: 0;
     border-right: 0;
+    text-align: center;
     
 }
 

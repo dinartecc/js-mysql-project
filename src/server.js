@@ -11,7 +11,7 @@ var { buildSchema } = require('graphql');
 
 
 const MySQLStore = require('express-mysql-session')(session);
-const expireTime = 1000000;
+const expireTime = 100000000;
 
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
