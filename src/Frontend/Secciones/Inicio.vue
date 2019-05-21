@@ -1,7 +1,7 @@
 <template>
 <div>
     <h1>Bienvenido {{nombre}}</h1>
-
+    
 </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     },
     
     mounted() {
-        this.nombre = this.$store.state.User.nombre
+        this.nombre = this.$store.state.User.name
     }
 }
 </script>

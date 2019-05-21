@@ -1,7 +1,5 @@
 const router = require('express').Router();
-import mysql from 'mysql';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
@@ -95,6 +93,17 @@ router.post('/clientes/buscar', function(req, res){
         res.json({ respuesta });
     })
 });
+
+
+
+
+
+
+
+
+router.get('/getusers', (req, res) => {
+    const query = {}
+})
 
 
 

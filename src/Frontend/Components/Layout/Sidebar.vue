@@ -20,12 +20,12 @@
         </router-link>
      
     </div>
-    <div class="dropdown-menu">
-        <a href="/clientes">
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.usuarios > 0">
+        <router-link to="/usuarios">
             <div>
-                <img src="img/usuario.svg" alt=""> <p>Clientes</p>
+                <img src="img/usuario.svg" alt=""> <p>Usuarios</p>
             </div>
-        </a>
+        </router-link>
     </div>
     <div class="dropdown-menu">
         <div>

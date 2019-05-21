@@ -35,22 +35,22 @@ export default {
     }
 
 }
-</script>
 
+</script>
 
 
 
 <style scoped>
     #container{
+        overflow-x: hidden;
         display: flex;
 
         width: 100%;
         font-family: 'Raleway', sans-serif;
     }
     #content{
-        width: 100%;
-        min-width: 90%;
-        max-width: 100%;
+        width: 90%;
+        
         background-color: #232730;
     }
     Sidebar{
@@ -58,6 +58,4 @@ export default {
         min-width: 170px;
         height: auto;
     }
-
-   
 </style>

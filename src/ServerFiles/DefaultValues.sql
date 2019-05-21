@@ -10,3 +10,7 @@ insert into marca (ID_marca, nombre) values ( 1,'Suli');
 insert into marca (ID_marca, nombre) values ( 2,'Samsung');
 insert into marca (ID_marca, nombre) values ( 3,'Clorox');
 insert into marca (ID_marca, nombre) values ( 4,'Sabemas');
+
+
+
+

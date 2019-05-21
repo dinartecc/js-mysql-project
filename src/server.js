@@ -116,7 +116,9 @@ app.use(require('./Routes/index.js'));
 app.use(require('./Routes/clientes.js'));
 app.use(require('./Routes/auth.js'));
 app.use(require('./Routes/clasificacion.js'));
-
+app.get('*', (req, res) => {
+  res.render('inicio')
+})
 
 /* ----- Server Running ----- */
 app.listen(PORT, function() {

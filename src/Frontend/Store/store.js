@@ -1,6 +1,10 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
 
-const store = new Vuex.Store({
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
     state:{
         IsLogged: false,
         Permissions: {},
@@ -14,6 +18,3 @@ const store = new Vuex.Store({
     actions: {
     }
 })
-
-
-export default store;

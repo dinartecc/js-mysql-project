@@ -2,16 +2,13 @@ import Routes from './Router/index.js'
 import App from './App.vue';
 import 'babel-polyfill';
 import Vue from 'vue';
-import Vuex from 'vuex'
+import VueRouter from 'vue-router'
 import axios from 'axios'
 import 'babel-polyfill';
-import store from './Store/store.js'
 
-
-
-Vue.use(Vuex);
 Vue.use(VueRouter)
 
+import store from './Store/store.js'
 
 
 
@@ -21,65 +18,45 @@ const router = new VueRouter({
     mode: 'history',
 })
 
+const getUserInfo =async function(){
+    try {
+        let info = await axios('/userinfo') // Pide la informacion almacenada en la sesion del backend.
+        let {permissions , user} = info.data    // Extrae la informacion de los datos recibidos.
+        return {permissions, user}
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-router.beforeEach(async(to, from, next) => {
-    /*window.setInterval(function(){
-        axios.get('/islogged')
-            .then((response) => {
-                console.log(response.data)
-                if(response.data == true){
-                    to.matched
-                    console.log("loggeado")
-                    next()
-                }else{
-                    console.log("NOLOG")
-                    next({path: '/login'})
-                }
-        })
-    }, 5000);*/
-
+router.beforeEach( async (to, from, next) => {
     if(store.state.IsLogged){
         next()
     }else{
         try {
-            let response = await axios('/islogged')
-            if(response.data == true){
-
-                let info = await axios('/userinfo')
-                let {permissions , user } = info.data
-                store.state.User = user;
-                store.state.Permissions = permissions;
-                store.state.IsLogged = true
+            let response = await axios('/islogged') // Revisa en el backend si existe una sesion activa.
+            if(response.data == true){ // Si existe...
+                const {permissions, user} = await getUserInfo()
+                
+                store.state.User = user;                // La almacena en las variables 
+                console.log(store.state.User)
+                store.state.Permissions = permissions;  // temporales globales.
+                store.state.IsLogged = true             // Y existe una sesion.\
                 next()
             }else{
-                if(to.matched.some(record => record.meta.notAuth)){
-                    console.log("Estas en login")
+                if(to.matched.some(record => record.meta.notAuth)){ // Si en la ruta existe el meta de meta notAuth y si este es verdadero...
                     next()
-                }else{
-                    console.log("NO ESTAS EN LOGIN")
-                    next('/login')
+                }else{                                              // De otra forma...
+                    next('/login')                                  // Lo redirige a '/login'
                 }
             }
-            console.log(response.data)
         } catch (error) {
             console.log(error)
         }
-
     }
-    console.log(store.state.IsLogged)
- 
 })
-
-
 new Vue({
     render: h => h(App),
     router,
-    store,
-    async beforeCreate() {
-            
-           
-        
-    }
-    
+    store, 
 }).$mount('#main')
 

@@ -4,8 +4,8 @@
     <h3 v-show="error">Error</h3>
     <form v-on:submit.prevent="send" action="/login" method="POST">
         <h1>Iniciar Sesión</h1>
-        <input type="text" v-model="user" placeholder="Usuario">
-        <input type="password" v-model="pass" name="pass" placeholder="Contraseña">
+        <input type="text" v-model="user" placeholder="Usuario" required>
+        <input type="password" v-model="pass" name="pass" placeholder="Contraseña" required>
         <input type="submit">
     </form>
 </div>
@@ -26,18 +26,16 @@ export default {
     },
 
     methods: {
-       
-
         send: function(){
             axios.post('/login', {user: this.user, pass: this.pass })
            .then((response) => {
-               console.log(response.status)
+              
                 if(response.status == 200){
+                    let permissions = response.data.permissions
+                    let user = response.data.user;
 
-                    let {permissions , user} = response.data
                     this.$store.state.User = user
                     this.$store.state.Permissions = permissions;
-                    console.log(this.$store.state.Permissions)
                     this.$store.state.IsLogged = true
                     //window.location.href = '/'
                     this.$router.push({name: 'inicio'})

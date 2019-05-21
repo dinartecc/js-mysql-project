@@ -1,4 +1,5 @@
 import VerificarLogin from '../AuthComponents/VerificarLogin/VericarLogin';
+
 const router = require('express').Router();
 
 
@@ -16,47 +17,56 @@ router.get('/islogged', (req, res) =>{
   }
 })
 
-
 router.get('/userinfo', (req, res) =>{
   if(typeof req.session !== 'undefined'){
-
-    const permissions =  {
-      clasificacion: 0
-    };
-    const _user = {
-      nombre: 'Leonel'
-    }
-
-
-    res.send(JSON.stringify({permissions, user:_user}))
+    const permissions = req.session.permissions;
+    const user = req.session.user;
+    console.log(JSON.stringify({permissions, user}))
+    res.send(JSON.stringify({permissions, user}))
   }else{
     res.status(404).end()
   }
 })
 
+
 router.get('/logout' , (req,res) => {
     req.session.destroy()
-    res.send('Sesion destruida :D')
+    res.render('inicio.hbs');
 })
 
 
-router.post('/login', ( req, res ) => {
 
- 
-    const permissions =  {
-      clasificacion: 1
-    };
-    const _user = {
-      nombre: 'Leonel'
-    }
+router.post('/login',( req, res ) => {
 
   const { user, pass} = req.body;
-  console.log(req.body)
+  console.log(user,pass)
   VerificarLogin(user,pass)
-    .then( () => {
-      req.session.user = user;
-      req.session.pass = pass;
-      res.send(JSON.stringify({permissions, user:_user}))
+    .then((response) => { return JSON.stringify(response[0])})
+    .then((response) => { return JSON.parse(response)} )
+    .then( (response) => { 
+      console.log(response);
+
+      const {user, name,productos, clasificacion, lotes, usuarios, admin, rol} = response;
+      req.session.permissions = { productos, clasificacion, lotes, usuarios, rol , admin};
+      req.session.user = {user, name};
+
+      res.send(JSON.stringify({
+        permissions: { 
+          productos, 
+          clasificacion, 
+          lotes, 
+          usuarios, 
+          admin, 
+          rol 
+        }, 
+        user: {
+          user, 
+          name
+        }}
+        
+      ))
+
+      
     })
     .catch( (response) => res.status(205).send('Informacion incorrecta!') );
     

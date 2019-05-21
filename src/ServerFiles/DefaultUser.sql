@@ -22,6 +22,12 @@ insert into venta_lotes ( ID_venlote, ID_lotes, ID_venta) values ( 0, 0, 0 );
 insert into ventasdescuento ( ID_venta, monto_producto, monto_general ) values ( 0, 0, 0);
 insert into ventasimpuestos ( ID_venta, monto_impuesto ) values ( 0, 0 );
 
-insert into roles (ID_rol, rol) values (1, 'admin');
-insert into usuarios (user, pass,ID_rol) values ( 'root', 'admin', 1);
-insert into usuarios (user, pass,ID_rol) values ( 'ivan.arguello', 'holaprofesor', 1);
+
+-- Inicializacion de sistema de permisos
+    -- Roles
+    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, admin, rol) values (4 ,4 ,4 ,4 , 4, 4, 'Administrador');
+    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, admin, rol) values (4 ,0 ,4 ,4 , 4, 4, 'Administrador');
+    -- Usuarios
+    insert into Usuarios (user, pass, name, ID_rol) values ('admin' ,'admin', 'Administrador', 1);
+    insert into Usuarios (user, pass, name, ID_rol) values ('clasi' ,'clasi', 'Caja', 2);
+
