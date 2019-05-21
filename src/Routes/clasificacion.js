@@ -57,11 +57,6 @@ router.get('/clasificacion/info',async(req, res) => {
     }
     };
 
-    function sleep(ms){
-        return new Promise(resolve=>{
-            setTimeout(resolve,ms)
-        })
-    }
     console.time("Time this");
 
     const [categoria, subcategoria, marca] = await Promise.all([
@@ -72,16 +67,12 @@ router.get('/clasificacion/info',async(req, res) => {
 
     const schemaFull = GetSchema(),
           schema = (({ categoria, subcategoria, marca }) => ({ subcategoria, categoria, marca }))(schemaFull);
-    
     res.json({categoria, subcategoria, marca, schema})
     console.timeEnd("Time this");
    
 })
 
 
-router.get('/clasificacion', (req, res) => {
-    res.render('clasificacion-vue') // temporal ex di
-})
 
 
 router.post('/clasificacion/nuevo',async (req, res) => {
