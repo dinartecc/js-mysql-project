@@ -24,12 +24,14 @@
 <script>
 
 import Swal from 'sweetalert2';
+import axios from 'axios'
 
 export default {
     props: {
         schema: Object,
         default: Object,
         texts: Object,
+        seccion: String,
     },
     data: () => {
         return{
@@ -50,6 +52,10 @@ export default {
                 
                 if( this.errores[item].length ) errors = true;
             }
+
+            const req = Object.assign({}, this.valores );
+                        req.tabla= this.default.tabla;
+            const url = this.boolDefault ? `${this.seccion}/editar` : `${this.seccion}/nuevo`;
             
             if (errors) {
                 Swal.fire({
@@ -66,8 +72,43 @@ export default {
                     showCancelButton: true,
                     confirmButtonText: 'Confirmar',
                     cancelButtonText: 'Cancelar',
-                    reverseButtons: true
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        return axios({
+                                method: 'post',
+                                url: url,
+                                headers: {}, 
+                                data: {
+                                    query: req, 
+                                }
+                            })
+                        .then(response => {
+                            console.log(response);
+                            if (response.status != 200) {
+                            throw new Error('Error');
+                            }
+                            return response.json()
+                        })
+                        .catch(error => {
+                             Swal.fire({
+                                type: 'error',
+                                title: '¡Error!',
+                                text: 'Ocurrió un error con el servidor. Inténtelo más tarde. '
+                            });
+                        });  
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(
+                        '¡Éxito!',
+                        `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
+                        'success'
+                        )
+                    }
                 })
+                
             }
         },
         validarInt(llave) {

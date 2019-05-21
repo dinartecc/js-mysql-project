@@ -10,13 +10,15 @@ const VerificarLogin = ( usuario, contra ) => {
   
     connection.query(query, (error, results, fields) => {
       
-      if (error) throw error;
+      if (error) {
+        reject(error);
+      }
 
-      if (results.length == 1 ) {
+      else if (results.length == 1 ) {
         resolve(results);
       }
       else {
-        reject();
+        reject('No se encontro el usuario');
       }
     });
   })

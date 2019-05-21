@@ -18,7 +18,8 @@ const ResetDatabase = () => {
       connection.query(mysqlQueryDrop, (error, results, fields) => {
         // Devuelve el error si encuentra alguno
         if (error) {
-          throw error;
+          reject(error);
+          return null;
         }
 
         InitializeDatabase()

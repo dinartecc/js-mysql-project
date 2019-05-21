@@ -31,7 +31,8 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
     connection.query(`select TABLE_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
     where REFERENCED_TABLE_SCHEMA = '${process.db.database}' AND REFERENCED_TABLE_NAME = '${obj.tabla}';`, (error, results, fields) => {
       if (error) {
-        throw error;
+        reject(error);
+        return null;
       }
       //Si hay tablas hijos, inicializa este codigo
       if ( results.length > 0 ) {
@@ -47,7 +48,7 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
           if ( changeQuery != '' ){
             connection.query( changeQuery, (error, results, fields) => {
               if(error) {
-                throw error;
+                reject(error);
               }
             });
           }
@@ -61,7 +62,8 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
       //Ejecuta la query
       connection.query( deleteQuery, (error, results, fields) => {
         if (error) {
-          throw error;
+          reject( error );
+          return null;
         }
 
         resolve(results);

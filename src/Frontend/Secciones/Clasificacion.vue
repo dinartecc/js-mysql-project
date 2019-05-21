@@ -66,7 +66,7 @@
 
             </transition>
             <!-- <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{"tipo":"boolean"}}' :tabla="'Producto'" /> -->
-            <Inputs v-if="Selected == 'editar'" :texts="this[`${ClickedData.tabla}Texts`]" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
+            <Inputs v-if="Selected == 'editar'" :seccion="'clasificacion'" :texts="this[`${ClickedData.tabla}Texts`]" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
         </div>
         
     </div>

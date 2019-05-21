@@ -10,35 +10,41 @@ import HandleSchema from '../HandleSchema/HandleSchema';
  */
 const AddToDatabase = ( obj ) => {
   return new Promise( async ( resolve, reject ) => {
+    try {
 
-    const schema = await HandleSchema()
-                .then( sch =>  sch )
-                .catch( err => {throw err}); 
+      const schema = await HandleSchema()
+                  .then( sch =>  sch )
+                  .catch( err => {throw err}); 
 
-    if ( !schema.hasOwnProperty(obj.tabla) )
-    {
-      throw new Error('902: Esa tabla no existe en el schema');
-    }
-
-    obj.id = schema[obj.tabla].id; 
-
-    //Crea el objeto para la conexión
-    const connection = CreateConnection;
-
-    //Realiza la query
-    AddToDatabaseCreateQuery( obj )
-    .then( query => connection.query( query, (error, results, fields) => {
-
-      // Si hay un error, devuelve la promesa fallida
-      if (error) {
-        console.log(error);
-        reject(error);
+      if ( !schema.hasOwnProperty(obj.tabla) )
+      {
+        throw new Error('902: Esa tabla no existe en el schema');
       }
 
-      // De lo contrario, devuelve los resultados
-      resolve(results);
+      obj.id = schema[obj.tabla].id; 
 
-    }));
+      //Crea el objeto para la conexión
+      const connection = CreateConnection;
+
+      //Realiza la query
+      AddToDatabaseCreateQuery( obj )
+      .then( query => connection.query( query, (error, results, fields) => {
+
+        // Si hay un error, devuelve la promesa fallida
+        if (error) {
+          reject(error);
+        }
+        else {
+          // De lo contrario, devuelve los resultados
+         resolve(results);
+         return false;
+        }
+      }));
+
+    }
+    catch (error) {
+      reject(error);
+    }
     
   });
 };

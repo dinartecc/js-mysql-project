@@ -13,9 +13,12 @@ const CreateDatabase = () => {
     const connection = mysql.createPool(connectobj);
 
     connection.query(query, (error, results, fields) => {
-      if (error) throw error;
-
-      resolve(results);
+      if (error){
+        reject(error);
+      }
+      else {
+        resolve(results);  
+      }
 
     });
 

@@ -18,7 +18,8 @@ const DefaultDatabase = () => {
             connection.query(mysqlQueryDefault, (error, results, fields) => {
               // Devuelve el error si encuentra alguno
               if (error) {
-                throw error;
+                reject (error);
+                return null;
               }
 
               resolve();

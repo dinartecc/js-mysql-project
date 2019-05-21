@@ -2,7 +2,7 @@
 const router = require('express').Router();
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
-
+import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 import { promises, readFileSync } from 'fs';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
@@ -81,41 +81,53 @@ router.get('/clasificacion/info',async(req, res) => {
 
 router.get('/clasificacion', (req, res) => {
     res.render('clasificacion-vue') // temporal ex di
-})
+});
 
 
 router.post('/clasificacion/nuevo',async (req, res) => {
-    console.log(req.body);
-    const {seccion, nombre,categoria} = req.body.query;
-    let resp;
-    const query = {
-        tabla: seccion,
-        nombre
-    }
-    if(typeof categoria !== 'undefined'){
-        if(typeof categoria == Number){
-            query.ID_categoria = categoria
-        }else{
-            res.status(404).end();
-        }
-    }
-    
-    console.log(query)
 
+
+  console.log('xdDDDDDDDDDDDDDDDDDDD');
+
+    const query = req.body.query;
+
+    if(typeof query == 'undefined' && typeof query.tabla == 'undefined' ){
+        res.status(404).end();
+    }
     
     try{
-        await AddToDatabase( query )
-        console.log(`Registro añadido a la tabla ${seccion} exitosamente`)
+        await AddToDatabase( query );
+        console.log(`Registro añadido a la tabla ${query.tabla} exitosamente`)
         let resp = 'Elemento añadido exitosamente!';
         res.send(JSON.stringify(resp))
     }catch(e){
         console.log(e)  
         res.status(404).end();
     }
-    /*.catch(() => { return resp.error = 'Hubo un error al añadir el elemento :('})
-    .catch((resp) => res.send(JSON.stringify({resp})))*/
+});
 
-})
+
+router.post('/clasificacion/editar', async (req, res) => {
+
+  const query = req.body.query;
+
+  if(typeof query == 'undefined' && typeof query.tabla == 'undefined' && typeof query.id == 'undefined' ){
+      res.status(404).end();
+  }
+  
+  UpdateDatabase( query )
+    .then(()=> {
+      console.log(`Registro ${query.id} de la tabla ${query.tabla} editado exitosamente`)
+      let resp = 'Elemento editado exitosamente!';
+      res.send(JSON.stringify(resp));
+    })
+    .catch(err => {
+      console.log(err)  
+      res.status(404).end();
+    });
+});
+
+
 
 router.post('/clasificacion/eliminar' ,(req, res) => {
     const {seccion, id} = req.body.query;
@@ -131,9 +143,8 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
     .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
     .then((resp) => res.send(JSON.stringify(resp)))
     .catch((response) => console.log(response))
-    
-    
-})
+     
+});
 
 router.post('/clasificacion/buscar/',async (req, res) =>{
     for( let variable in req.body ){ // Cambia a minuscula todas las variables en req.body

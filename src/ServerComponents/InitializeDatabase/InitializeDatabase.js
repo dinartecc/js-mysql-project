@@ -23,13 +23,15 @@ const InitializeDatabase = () => {
 
         // Devuelve error si encuentra alguno
         if (error) {
-          throw error;
+          reject(error);
+          return null;
         }
         connection.query(`select count(*) as count from usuarios`, (error, results, fields) => {
 
           // Devuelve error si encuentra alguno
           if (error) {
-            throw error;
+            reject(error);
+            return null;
           }
 
 
@@ -38,7 +40,8 @@ const InitializeDatabase = () => {
 
               // Devuelve error si encuentra alguno
               if (error) {
-                throw error;
+                reject(error);
+                return null;
               }
       
               resolve(results);

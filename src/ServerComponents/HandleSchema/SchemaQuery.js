@@ -22,7 +22,11 @@ const SchemaQuery =  () => {
         //Si no hubo error, se hace un objeto schema, donde cada nombre de la tabla es una 
         //propiedad del objeto, y cada columna es una propiedad anidada con el tipo de dato que es.
 
-        if (error) throw error;
+        if (error) {
+          reject(error);
+          return null;  
+        } 
+        
         
         const schema = {};
 
