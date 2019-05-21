@@ -2,18 +2,18 @@
     <div class="input-menu">
         <h1>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h1>
         <form class="input-form">
-            <input v-if="boolDefault" v-model="valores.id" type="text" disabled />
+            <label v-if="boolDefault">ID:<input v-model="valores.id" type="text" disabled /></label>
             <div v-for="llave of schemaLlaves" :key="llave">
-                <label>
+                <label>{{texts[llave].input}}
                     <input v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                     <input v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                     <input v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                     <input v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                     <input v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
                 </label>
-                <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }" @click="consola">{{errores[llave]}}</span>
+                <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
             </div>
-            <input type="submit" @click="consola">
+            <button @click="confirmar">Submit</button>
         </form>
         
     </div>
@@ -22,14 +22,14 @@
 
 
 <script>
-import Date from './InputTypes/Date.vue';
-import Entero from './InputTypes/Entero.vue';
-import Moneda from './InputTypes/Moneda.vue';
-import Varchar from './InputTypes/Varchar.vue';
+
+import Swal from 'sweetalert2';
+
 export default {
     props: {
         schema: Object,
-        default: Object
+        default: Object,
+        texts: Object,
     },
     data: () => {
         return{
@@ -39,18 +39,36 @@ export default {
             boolDefault : false
         }
     },
-    components: {
-        Date,
-        Entero,
-        Moneda,
-        Varchar
-    },
     methods: {
-        consola(e) {
-            e.preventDefault();
-        },
         obtenerLlaves () {
              return this.schemaLlaves;
+        },
+        confirmar(e) {
+            e.preventDefault();
+            let errors = false;
+            for( const item in this.errores ) {
+                
+                if( this.errores[item].length ) errors = true;
+            }
+            
+            if (errors) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error!',
+                    text: '¡Hay campos con valores no válidos!'
+                })
+            } 
+            else {
+                Swal.fire({
+                    title: '¿Está seguro?',
+                    text: "¿Desea ingresar los datos?",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                })
+            }
         },
         validarInt(llave) {
             const val = this.valores[llave];

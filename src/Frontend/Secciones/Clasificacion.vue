@@ -30,6 +30,7 @@
                 <Table class="margin-tables"
                 :tabla="'marca'"
                 :orden="marcaOrden" 
+                :texts="marcaTexts"
                 :body="marca"
                 @clicked="editar"
                 v-if="(Selected == 'marca' || Selected == 'todo')"
@@ -43,6 +44,7 @@
                 <Table class="margin-tables"
                 :tabla="'categoria'"
                 :orden="categoriaOrden" 
+                :texts="categoriaTexts"
                 :body="categoria"
                 @clicked="editar" 
                 v-if="Selected == 'categoria' || Selected == 'todo'"
@@ -55,6 +57,7 @@
                 <Table class="margin-tables"
                 :tabla="'subcategoria'"
                 :orden="subcategoriaOrden"
+                :texts="subcategoriaTexts"
                 :body="subcategoria" 
                 @clicked="editar" 
                 v-if="Selected == 'subcategoria' || Selected == 'todo'"
@@ -62,7 +65,7 @@
 
             </transition>
             <!-- <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{"tipo":"boolean"}}' :tabla="'Producto'" /> -->
-            <Inputs v-if="Selected == 'editar'" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
+            <Inputs v-if="Selected == 'editar'" :texts="this[`${ClickedData.tabla}Texts`]" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
         </div>
     </div>
     
@@ -83,48 +86,50 @@ export default {
             Show: false,
             Selected : 'todo',
             ClickedData: {},
-            MarcaTitle : ['Marca', 'ID'],
-            CategoriaTitle : ['Categoria', 'ID'],
-            SubcategoriaTitle: ['Subcategoria', 'Categoria', 'ID'],
             SearchData: '',
             categoria: [],
             subcategoria: [],
             marca: [],
             schema: {},
-            marcaOrden : [
-                {
+            marcaTexts: {
+                nombre: {
                     titulo: 'Marca',
-                    campo: 'nombre'
+                    input: 'Nombre de marca:'
                 },
-                {
+                id: {
                     titulo: 'ID',
-                    campo: 'id'
+                    input: 'ID:'
                 }
-            ],
-            categoriaOrden: [
-                {
-                    titulo: 'Categoria',
-                    campo: 'nombre'
+            },
+            categoriaTexts: {
+                nombre: {
+                    titulo: 'Categoría',
+                    input: 'Nombre de categoría:'
                 },
-                {
+                id: {
                     titulo: 'ID',
-                    campo: 'id'
-                }
-            ],
-            subcategoriaOrden: [
-                {
-                    titulo: 'Subcategoria',
-                    campo: 'nombre'
+                    input: 'ID:'
                 },
-                {
-                    titulo: 'Categoria',
-                    campo: 'categoria__nombre'
+            },
+            subcategoriaTexts: {
+                ID_categoria: {
+                    input: 'ID de categoría padre:'
                 },
-                {
+                categoria__nombre: {
+                    titulo: 'Categoría'
+                },
+                nombre: {
+                    titulo : 'Subcategoría',
+                    input: 'Nombre de subcategoría:'
+                },
+                id: {
                     titulo: 'ID',
-                    campo: 'id'
-                }
-            ],
+                    input: 'ID:'
+                },
+            },
+            marcaOrden : [ 'nombre', 'id' ],
+            categoriaOrden: [ 'nombre', 'id' ],
+            subcategoriaOrden: [ 'nombre', 'categoria__nombre', 'id' ],
         }
     },
     components: {

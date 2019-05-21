@@ -16,8 +16,7 @@ const QueryDatabase = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
 
     let forCheck = false,
-        forNombres = [],
-        arrayOrdenado = [];
+        forNombres = [];
 
     //Valores predeterminados
     if ( !obj.hasOwnProperty('orden') ) {

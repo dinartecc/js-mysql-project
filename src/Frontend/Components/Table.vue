@@ -4,12 +4,12 @@
             <caption>{{ formatearTitulo }}</caption>
             <thead>
                 <tr>
-                    <th :key="titulos.titulo" v-for="titulos of orden">{{titulos.titulo}}</th>
+                    <th :key="llaves" v-for="llaves of orden">{{texts[llaves].titulo}}</th>
                 </tr>
             </thead>    
             <tbody>
                 <tr :key="contenido.id" v-for="contenido of body" @click="respuesta(contenido)">
-                    <td :key="items.campo" v-for="items in orden">{{contenido[items.campo]}}</td>
+                    <td :key="items" v-for="items in orden">{{contenido[items]}}</td>
                 </tr>
             </tbody>
         </table>
@@ -23,7 +23,8 @@ export default {
     props: {
         tabla: String,
         body: Array,
-        orden: Array
+        orden: Array,
+        texts: Object
 
     },
     methods: {
