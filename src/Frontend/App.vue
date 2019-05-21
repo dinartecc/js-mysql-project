@@ -4,11 +4,13 @@
 <template>
 
     <div id="container">
-        <div id="sidebar">
+        <div id="sidebar" v-show="this.$store.state.IsLogged">
             <Sidebar></Sidebar> 
         </div>
         <div id="content">
+            <transition name="slide-fade">
             <router-view></router-view>
+            </transition>
         </div>
 
 
@@ -33,23 +35,27 @@ export default {
     }
 
 }
-</script>
 
+</script>
 
 
 
 <style scoped>
     #container{
+        overflow-x: hidden;
         display: flex;
+
         width: 100%;
         font-family: 'Raleway', sans-serif;
     }
     #content{
         width: 90%;
+        
         background-color: #232730;
     }
-    #sidebar{
+    Sidebar{
         width: 10%;
-        min-width: 160px ;
+        min-width: 170px;
+        height: auto;
     }
 </style>

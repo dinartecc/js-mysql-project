@@ -28,9 +28,9 @@ export default {
 
     },
     methods: {
-        respuesta( id ) {
+        respuesta( contenido ) {
             const res = {
-                elemento: id,
+                elemento: contenido,
                 tabla: this.tabla
             }
             this.$emit('clicked', res )

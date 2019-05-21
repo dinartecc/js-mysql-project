@@ -28,5 +28,11 @@ drop table if exists usuarios;
 drop table if exists roles;
 drop table if exists permisos;
 drop table if exists permisos_roles;
+drop table if exists secciones;
+drop table if exists permisos;
+drop table if exists roles;
+drop table if exists permisos_roles;
+drop table if exists usuarios;
+truncate table sessions; 
 
 SET FOREIGN_KEY_CHECKS = 1;

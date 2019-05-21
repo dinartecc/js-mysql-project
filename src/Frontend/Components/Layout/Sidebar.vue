@@ -12,7 +12,7 @@
             <a href="/categorias"><p>Categorias</p></a>
         </div>
     </div>
-    <div>
+    <div v-show="this.$store.state.Permissions.clasificacion > 0">
         <router-link to="/clasificacion">
             <div>
                 <img src="img/clasificacion.svg" alt=""> <p>Clasificación</p>
@@ -20,12 +20,12 @@
         </router-link>
      
     </div>
-    <div class="dropdown-menu">
-        <a href="/clientes">
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.usuarios > 0">
+        <router-link to="/usuarios">
             <div>
-                <img src="img/usuario.svg" alt=""> <p>Clientes</p>
+                <img src="img/usuario.svg" alt=""> <p>Usuarios</p>
             </div>
-        </a>
+        </router-link>
     </div>
     <div class="dropdown-menu">
         <div>
@@ -48,12 +48,18 @@
             <p>Prueba 2</p>
         </div>
     </div>
-    <div>
-        <a href="/logout">
+    <div v-show="this.$store.state.IsLogged" v-on:click="logout">
             <div>
                 <img src="img/logout.svg" alt=""> <p>Cerrar Sesión</p>
             </div>
-        </a> 
+    </div>
+
+    <div v-show="!this.$store.state.IsLogged">
+        <router-link to="/login">
+            <div>
+                <img src="img/logout.svg" alt=""><p>Login</p>
+            </div>
+        </router-link>
     </div>
     <div>
         <a href="/db/default">
@@ -77,8 +83,19 @@
 
 
 <script>
+import axios from 'axios'
 export default {
-    
+    created(){
+        
+    },
+    methods:{
+        logout: function(){
+            axios.get('/logout')
+            .then(window.location.href = '/login')
+            .then(this.$store.state.IsLogged = false)
+            .catch((error) => console.log(error))
+        }
+    }
 }
 </script>
 
@@ -91,21 +108,22 @@ a{
 
 #menu{
     color:white;
-    width: 100%
+    width: 100%;
+    max-height: auto;
 }
 #menu img{
     width: 20px;
     height: 20px;
     margin-right: 2px;
 }
-#menu>div div:nth-child(1){
+#menu > div div:nth-child(1){
     cursor: pointer;
     color: white;
     display: flex;
     width: 100%;
     justify-content: center;
     align-items:  center;
-    margin-left: 5px;
+    margin-left:0;
 }
 
 #menu  div p{

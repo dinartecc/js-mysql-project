@@ -1,41 +1,24 @@
 
 -- Usuarios, Roles y Permisos >:D
 
-create table if not exists Secciones(
-    ID_seccion int not null,
-    nombre varchar(15) not null,
-    constraint PK_sec primary key (ID_seccion)
-) ENGINE = InnoDB;
-
-
-
-create table if not exists Permisos(
-    ID_permisos int not null ,
-    ID_secciones int not null,
-    nivelAcceso int not null,
-    constraint FK_prm_sec foreign key (ID_secciones) references Secciones(ID_seccion),
-    constraint PK_prm primary key (ID_permisos)
-) ENGINE = InnoDB;
-
 
 create table if not exists Roles(
-    ID_rol int not null,
-    rol varchar(15) not null,
+    ID_rol int not null auto_increment,
+    productos int default 0,
+    clasificacion int default 0,
+    lotes int default 0,
+    usuarios int default 0,
+    reportes int default 0,
+    admin int default 0,
+    rol varchar(30) not null,
     constraint PK_rol primary key (ID_rol)
-) ENGINE = InnoDB;
-
-
-create table if not exists Permisos_Roles(
-    ID_rol int not null,
-    ID_permisos int not null,
-    constraint FK_rol foreign key (ID_rol) references Roles(ID_rol),
-    constraint FK_prm foreign key (ID_permisos) references Permisos(ID_permisos) 
 ) ENGINE = InnoDB;
 
 
 create table if not exists Usuarios (
     user varchar(30) not null,
     pass varchar(30) not null,
+    name varchar(30) not null,
     ID_rol int not null, 
     constraint PK_usr primary key (user),
     constraint FK_usr_rol foreign key (ID_rol) references Roles(ID_rol)
@@ -245,6 +228,7 @@ create table if not exists Compra_Lotes (
     constraint FK_comlot_lot foreign key (ID_lotes) references Lotes(ID_lotes),
     constraint FK_comlot_com foreign key (ID_compra) references Compra(ID_compra)
 ) ENGINE = InnoDB;
+
 
 SET SQL_SAFE_UPDATES = 0;
 

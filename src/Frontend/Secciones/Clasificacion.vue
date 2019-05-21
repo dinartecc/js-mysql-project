@@ -22,6 +22,7 @@
                 <label for="subcategoria">
                     <div class="boton-seccion" @click="cambioSeccion">Subcategoria</div>
                 </label>
+                <AddBtn @add="add" :seleccion="Selected"></AddBtn>
             </div>
         </div>
         <div id="table-container">
@@ -67,16 +68,18 @@
             <!-- <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{"tipo":"boolean"}}' :tabla="'Producto'" /> -->
             <Inputs v-if="Selected == 'editar'" :texts="this[`${ClickedData.tabla}Texts`]" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
         </div>
+        
     </div>
     
 </template>
 
 <script>
-
+import axios from 'axios'
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
 import Inputs from '../Components/Inputs.vue';
+import AddBtn from '../Components/AddBtn.vue';
 import 'babel-polyfill';
 
 export default {
@@ -136,12 +139,16 @@ export default {
         Table,
         SearchBar,
         EmptyMsg,
-        Inputs
+        Inputs,
+        AddBtn
     },
     created(){
         this.actualizar()
     },
     methods: {
+        add: function(value) {
+            console.log(value)
+        },
         cambioSeccion: function(){
             this.Show = false;
             this.actualizar()
