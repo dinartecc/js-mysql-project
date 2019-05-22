@@ -65,8 +65,23 @@
                 ></Table>
 
             </transition>
-            <!-- <Inputs v-if="schema.subcategoria != undefined" :schema='{"ID_producto":{"tipo":"int","longitud":10},"id":"ID_producto","SKU":{"tipo":"char","longitud":12},"nombre":{"tipo":"varchar","longitud":30},"precio_unit":{"tipo":"moneda","longitud":15},"paga_imp":{"tipo":"boolean"}}' :tabla="'Producto'" /> -->
-            <Inputs v-if="Selected == 'editar'" :seccion="'clasificacion'" :texts="this[`${ClickedData.tabla}Texts`]" :schema="schema[ClickedData.tabla]" :default="ClickedData" />
+
+            <Inputs v-if="Selected == 'anadir'" 
+            :seccion="'clasificacion'" 
+            :texts="this[`${ClickedData.tabla}Texts`]" 
+            :schema="schema[ClickedData.tabla]" 
+            :default="ClickedData" 
+            :boolDefault="false"
+            @added="added" />
+
+            <Inputs v-if="Selected == 'editar'" 
+            :seccion="'clasificacion'" 
+            :texts="this[`${ClickedData.tabla}Texts`]" 
+            :schema="schema[ClickedData.tabla]" 
+            :default="ClickedData" 
+            :boolDefault="true"
+            @added="added" />
+
         </div>
         
     </div>
@@ -146,15 +161,23 @@ export default {
         this.actualizar()
     },
     methods: {
+        //funcion para tu add
         add: function(value) {
-            console.log(value)
+            if (this.Selected !== 'todo' && this.Selected !== 'anadir' && this.Selected !== 'editar' ) {
+                this.ClickedData.tabla = this.Selected;
+                this.ClickedData.elemento = undefined;
+                this.Selected = 'anadir';
+            }
+        },
+        added: function() {
+            this.Selected = 'todo';
+            this.actualizar();
         },
         cambioSeccion: function(){
             this.Show = false;
             this.actualizar()
         },
         editar: function(value){
-            console.log(this.schema, value);
             this.ClickedData = value;
             this.Selected = 'editar';
         },

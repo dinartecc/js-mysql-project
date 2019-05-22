@@ -1,6 +1,7 @@
 <template>
     <div class="input-menu">
         <h1>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h1>
+        <button @click="$emit('added')">Regresar</button>
         <form class="input-form">
             <label v-if="boolDefault">ID:<input v-model="valores.id" type="text" disabled /></label>
             <div v-for="llave of schemaLlaves" :key="llave">
@@ -32,6 +33,7 @@ export default {
         default: Object,
         texts: Object,
         seccion: String,
+        boolDefault: Boolean
     },
     data: () => {
         return{
@@ -84,28 +86,29 @@ export default {
                                 }
                             })
                         .then(response => {
-                            console.log(response);
-                            if (response.status != 200) {
-                            throw new Error('Error');
+                            if (response.status !== 200) {
+                                throw new Error(response.statusText)
                             }
-                            return response.json()
+                            return true;
                         })
                         .catch(error => {
-                             Swal.fire({
-                                type: 'error',
-                                title: '¡Error!',
-                                text: 'Ocurrió un error con el servidor. Inténtelo más tarde. '
-                            });
-                        });  
+                            Swal.showValidationMessage(
+                            `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
+                            )
+                            return false;
+                        })  
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
+                    console.log(result);
                     if (result.value) {
                         Swal.fire(
                         '¡Éxito!',
                         `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
                         'success'
                         )
+                        .then(()=>this.$emit('added'));
+                        
                     }
                 })
                 
@@ -183,8 +186,7 @@ export default {
     },
     created() {
         const llaves = this.obtenerLlaves();
-        this.boolDefault = this.default.hasOwnProperty('elemento');
-        console.log(this.default.elemento);
+        
 
         for( let llave of llaves ) {
             this.boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
