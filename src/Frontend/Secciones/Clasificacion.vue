@@ -66,6 +66,12 @@
 
             </transition>
 
+
+
+
+
+        </div>
+
             <Inputs v-if="Selected == 'anadir'" 
             :seccion="'clasificacion'" 
             :texts="this[`${ClickedData.tabla}Texts`]" 
@@ -82,8 +88,7 @@
             :boolDefault="true"
             @added="added" />
 
-        </div>
-        
+
     </div>
     
 </template>

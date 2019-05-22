@@ -8,7 +8,8 @@ export default[
     {
         path: '/',
         component: Inicio,
-        name: 'inicio'
+        name: 'inicio',
+        beforeEnter: () => console.log(store.state.Permissions)
     },
     {
         path: '/clasificacion',
