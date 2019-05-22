@@ -1,21 +1,33 @@
 <template>
-    <div class="input-menu">
-        <h1>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h1>
-        <button @click="$emit('added')">Regresar</button>
-        <form class="input-form">
-            <label v-if="boolDefault">ID:<input v-model="valores.id" type="text" disabled /></label>
-            <div v-for="llave of schemaLlaves" :key="llave">
-                <label>{{texts[llave].input}}
-                    <input v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                    <input v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                    <input v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                    <input v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                    <input v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
-                </label>
-                <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
+    <div class="input-container">
+    
+            <div id="title">
+                <h2>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h2>
             </div>
-            <button @click="confirmar">Submit</button>
-        </form>
+            
+                <form id="form">
+                    <div class="section-input">
+                         <h3>ID:</h3>
+                        <input class="input-default blocked" v-model="valores.id" type="text" disabled/>
+                    </div>
+                    <div class="section-input" v-for="llave of schemaLlaves" :key="llave">
+                        <h3>{{texts[llave].input}}</h3>
+                            <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                            <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                            <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                            <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                            <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
+                        
+                        <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
+                    </div>
+                    <div>
+                        <button class="btn red" @click="$emit('added')">Cancelar</button>
+                        <button class="btn" @click="confirmar">Submit</button>
+                    </div>
+                </form>
+            
+        
+
         
     </div>
 </template>
@@ -200,6 +212,71 @@ export default {
 
 
 <style scoped>
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 80%;
+    background-color: #2a3141;
+}
+h3{
+    margin-top: 0;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+#form-container{
+    width: 500px;
+}
+.blocked {
+    cursor:not-allowed
+}
+.section-input{
+ 
+    width: 400px;
+    margin-top: 20px;
+
+}
+.input-default{
+    border: 2px solid #555861;
+    width: 70%;
+    outline: 0;
+    margin-right: 20px;
+    margin-left: 0;
+    border-radius: 30px;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    height: 30px !important;
+    color: #cacaca;
+}
+
+#title{
+    text-align: center;
+    width: 400px;
+}
+
+
+.btn{
+    background-color: #6a7cab !important;
+    color: white;
+    margin: 20px;
+    padding: 8px 20px;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+}
+
+.red{
+    background-color: #e66f66 !important;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);

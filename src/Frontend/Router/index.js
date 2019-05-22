@@ -12,16 +12,16 @@ export default[
     },
     {
         path: '/clasificacion',
-        component: Clasificacion
+        component: Clasificacion,
+        beforeEnter: (to, from, next) => store.state.Permissions.clasificacion > 1 ? next() : next('/')
     },
-    { path: '/login' ,name: 'login', component: Login , meta: {notAuth: true},
-    beforeEnter: (to, from, next) => {
-        if(store.state.IsLogged == true){
-            next('/')
-        }else{
-            next()
-        }
-    }},
+    { 
+        path: '/login' ,
+        component: Login , 
+        name: 'login', 
+        meta: {notAuth: true},
+        beforeEnter: (to, from, next) =>  store.state.IsLogged == true ? next('/') : next()
+    },
     {
         path: '/usuarios',
         component: Users,

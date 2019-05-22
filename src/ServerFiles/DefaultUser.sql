@@ -23,11 +23,13 @@ insert into ventasdescuento ( ID_venta, monto_producto, monto_general ) values (
 insert into ventasimpuestos ( ID_venta, monto_impuesto ) values ( 0, 0 );
 
 
+
 -- Inicializacion de sistema de permisos
     -- Roles
-    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, admin, rol) values (4 ,4 ,4 ,4 , 4, 4, 'Administrador');
-    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, admin, rol) values (4 ,0 ,4 ,4 , 4, 4, 'Ventas');
+    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, administrador, rol) values (5 ,5 ,5 ,5 , 5, 2, 'Administrador');
+    insert into Roles (productos, clasificacion, lotes, usuarios, reportes, administrador, rol) values (5 ,1 ,5 ,5 , 5, 2, 'Ventas');
     -- Usuarios
     insert into Usuarios (user, pass, name, ID_rol) values ('admin' ,'admin', 'Administrador', 1);
     insert into Usuarios (user, pass, name, ID_rol) values ('clasi' ,'clasi', 'Caja', 2);
+
 

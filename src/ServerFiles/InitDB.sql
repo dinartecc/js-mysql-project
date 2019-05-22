@@ -4,13 +4,13 @@
 
 create table if not exists Roles(
     ID_rol int not null auto_increment,
-    productos int default 0,
-    clasificacion int default 0,
-    lotes int default 0,
-    usuarios int default 0,
-    reportes int default 0,
-    admin int default 0,
     rol varchar(30) not null,
+    productos ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
+    clasificacion ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
+    lotes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
+    usuarios ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
+    reportes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
+    administrador ENUM('No', 'Si') not null,
     constraint PK_rol primary key (ID_rol)
 ) ENGINE = InnoDB;
 
