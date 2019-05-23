@@ -116,7 +116,9 @@ a{
     height: 20px;
     margin-right: 2px;
 }
+#menu > div div:nth-child(1):hover{ transition: 0.5s ; transform: scale(1.1)}
 #menu > div div:nth-child(1){
+    transition: 0.5s;
     cursor: pointer;
     color: white;
     display: flex;
@@ -142,7 +144,7 @@ a{
     align-items: flex-start;
     display:flex;
     flex-direction: column;
-
+    min-width: 180px;
     height: auto;
     min-height: 100vh;
     

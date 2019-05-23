@@ -39,13 +39,11 @@ router.get('/logout' , (req,res) => {
 router.post('/login',( req, res ) => {
 
   const { user, pass} = req.body;
-  console.log(user,pass)
   VerificarLogin(user,pass)
     .then((response) => { return JSON.stringify(response[0])})
     .then((response) => { return JSON.parse(response)} )
     .then( (response) => { 
       console.log(response);
-
       const {user, name,productos, clasificacion, lotes, usuarios, admin, rol} = response;
       req.session.permissions = { productos, clasificacion, lotes, usuarios, rol , admin};
       req.session.user = {user, name};
@@ -68,7 +66,7 @@ router.post('/login',( req, res ) => {
 
       
     })
-    .catch( (response) => res.status(205).send('Informacion incorrecta!') );
+    .catch( (response) => console.log(response) );
     
     
 })

@@ -14,38 +14,47 @@
                 <label for="roles">
                     <div class="boton-seccion" @click="cambioSeccion">Roles</div>
                 </label>
-                <AddBtn ></AddBtn>
+                <AddBtn @add="alertar" ></AddBtn>
             </div>
         </div>
-        <div id="table-container">
-            <Table class="margin-tables"
-            :tabla="'marca'"
-            :orden="usuariosOrden" 
-            :texts="usuariosTexts"
-            :body="usuarios"
-            @clicked="buscar"
-            v-if="Selected == 'usuarios'"
-            ></Table>
-        </div>
-        <div id="table-container">
-            <Table class="margin-tables"
-            :tabla="'Roles'"
-            :orden="rolesOrden" 
-            :texts="rolesTexts"
-            :body="roles"
-            @clicked="buscar"
-            v-if="Selected == 'roles'"
-            ></Table>
-        </div>
-        <div id="add-container">
+        <transition name="slide-fade">
+            <div id="table-container" v-if="Selected == 'usuarios'">
+                <Table class="margin-tables text-center"
+                :tabla="'marca'"
+                :orden="usuariosOrden" 
+                :texts="usuariosTexts"
+                :body="usuarios"
+                @clicked="buscar"
+                
+                ></Table>
+            </div>
+        </transition>    
+        <transition name="slide-fade">
+            <div id="table-container" v-if="Selected == 'roles'">
+                <Table class="margin-tables text-center"
+                :tabla="'Roles'"
+                :orden="rolesOrden" 
+                :texts="rolesTexts"
+                :body="roles"
+                @clicked="buscar"
+                
+                ></Table>
+            </div>
+        </transition>
 
-        </div>
-
+        <transition name="slide-fade">
+            <div id="add-container" v-show="Selected == 'add'">
+                <TableAdd 
+                :titles="AddTableTitle"
+                :body="AddTableTexts"></TableAdd>
+            </div>
+        </transition>
 
     </div>
 </template>
 
 <script>
+import TableAdd from '../Components/TableAdd.vue'
 import AddBtn from '../Components/AddBtn.vue'
 import SearchBar from '../Components/SearchBar.vue'
 import Table from '../Components/Table.vue'
@@ -54,6 +63,11 @@ export default {
     data: () => {
         return{
 
+
+            AddTableTitle: ['Seccion', 'Leer' , 'Escribir', 'Actualizar', 'Borrar'],
+            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios'],
+
+            ShowAdd: false,
             Selected: 'roles',
             usuarios: [],
             usuariosOrden : [ 'name', 'rol' ],
@@ -87,7 +101,7 @@ export default {
                     input: 'Insertar'
                 },
                 reportes: {
-                    titulo: 'Clasificacion',
+                    titulo: 'Reportes',
                     input: 'Insertar'
                 },
                 usuarios: {
@@ -102,6 +116,10 @@ export default {
         }
     },
     methods: {
+        alertar(){
+            this.Selected = 'add';
+          
+        },
         buscar(){
 
         },
@@ -136,7 +154,8 @@ export default {
     components : {
         SearchBar,
         AddBtn,
-        Table
+        Table,
+        TableAdd
     }
 
 }
@@ -176,6 +195,7 @@ export default {
         border-radius: 10px;
         cursor: pointer;
     }
+    .text-center{ text-align: center;}
     #seccion-btn{
         display:flex;
     }
@@ -187,5 +207,20 @@ export default {
     }
     #add-container{
         width: 90%
+    }
+
+
+
+
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
     }
 </style>
