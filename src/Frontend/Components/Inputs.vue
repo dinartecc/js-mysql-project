@@ -234,13 +234,14 @@ h3{
 }
 .section-input{
  
-    width: 400px;
+    width: auto;
     margin-top: 20px;
 
 }
 .input-default{
     border: 2px solid #555861;
-    width: 70%;
+    width: 100%;
+    min-width: 400px;
     outline: 0;
     margin-right: 20px;
     margin-left: 0;

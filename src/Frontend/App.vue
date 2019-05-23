@@ -55,7 +55,7 @@ export default {
     }
     Sidebar{
         width: 10%;
-        min-width: 170px;
+        min-width: 190px;
         height: auto;
     }
 </style>

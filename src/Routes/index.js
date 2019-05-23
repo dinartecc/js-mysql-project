@@ -46,9 +46,9 @@ router.get('/updateschema', (req, res ) => {
 
 
 /* ----- Prueba ---- */
-router.get('/prueba', (req, res) => {
+router.post('/prueba', (req, res) => {
 
-
+  console.log(req.body)
   // const test = {
   //   tabla : 'cliente',
   //   nombre : 'cliente1',

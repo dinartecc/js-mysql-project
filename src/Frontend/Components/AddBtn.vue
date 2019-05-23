@@ -16,13 +16,9 @@
 
 <script>
 export default {
-    props: {
-        seleccion: String
-    },
     methods: {
         click: function(event) {
-        
-            this.$emit('add', this.seleccion)
+            this.$emit('add')
         }
     }
 }

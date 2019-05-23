@@ -144,7 +144,7 @@ a{
     align-items: flex-start;
     display:flex;
     flex-direction: column;
-
+    min-width: 180px;
     height: auto;
     min-height: 100vh;
     
