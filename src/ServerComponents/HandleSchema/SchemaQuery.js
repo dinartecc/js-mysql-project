@@ -13,7 +13,7 @@ const SchemaQuery =  () => {
   return new Promise( ( resolve, reject ) => {
 
     //Se crea el string de la query y el objeto de a conexion
-    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
+    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
           connection  = CreateConnection;
 
 
@@ -54,6 +54,12 @@ const SchemaQuery =  () => {
             case 'tinyint':
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].tipo = 'boolean';
               break;
+
+            case 'enum':
+              let parsed = tupla.COLUMN_TYPE;
+              parsed = parsed.match(/'.+'/)[0];
+              parsed = parsed.replace(/'/g, '').split(',');
+              schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].valores=parsed;
             case 'varchar':
             case 'char':
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].tipo = tupla.DATA_TYPE;
