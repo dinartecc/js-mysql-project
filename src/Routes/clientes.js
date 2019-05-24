@@ -102,22 +102,6 @@ router.post('/clientes/buscar', function(req, res){
 
 
 
-router.get('/getusers', (req, res) => {
-    connection.query( `select name, rol from usuarios join roles where usuarios.ID_rol = roles.ID_rol`, (error, results, fields) => {
-        console.log(results)
-        let response = JSON.stringify(results)
-        res.send(response)
-    });
-})
-
-
-router.get('/getroles', (req, res) => {
-    connection.query( `select * from roles`, (error, results, fields) => {
-        console.log(results)
-        let response = JSON.stringify(results)
-        res.send(response)
-    });
-})
 
 
 module.exports = router;

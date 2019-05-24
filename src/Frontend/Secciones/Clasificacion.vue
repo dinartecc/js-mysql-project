@@ -27,16 +27,18 @@
         </div>
         <div id="table-container">
             <EmptyMsg v-show="Show"></EmptyMsg>
-            <transition name="slide-fade">
-                <Table class="margin-tables"
-                :tabla="'marca'"
-                :orden="marcaOrden" 
-                :texts="marcaTexts"
-                :body="marca"
-                @clicked="editar"
-                v-if="(Selected == 'marca' || Selected == 'todo')"
-                ></Table>
-            </transition>  
+            <div id="wrapper">
+                <transition name="slide-fade">
+                    <Table class="margin-tables"
+                    :tabla="'marca'"
+                    :orden="marcaOrden" 
+                    :texts="marcaTexts"
+                    :body="marca"
+                    @clicked="editar"
+                    v-if="(Selected == 'marca' || Selected == 'todo')"
+                    ></Table>
+                </transition>  
+            </div>
 
 
             

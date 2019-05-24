@@ -43,9 +43,11 @@
         </transition>
 
         <transition name="slide-fade">
-            <div id="add-container" v-show="Selected == 'add'">
+            <div id="add-container" v-if="Selected == 'add'">
                 <TableAdd 
                 :titles="AddTableTitle"
+                
+                :action="'add'"
                 :body="AddTableTexts"></TableAdd>
             </div>
         </transition>
@@ -62,11 +64,9 @@ import axios from 'axios'
 export default {
     data: () => {
         return{
-
-
-            AddTableTitle: ['Seccion', 'Leer' , 'Escribir', 'Actualizar', 'Borrar'],
-            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios'],
-
+            AddTableTitle: ['Seccion','Ninguno', 'Leer' , 'Escribir', 'Actualizar', 'Borrar'],
+            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios',],
+            EditValues: [ 3 , 2 , 4 , 1 , 4 ],
             ShowAdd: false,
             Selected: 'roles',
             usuarios: [],
@@ -206,7 +206,7 @@ export default {
         width: 90%
     }
     #add-container{
-        width: 90%
+        width: 90%;
     }
 
 

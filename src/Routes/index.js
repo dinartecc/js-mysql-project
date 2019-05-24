@@ -111,12 +111,6 @@ router.post('/prueba', (req, res) => {
   // HandleSchema().then(ro=> res.send(ro));
 });
 
-router.post('/intento',(req,res) => {
-  const {hola, usuario} = req.body;
-  console.log(req.body)
-  res.json(JSON.stringify({hola, usuario}))
-})
-
 /* ----- Clientes ----- */
 
 
