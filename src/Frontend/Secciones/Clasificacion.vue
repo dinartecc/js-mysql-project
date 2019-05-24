@@ -68,25 +68,30 @@
 
             </transition>
 
-
-
-
-
-        </div>
+            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
+                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
+                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
+                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
+              -->
 
             <Inputs v-if="Selected == 'anadir'" 
             :seccion="'clasificacion'" 
-            :texts="this[`${ClickedData.tabla}Texts`]" 
-            :schema="schema[ClickedData.tabla]" 
-            :default="ClickedData" 
+            :texts="this[`${InputData.tabla}Texts`]" 
+            :schema="schema[InputData.tabla]" 
+            :default="InputData" 
             :boolDefault="false"
             @added="added" />
 
+            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
+                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
+                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
+                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
+              -->
             <Inputs v-if="Selected == 'editar'" 
             :seccion="'clasificacion'" 
-            :texts="this[`${ClickedData.tabla}Texts`]" 
-            :schema="schema[ClickedData.tabla]" 
-            :default="ClickedData" 
+            :texts="this[`${InputData.tabla}Texts`]" 
+            :schema="schema[InputData.tabla]" 
+            :default="InputData" 
             :boolDefault="true"
             @added="added" />
 
@@ -110,12 +115,14 @@ export default {
         return{
             Show: false,
             Selected : 'todo',
-            ClickedData: {},
+            //InputData. Esto va a tener un .tabla de la tabla que se va a usar y un .elemento que va a ser para los valores predeterminados
+            InputData: {},
             SearchData: '',
             categoria: [],
             subcategoria: [],
             marca: [],
             schema: {},
+            //En los texts se pone titulo de la tabla y el label de los inputs
             marcaTexts: {
                 nombre: {
                     titulo: 'Marca',
@@ -168,11 +175,11 @@ export default {
         this.actualizar()
     },
     methods: {
-        //funcion para tu add
+        //En el add, si esta selected una seccion, esa seccion se vuelve la tabla del inputData.
         add: function(value) {
             if (this.Selected !== 'todo' && this.Selected !== 'anadir' && this.Selected !== 'editar' ) {
-                this.ClickedData.tabla = this.Selected;
-                this.ClickedData.elemento = undefined;
+                this.InputData.tabla = this.Selected;
+                this.InputData.elemento = undefined;
                 this.Selected = 'anadir';
             }
         },
@@ -185,7 +192,7 @@ export default {
             this.actualizar()
         },
         editar: function(value){
-            this.ClickedData = value;
+            this.InputData = value;
             this.Selected = 'editar';
         },
         actualizar:async function(){
