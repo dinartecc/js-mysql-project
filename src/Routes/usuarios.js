@@ -1,4 +1,4 @@
-const router = require('express').Router();
+ const router = require('express').Router();
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import connection from '../ServerComponents/CreateConnection/CreateConnection';
 router.post('/roles/add', (req, res) =>{
@@ -23,7 +23,7 @@ router.get('/getusers', (req, res) => {
     const Query = {
         tabla: 'usuarios',
         desc: true,
-        columnas: ['id','user','ID_rol'],
+        columnas: ['id','name','ID_rol'],
         foranea: {
           ID_rol: {
             tabla: 'roles',
@@ -33,7 +33,7 @@ router.get('/getusers', (req, res) => {
       };
     QueryDatabase( Query )
     .then((response)=> {
-        response = JSON.stringify(response[0])
+        response = JSON.stringify(response)
         console.log(response)
         res.json(response)
     })

@@ -26,8 +26,12 @@ router.get('/hola',(req, res) => {
 
 /* ----- Inicializar Database -----*/
 router.get('/db/reset', ( req, res ) => {
-  ResetDatabase();
-  res.send('xd');
+  try {
+    ResetDatabase();
+    res.send('xd');
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 router.get('/db/default', ( req, res ) => {

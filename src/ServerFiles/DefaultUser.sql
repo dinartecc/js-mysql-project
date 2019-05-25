@@ -24,6 +24,9 @@ insert into ventasimpuestos ( ID_venta, monto_impuesto ) values ( 0, 0 );
 
 
 
+
+
+
 -- Inicializacion de sistema de permisos
     -- Roles
     insert into Roles (productos, clasificacion, lotes, usuarios, reportes, administrador, rol) values (5 ,5 ,5 ,5 , 5, 2, 'Administrador');

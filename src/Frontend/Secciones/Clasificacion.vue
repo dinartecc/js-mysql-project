@@ -95,7 +95,7 @@
             :boolDefault="true"
             @added="added" />
 
-
+        </div>
     </div>
     
 </template>

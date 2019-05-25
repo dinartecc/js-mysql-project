@@ -70,13 +70,13 @@ export default {
             ShowAdd: false,
             Selected: 'roles',
             usuarios: [],
-            usuariosOrden : [ 'name', 'rol' ],
+            usuariosOrden : [ 'name', 'roles__rol' ],
             usuariosTexts: {
                 name: {
                     titulo: 'Usuario',
                     input: 'Nombre de marca:'
                 },
-                rol: {
+                roles__rol: {
                     titulo: 'Rol',
                     input: 'ID:'
                 }
@@ -126,8 +126,8 @@ export default {
         getUsers(){
             axios.get('/getusers')
             .then((response) => {
-                this.usuarios = JSON.parse(response);
-                console.log(response)
+                this.usuarios = JSON.parse(response.data);
+                console.log(JSON.parse(response.data))
             })
             .catch((error) => {
                 console.log(error)
@@ -136,12 +136,11 @@ export default {
         getRoles(){
             axios.get('/getroles')
             .then((response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 response = response.data;
                 return response
             })
             .then((response) => {
-            
                 this.roles = response
             })
         }
