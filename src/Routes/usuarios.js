@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import connection from '../ServerComponents/CreateConnection/CreateConnection';
 router.post('/roles/add', (req, res) =>{
     console.log(req.body.data)
@@ -20,17 +20,32 @@ router.post('/roles/edit', (req, res) =>{
 })
 
 router.get('/getusers', (req, res) => {
-    connection.query( `select name, rol from usuarios join roles where usuarios.ID_rol = roles.ID_rol`, (error, results, fields) => {
-        console.log(results)
-        let response = JSON.stringify(results)
-        res.send(response)
-    });
+    const Query = {
+        tabla: 'usuarios',
+        desc: true,
+        columnas: ['id','user','ID_rol'],
+        foranea: {
+          ID_rol: {
+            tabla: 'roles',
+            columnas: ['rol']
+          }
+        }
+      };
+    QueryDatabase( Query )
+    .then((response)=> {
+        response = JSON.stringify(response[0])
+        console.log(response)
+        res.json(response)
+    })
+    .catch((response) => {
+        console.log(response)
+    })
 })
 
 
 router.get('/getroles', (req, res) => {
     connection.query( `select * from roles`, (error, results, fields) => {
-        console.log(results)
+
         let response = JSON.stringify(results)
         res.send(response)
     });

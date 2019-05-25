@@ -126,8 +126,11 @@ export default {
         getUsers(){
             axios.get('/getusers')
             .then((response) => {
-                response = response.data;
-                this.usuarios = response
+                this.usuarios = JSON.parse(response);
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
             })
         },
         getRoles(){
@@ -138,6 +141,7 @@ export default {
                 return response
             })
             .then((response) => {
+            
                 this.roles = response
             })
         }

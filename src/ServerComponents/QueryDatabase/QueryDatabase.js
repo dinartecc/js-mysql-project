@@ -148,7 +148,6 @@ const QueryDatabase = ( obj ) => {
       
       // Pagina
       mysqlQuery += `limit ${ obj.limite } ${ obj.pagina == 1 ? '' : `offset ${ (obj.pagina - 1) * limitePagina  }` };`;
-
       // Realiza la query
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {
