@@ -68,8 +68,6 @@ app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto 
 
 app.set('views', path.join(__dirname,'/Views'));
 
-
-
 /* ----- Configurando handlebars ----- */
 
 
@@ -82,32 +80,6 @@ app.engine('.hbs',hbs({
 }))
 
 app.set('view engine', '.hbs');
-
-
-
-/* ----- Rutas ----- */
-
-// GRAPHQL TEST
-
-// Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-var root = {
-  hello: () => {
-    return 'Hello world!';
-  },
-};
-
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true
-}));
-
 
 
 /* ----- Rutas ----- */
@@ -123,7 +95,7 @@ app.get('*', (req, res) => {
 
 /* ----- Server Running ----- */
 app.listen(PORT, function() {
-    console.log('Your node js server is running');
+    console.log(`Servidor montado en el puerto ${PORT}`);
 });
   }
     

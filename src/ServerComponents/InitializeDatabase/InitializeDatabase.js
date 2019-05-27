@@ -18,9 +18,8 @@ const InitializeDatabase = () => {
 
 
 
-
       connection.query(mysqlQueryInit, (error, results, fields) => {
-
+        console.log('Verificando Base de datos...')
         // Devuelve error si encuentra alguno
         if (error) {
           reject(error);
@@ -37,7 +36,7 @@ const InitializeDatabase = () => {
 
           if ( results[0].count == 0 ) {
             connection.query(mysqlDefault, (error, results, fields) => {
-
+              console.log("Creando usuarios predefinidos...")
               // Devuelve error si encuentra alguno
               if (error) {
                 reject(error);
@@ -47,6 +46,7 @@ const InitializeDatabase = () => {
               resolve(results);
       
             });
+            console.log("Completado!")
           } 
           else {
             resolve(results);
