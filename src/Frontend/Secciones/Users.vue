@@ -4,27 +4,26 @@
 
             <SearchBar v-on:SendSearchData="buscar"></SearchBar>
 
-            <input type="radio" id="usuarios" name="menu" value="usuarios" v-model="Selected">
-            <input type="radio" id="roles" name="menu" value="roles" v-model="Selected">
+            <input type="radio" id="usuarios" name="menu" value="usuarios" @click="cambioSeccion" v-model="Selected" checked>
+            <input type="radio" id="roles" name="menu" value="roles" @click="cambioSeccion" v-model="Selected">
 
             <div id="seccion-btn">
                 <label for="usuarios">
-                    <div class="boton-seccion" @click="cambioSeccion">Usuarios</div>
+                    <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'usuarios'}">Usuarios</div>
                 </label>
                 <label for="roles">
-                    <div class="boton-seccion" @click="cambioSeccion">Roles</div>
+                    <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'roles'}">Roles</div>
                 </label>
-                <AddBtn @add="alertar" ></AddBtn>
+                <AddBtn @add="add" ></AddBtn>
             </div>
         </div>
         <transition name="slide-fade">
             <div id="table-container" v-if="Selected == 'usuarios'">
                 <Table class="margin-tables text-center"
-                :tabla="'marca'"
+                :tabla="'Marca'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios"
-                @clicked="buscar"
                 
                 ></Table>
             </div>
@@ -36,19 +35,21 @@
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
                 :body="roles"
-                @clicked="buscar"
-                
+                @clicked="editRoles"
                 ></Table>
             </div>
         </transition>
 
         <transition name="slide-fade">
-            <div id="add-container" v-if="Selected == 'add'">
+            <div id="add-container" v-if="Selected == 'addRoles' || Selected == 'editRoles'">
                 <TableAdd 
                 :titles="AddTableTitle"
-                
-                :action="'add'"
-                :body="AddTableTexts"></TableAdd>
+                :action="actionRoles"
+                :body="AddTableTexts"
+                :defaultValues="EditValues"
+                :editInfo="EditRolesInfo"
+                >
+                </TableAdd>
             </div>
         </transition>
 
@@ -65,8 +66,10 @@ export default {
     data: () => {
         return{
             AddTableTitle: ['Seccion','Ninguno', 'Leer' , 'Escribir', 'Actualizar', 'Borrar'],
-            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios',],
-            EditValues: [ 3 , 2 , 4 , 1 , 4 ],
+            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios'],
+            EditRolesInfo: [], 
+            actionRoles: 'add',
+            EditValues: {},
             ShowAdd: false,
             Selected: 'roles',
             usuarios: [],
@@ -116,18 +119,38 @@ export default {
         }
     },
     methods: {
-        alertar(){
-            this.Selected = 'add';
-          
-        },
-        buscar(){
 
+        cambioSeccion(){
+            this.actionRoles = 'add'
+        },
+        buscar: function(){
+
+        },
+        add: function(){
+            switch (this.Selected) {
+                case 'addRoles':
+                    return null;
+                    break;
+                case 'roles':
+                    this.actionRoles = 'add'
+                    this.Selected = 'addRoles'
+                    break;
+                    
+                default:
+                    
+                    break;
+            }
+        }, 
+        editRoles: function(value){
+            this.EditValues = value;
+            this.actionRoles = 'edit'
+            this.Selected = 'editRoles'
         },
         getUsers(){
             axios.get('/getusers')
             .then((response) => {
                 this.usuarios = JSON.parse(response.data);
-                console.log(JSON.parse(response.data))
+                //console.log(JSON.parse(response.data))
             })
             .catch((error) => {
                 console.log(error)
@@ -144,15 +167,12 @@ export default {
                 this.roles = response
             })
         }
-        ,
-        cambioSeccion(){
-            console.log(this.Selected)
-        }
+        
     },
     created(){
         this.getUsers()
         this.getRoles()
-        console.log(this.roles)
+        //console.log(this.roles)
     },
     components : {
         SearchBar,
@@ -166,6 +186,7 @@ export default {
 
 
 <style scoped>
+    
     h1{
         color: white;
     }
@@ -213,7 +234,9 @@ export default {
     }
 
 
-
+    .btnactive{
+        background: #6a7cab;
+    }
 
     .slide-fade-enter-active {
         transition: all .3s ease;

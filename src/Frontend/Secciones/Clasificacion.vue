@@ -69,7 +69,7 @@
             </transition>
 
             <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
-                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
+                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes quInputDatae poner
                 boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
                 tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
               -->

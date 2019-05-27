@@ -71,10 +71,12 @@ table td{
     font-weight: 300 !important;
     border-left: 0;
     border-right: 0;
-
+    cursor: pointer;
     
 }
 
+table tbody tr:hover td{ background-color: #323b4e ; transition: .2s}
+table tbody tr td{transition: .5s}
 div{
     width: 100%;
     display: flex;

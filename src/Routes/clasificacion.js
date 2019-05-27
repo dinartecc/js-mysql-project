@@ -101,7 +101,6 @@ router.post('/clasificacion/nuevo',async (req, res) => {
 router.post('/clasificacion/editar', async (req, res) => {
 
   const query = req.body.query;
-
   if(typeof query == 'undefined' && typeof query.tabla == 'undefined' && typeof query.id == 'undefined' ){
       res.status(404).end();
   }

@@ -39,8 +39,9 @@ export default {
 </script>
 
 
-
 <style scoped>
+    
+
     #container{
         overflow-x: hidden;
         display: flex;

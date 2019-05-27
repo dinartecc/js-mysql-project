@@ -87,7 +87,7 @@
 
 #main-list > div{margin: 30px 0; min-width: 350px;}
 .selectedRow{background-color: #14161b; transition: 0.5s}
-#main-list table tbody tr:hover td{}
+
 #main-list table tbody tr td{transition: 0.5s}
 
 table{
