@@ -48,6 +48,7 @@
                 :body="AddTableTexts"
                 :defaultValues="EditValues"
                 :editInfo="EditRolesInfo"
+                @added="RolesEnd"
                 >
                 </TableAdd>
             </div>
@@ -62,6 +63,7 @@ import AddBtn from '../Components/AddBtn.vue'
 import SearchBar from '../Components/SearchBar.vue'
 import Table from '../Components/Table.vue'
 import axios from 'axios'
+
 export default {
     data: () => {
         return{
@@ -119,7 +121,10 @@ export default {
         }
     },
     methods: {
-
+        RolesEnd: function(){
+            this.getRoles()
+            this.Selected = 'roles'
+        },
         cambioSeccion(){
             this.actionRoles = 'add'
         },

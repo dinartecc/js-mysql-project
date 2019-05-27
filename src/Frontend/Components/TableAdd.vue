@@ -160,20 +160,50 @@ export default {
 
             event.preventDefault()
             let toSend = {
-                data: this.inputs,
+                data:       this.inputs,
                 info: {
                     nombre: this.nombre,
-                    id: this.id
+                    id:     this.id
                 }
             }
-            axios.post(`/roles/${this.action}`, query)
-            .then(
-
-            )
-            .then(() => {
-                this.$emit('done' , true)
+            Swal.fire({
+                title: '¿Está seguro?',
+                text: "¿Desea ingresar los datos?",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true,
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return axios.post(`/roles/${this.action}`, toSend)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            throw new Error(response.statusText)
+                        }
+                        return true;
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                        `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
+                        )
+                        return false;
+                    })  
+                },
+                allowOutsideClick: () => !Swal.isLoading()
             })
-            console.log(this.inputs)
+            .then((result) => {
+                console.log(result);
+                if (result.value) {
+                    Swal.fire(
+                    '¡Éxito!',
+                    `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
+                    'success'
+                    )
+                    .then(()=>this.$emit('added'));
+                    
+                }
+            })
         },
     }
     ,
