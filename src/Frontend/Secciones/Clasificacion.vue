@@ -26,6 +26,36 @@
             </div>
         </div>
         <div id="table-container">
+            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
+                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes quInputDatae poner
+                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
+                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
+              -->
+            <transition name="slide-fade">
+                <Inputs v-if="Selected == 'anadirmarca' || Selected == 'anadircategoria' || Selected == 'anadirsubcategoria'" 
+                :seccion="'clasificacion'" 
+                :texts="this[`${InputData.tabla}Texts`]" 
+                :schema="schema[InputData.tabla]" 
+                :default="InputData" 
+                :boolDefault="false"
+                @added="added" />
+            </transition>
+            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
+                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
+                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
+                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
+              -->
+            <transition name="slide-fade">
+                <Inputs v-if="Selected == 'editar'" 
+                :seccion="'clasificacion'" 
+                :texts="this[`${InputData.tabla}Texts`]" 
+                :schema="schema[InputData.tabla]" 
+                :default="InputData" 
+                :boolDefault="true"
+                @added="added" />
+            </transition>
+
+
             <EmptyMsg v-show="Show"></EmptyMsg>
             <div id="wrapper">
                 <transition name="slide-fade">
@@ -35,7 +65,7 @@
                     :texts="marcaTexts"
                     :body="marca"
                     @clicked="editar"
-                    v-if="(Selected == 'marca' || Selected == 'todo')"
+                    v-if="(Selected == 'marca' || Selected == 'todo') || (Selected == 'anadirmarca' )"
                     ></Table>
                 </transition>  
             </div>
@@ -50,7 +80,7 @@
                 :texts="categoriaTexts"
                 :body="categoria"
                 @clicked="editar" 
-                v-if="Selected == 'categoria' || Selected == 'todo'"
+                v-if="( Selected == 'categoria' || Selected == 'todo' ) || (Selected == 'anadircategoria' )"
                 id="oli"
                 ></Table>
             </transition>
@@ -68,32 +98,7 @@
 
             </transition>
 
-            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
-                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes quInputDatae poner
-                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
-                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
-              -->
-
-            <Inputs v-if="Selected == 'anadir'" 
-            :seccion="'clasificacion'" 
-            :texts="this[`${InputData.tabla}Texts`]" 
-            :schema="schema[InputData.tabla]" 
-            :default="InputData" 
-            :boolDefault="false"
-            @added="added" />
-
-            <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
-                titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
-                boolDefault como true. El text y el schema los agarra segun el objeto InputData de la data. InputData
-                tiene .tabla para la tabla y .elemento que es el elemento del editar. Eso lo manda la tabla.
-              -->
-            <Inputs v-if="Selected == 'editar'" 
-            :seccion="'clasificacion'" 
-            :texts="this[`${InputData.tabla}Texts`]" 
-            :schema="schema[InputData.tabla]" 
-            :default="InputData" 
-            :boolDefault="true"
-            @added="added" />
+            
 
         </div>
     </div>
@@ -180,7 +185,8 @@ export default {
             if (this.Selected !== 'todo' && this.Selected !== 'anadir' && this.Selected !== 'editar' ) {
                 this.InputData.tabla = this.Selected;
                 this.InputData.elemento = undefined;
-                this.Selected = 'anadir';
+                this.Selected = `anadir${this.Selected}`;
+                console.log(this.Selected)
             }
         },
         added: function() {

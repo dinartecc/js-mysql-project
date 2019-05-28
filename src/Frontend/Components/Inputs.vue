@@ -20,14 +20,12 @@
                         
                         <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
                     </div>
-                    <div>
+                    <div class="btn-container">
                         <button class="btn red" @click="$emit('added')">Cancelar</button>
                         <button class="btn" @click="confirmar">Submit</button>
                     </div>
                 </form>
             
-        
-
         
     </div>
 </template>
@@ -213,12 +211,16 @@ export default {
 
 <style scoped>
 
+.btn-container{
+    display: flex;
+}
+
 .input-container{
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    width: 80%;
+    width: 100%;
     background-color: #2a3141;
 }
 h3{
@@ -233,18 +235,17 @@ h3{
     cursor:not-allowed
 }
 .section-input{
- 
-    width: auto;
-    margin-top: 20px;
+   
+    margin-top: ;
+    margin-left: 15px;
+    margin-right: 10px;
 
 }
 .input-default{
     border: 2px solid #555861;
     width: 100%;
-    min-width: 400px;
+    min-width: 200px;
     outline: 0;
-    margin-right: 20px;
-    margin-left: 0;
     border-radius: 30px;
     padding-left: 10px;
     background-color: rgba(0, 0, 0, 0);
@@ -274,9 +275,7 @@ h3{
 
 form{
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);

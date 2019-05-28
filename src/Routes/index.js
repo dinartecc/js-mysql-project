@@ -10,18 +10,13 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 
 SchemaQuery();
 
-router.get('*', (req ,res , next) => {
-    next()
-})
-
 router.get('/',(req, res) => {
-    res.render('inicio.hbs');
-    console.log()
+  res.render('inicio.hbs');
+
 })
 
 router.get('/hola',(req, res) => {
-    
-    res.send(req.session.nombre);
+    res.send(req.session.user);
 })
 
 /* ----- Inicializar Database -----*/

@@ -12,7 +12,7 @@
             <a href="/categorias"><p>Categorias</p></a>
         </div>
     </div>
-    <div v-show="this.$store.state.Permissions.clasificacion > 0">
+    <div v-show="this.$store.state.Permissions.clasificacion > 1">
         <router-link to="/clasificacion">
             <div>
                 <img src="img/clasificacion.svg" alt=""> <p>Clasificación</p>
@@ -20,7 +20,7 @@
         </router-link>
      
     </div>
-    <div class="dropdown-menu" v-show="this.$store.state.Permissions.usuarios > 0">
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.usuarios > 1">
         <router-link to="/usuarios">
             <div>
                 <img src="img/usuario.svg" alt=""> <p>Usuarios</p>

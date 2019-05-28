@@ -6,8 +6,6 @@ import fs from 'fs'
 import bodyParser from 'body-parser'
 import hbs from 'express-handlebars';
 import InitializeDatabase from './ServerComponents/InitializeDatabase/InitializeDatabase';
-import graphqlHTTP from 'express-graphql';
-var { buildSchema } = require('graphql');
 
 
 const MySQLStore = require('express-mysql-session')(session);
@@ -40,27 +38,10 @@ app.use(session({ //Configuracion del express-sessions
 
 
 
-
-//UpdateSchema();
-
-
-
 //Middlewares
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); // Permite utilizar el req.
 
-/*
-app.use((req, res, next) => {
-
-  if(typeof req.session.user === 'undefined' && req.path !== '/login') {
-    res.render('login.hbs', {layout: 'login'});
-  }
-  else{
-    next();
-  }
-});
-
-*/
 
 /* ----- Configuraciones ----- */
 app.use(express.static(path.join(__dirname, '../public')));  // Al parecer esto no funcionaba  xdd

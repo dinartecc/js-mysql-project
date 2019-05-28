@@ -36,7 +36,6 @@
                                 <label class="border"   
                                 :for="elemento + '_' + index"
                                 :class="[elemento + '_' + index , {selected: ((inputs[index_body] > index) && (index !== 0))} , {red: ((inputs[index_body] == 5) && (index == 4))}]">   
-                                    {{inputs[index_body]}}
                                     <div v-if="((inputs[index_body] > index) && (index !== 0)) || (inputs[index_body] == index+1)">Si</div>  <!-- Esto es para que el texto de la columna Ninguno, se vea como 'seleccionado' -->
                                     <div v-else>NO</div>
                                 </label>
@@ -46,10 +45,11 @@
             </tbody>
         </table>
         <div id="btn-container">
-            <!--input type="submit" class="input-default red" value="Cancelar"-->
-            <input type="submit" @click="send($event)" class="input-default" value="Enviar">
+            <label for="name-input" id="name-label" style="">Nombre del rol</label>
+            <input type="text" id="name-input" name="Nombre" v-model="nombre" class="input-default" required>
+            <input type="submit" @click="send($event)" class="btn-default" value="Enviar">
+            <input type="submit" @click="cancel($event)" class="btn-default red" value="Cancelar">
         </div>
-        <input type="text" name="Nombre" v-model="nombre" class="" required>
     </form>
 </template>
 
@@ -197,14 +197,18 @@ export default {
                 if (result.value) {
                     Swal.fire(
                     '¡Éxito!',
-                    `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
+                    `Se ${ this.action == 'edit' ? 'editó' : 'añadió'} exitosamente.`,
                     'success'
                     )
-                    .then(()=>this.$emit('added'));
+                    .then(()=>this.$emit('finish' , true));
                     
                 }
             })
         },
+        cancel: function(event){
+            event.preventDefault();
+            this.$emit('finish', false)
+        }
     }
     ,
     computed: {
@@ -222,7 +226,9 @@ export default {
 
 
 <style scoped>
-
+.blocked{
+    cursor:not-allowed
+}
 
 #btn-container{
     display: flex;
@@ -230,19 +236,30 @@ export default {
     margin-top: 40px;
 }
 
-.input-default{
+.btn-default{
     border: 2px solid #555861;
     width: auto;
     outline: 0;
+    min-width: 130px;
     margin-right: 20px;
     margin-left: 0;
     padding: 7px 20px 7px 20px;
     border: 0;
     border-radius: 10px;
     background-color: #6a7cab;
-    height: 30px !important;
+    height: 40px !important;
     color: white;
+    cursor: pointer
 }
+#name-label{
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+
 .input-container{
     display: flex;
     width: 150px;
@@ -250,7 +267,20 @@ export default {
     margin: 0 auto 0 auto;
     border-radius: 20px;
 }
-
+.input-default{
+    border: 2px solid #555861;
+    width: 200px;
+    min-width: 400px;
+    outline: 0;
+    margin-right: 20px;
+    margin-left: 0;
+    border-radius: 30px;
+    padding-left: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    height: 30px !important;
+    color: #cacaca;
+    color: white;
+}
 
 .input-container p {
     margin: 0
@@ -260,7 +290,7 @@ export default {
     padding: 10px 8px 10px 8px
 }
 
-input[type="radio"]{display: }
+input[type="radio"]{display: none }
 label{
     cursor: pointer;
 }

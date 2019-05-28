@@ -14,7 +14,7 @@
                 <label for="roles">
                     <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'roles'}">Roles</div>
                 </label>
-                <AddBtn @add="add" ></AddBtn>
+                <AddBtn v-if="this.$store.state.Permissions.usuarios > 2" @add="add" :class="[{blocked: Selected !== 'roles' && Selected !== 'usuarios'}]" ></AddBtn>
             </div>
         </div>
         <transition name="slide-fade">
@@ -48,7 +48,7 @@
                 :body="AddTableTexts"
                 :defaultValues="EditValues"
                 :editInfo="EditRolesInfo"
-                @added="RolesEnd"
+                @finish="RolesEnd"
                 >
                 </TableAdd>
             </div>
@@ -91,42 +91,44 @@ export default {
             rolesTexts: {
                 rol: {
                     titulo: 'Rol',
-                    input: 'Insertar'
+                   
                 },
                 clasificacion: {
                     titulo: 'Clasificacion',
-                    input: 'Insertar'
+                    
                 },
                 lotes: {
                     titulo: 'Lotes',
-                    input: 'Insertar'
+                    
                 },
                 productos: {
                     titulo: 'Productos',
-                    input: 'Insertar'
+                    
                 },
                 reportes: {
                     titulo: 'Reportes',
-                    input: 'Insertar'
+                    
                 },
                 usuarios: {
                     titulo: 'Usuarios',
-                    input: 'Insertar'
+                  
                 },
                 ID_rol: {
                     titulo: 'ID',
-                    input: 'Insertar'
                 }
             }
         }
     },
     methods: {
-        RolesEnd: function(){
-            this.getRoles()
+        RolesEnd: function(changes){
+            if(changes){
+                this.getRoles()
+            }
             this.Selected = 'roles'
         },
         cambioSeccion(){
             this.actionRoles = 'add'
+            this.getRoles()
         },
         buscar: function(){
 
@@ -159,7 +161,7 @@ export default {
             })
             .catch((error) => {
                 console.log(error)
-            })
+            })` `
         },
         getRoles(){
             axios.get('/getroles')
@@ -192,6 +194,11 @@ export default {
 
 <style scoped>
     
+    .blocked{
+        cursor:not-allowed
+    }
+
+
     h1{
         color: white;
     }
