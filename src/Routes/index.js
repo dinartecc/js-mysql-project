@@ -7,13 +7,9 @@ import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFro
 import ValidateInput from '../ServerComponents/ValidateInput/ValidateInput';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
-
+import {join} from 'path'
 SchemaQuery();
 
-router.get('/',(req, res) => {
-  res.render('inicio.hbs');
-
-})
 
 router.get('/hola',(req, res) => {
     res.send(req.session.user);
