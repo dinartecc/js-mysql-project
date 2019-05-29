@@ -4,13 +4,11 @@ import path from 'path';
 import session from 'express-session'
 import fs from 'fs'
 import bodyParser from 'body-parser'
-import hbs from 'express-handlebars';
 import InitializeDatabase from './ServerComponents/InitializeDatabase/InitializeDatabase';
 
 
 const MySQLStore = require('express-mysql-session')(session);
 const expireTime = 100000000;
-
 import CreateConnection from './ServerComponents/CreateConnection/CreateConnection';
 
 InitializeDatabase()
@@ -68,10 +66,8 @@ app.get('*',(req, res) => {
 /* ----- Server Running ----- */
 app.listen(PORT, function() {
     console.log(`Servidor montado en el puerto ${PORT}`);
-});
-  }
-    
-)
+  });
+})
 .catch (error => {console.log(error); throw error;} );
 
 

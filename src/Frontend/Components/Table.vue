@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    props: {
+    props: { 
         tabla: String,
         body: Array,
         orden: Array,
@@ -29,12 +29,15 @@ export default {
     },
     methods: {
         respuesta( contenido ) {
+            console.log(this.body)
             const res = {
                 elemento: contenido,
                 tabla: this.tabla
             }
             this.$emit('clicked', res )
         }
+    },
+    created(){
     },
     computed: {
         formatearTitulo () {

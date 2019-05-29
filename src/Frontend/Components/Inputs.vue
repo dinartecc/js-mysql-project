@@ -21,8 +21,8 @@
                         <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
                     </div>
                     <div class="btn-container">
-                        <button class="btn red" @click="$emit('added')">Cancelar</button>
-                        <button class="btn" @click="confirmar">Submit</button>
+                        <button class="btn red" @click="cancel($event)">Cancelar</button>
+                        <button class="btn" @click="confirmar($event)">Submit</button>
                     </div>
                 </form>
             
@@ -43,7 +43,7 @@ export default {
         default: Object,
         texts: Object,
         seccion: String,
-        boolDefault: Boolean
+       
     },
     data: () => {
         return{
@@ -56,6 +56,10 @@ export default {
     methods: {
         obtenerLlaves () {
              return this.schemaLlaves;
+        },
+        cancel(e){
+            e.preventDefault();
+            this.$emit('added')
         },
         confirmar(e) {
             e.preventDefault();

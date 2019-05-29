@@ -20,7 +20,7 @@
         <transition name="slide-fade">
             <div id="table-container" v-if="Selected == 'usuarios'">
                 <Table class="margin-tables text-center"
-                :tabla="'Marca'"
+                :tabla="'Usuarios'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios"
@@ -39,7 +39,7 @@
                 ></Table>
             </div>
         </transition>
-
+        
         <transition name="slide-fade">
             <div id="add-container" v-if="Selected == 'addRoles' || Selected == 'editRoles'">
                 <TableAdd 
@@ -87,8 +87,11 @@ export default {
                 }
             },
             roles: [],
-            rolesOrden: ['rol', 'clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
+            rolesOrden: ['id','rol', 'clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
             rolesTexts: {
+                id: {
+                    titulo: 'ID'
+                },
                 rol: {
                     titulo: 'Rol',
                    
@@ -161,12 +164,11 @@ export default {
             })
             .catch((error) => {
                 console.log(error)
-            })` `
+            })
         },
         getRoles(){
             axios.get('/getroles')
             .then((response) => {
-                //console.log(response.data);
                 response = response.data;
                 return response
             })
@@ -179,7 +181,6 @@ export default {
     created(){
         this.getUsers()
         this.getRoles()
-        //console.log(this.roles)
     },
     components : {
         SearchBar,
