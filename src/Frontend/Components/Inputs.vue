@@ -240,7 +240,7 @@ h3{
 }
 .section-input{
    
-    margin-top: ;
+    margin-top: 10px;
     margin-left: 15px;
     margin-right: 10px;
 
