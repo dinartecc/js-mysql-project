@@ -152,7 +152,7 @@ export default {
             },
             subcategoriaTexts: {
                 ID_categoria: {
-                    input: 'ID de categoría padre:'
+                    input: 'Categoría:'
                 },
                 categoria__nombre: {
                     titulo: 'Categoría'
