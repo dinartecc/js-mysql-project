@@ -1,6 +1,7 @@
  const router = require('express').Router();
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import connection from '../ServerComponents/CreateConnection/CreateConnection';
+import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 
 
@@ -8,13 +9,22 @@ router.post('/roles/add', (req, res) =>{
     console.log(req.body)
     const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
     const {nombre} = req.body.info;
-    console.log(Clasificacion)
-    //insert into Roles (productos, clasificacion, lotes, usuarios, reportes, `admin`, rol) values (5 ,5 ,5 ,5 , 5, 2, 'Administrador');
-    connection.query(`INSERT into Roles (productos, clasificacion, lotes, usuarios, reportes, rol) values('${Productos}', '${Clasificacion}', '${Lotes}', '${Usuarios}', '${Reportes}', '${nombre}') `, function (error, results, fields){
-        if (error) throw error;
-        console.log(results)
-        res.send('OK')
-    })
+    const query = {
+      tabla : "roles",
+      clasificacion : Clasificacion,
+      lotes : Lotes,
+      productos: Productos,
+      reportes : Reportes,
+      usuarios: Usuarios,
+      rol: nombre
+    };
+
+    AddToDatabase(query)
+      .then( () => res.send('OK'))
+      .catch( (err) => {
+        console.log(err);
+        res.send('Error')
+      });
 })
 router.post('/roles/edit', (req, res) =>{
     const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
