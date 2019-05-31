@@ -13,6 +13,7 @@
                                     ID
                                 </th>
                                 <th v-for="llave of schemaLlaves" :key="llave">
+                                 
                                     {{texts[llave].input}}
                                 </th>
                             </tr>
@@ -241,7 +242,7 @@ export default {
     },
     created() {
         const llaves = this.obtenerLlaves();
-        
+        console.log(this.texts)
 
         for( let llave of llaves ) {
             this.boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';

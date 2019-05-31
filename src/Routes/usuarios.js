@@ -3,7 +3,7 @@ import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase'
 import connection from '../ServerComponents/CreateConnection/CreateConnection';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
-
+import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
 
 router.post('/roles/add', (req, res) =>{
     console.log(req.body)
@@ -54,6 +54,23 @@ router.post('/roles/edit', (req, res) =>{
 })
 
 
+router.post('/usuarios/buscar', (req, res) => {
+  const Query = {
+    tabla: 'roles',
+    columnas: ['rol', 'id'],
+    desc: true,
+  }
+
+  QueryDatabase( Query )
+  .then((response) => {
+    console.log(response)
+    res.json(response)
+  })
+  .catch((error) => console.log(error))
+
+
+})
+
 // Ruta que te responde con todos los usuarios
 router.get('/getusers', (req, res) => {
     const Query = {
@@ -67,10 +84,17 @@ router.get('/getusers', (req, res) => {
           }
         }
       };
+
+
+      const schemaFull = GetSchema(),
+      schema = (({ usuarios }) => ({ usuarios }))(schemaFull);
+
+
+      console.log("SALUDOS SCHEMA",schema)
     QueryDatabase( Query )
     .then((response)=> {
-        response = JSON.stringify(response)
-        console.log(response)
+        response = JSON.stringify({users: response, schema})
+        //console.log(response)
         res.json(response)
     })
     .catch((response) => {

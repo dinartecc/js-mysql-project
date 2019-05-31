@@ -1,7 +1,9 @@
 <template>
     <div class="overlay" @click.self="enviar">
         <div class="box" >
+            
             <SearchBar @SendSearchData="Buscar" />
+        
             <Table class="margin-tables"
                     :tabla="tabla"
                     :orden="orden"
@@ -9,7 +11,8 @@
                     :body="body" 
                     @clicked="enviar" 
                     />
-            <input type="button" value="Regresar" @click="enviar"/>
+                    
+            <input type="button" class="btn red" value="Regresar" @click="enviar"/>
         </div>
     </div>
 </template>
@@ -94,6 +97,8 @@ export default {
 
 <style scoped>
 
+
+
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
@@ -116,38 +121,56 @@ table td{
     border-left: 0;
     border-right: 0;
     cursor: pointer;
-    
 }
-
 table tbody tr:hover td{ background-color: #323b4e ; transition: .2s}
 table tbody tr td{transition: .5s}
 
-div.box{
-    width: 50;
+div .box{
+    /*border: 1px solid #555861;*/
+    width: 500px;
     display: flex;
+    position: relative;
+    top: -100px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     background-color: #232730;
-    padding: 10px 40px;
-    border-radius: 20px;
+    background-color: #222831;
+    padding: 15px 30px;
+    border-radius: 10px;
+    height: auto;
     color: white !important;
 }
-div.box > * {
+div .box > * {
     margin: 10px 0;
 }
-div.overlay {
+div .overlay {
     position: absolute;
     display: flex;
     justify-content: center;
     width: 100%;
     height: 100%;
     align-items: center;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.8);
     top: 0; 
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 2;
+}
+
+
+
+.btn{
+    background-color: #6a7cab !important;
+    color: white;
+    margin: 15px 10px;
+    padding: 8px 20px;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+}
+.red{
+    background-color: #e66f66 !important;
 }
 </style>

@@ -70,7 +70,6 @@
                 </transition>  
             </div>
 
-
             
             <transition name="slide-fade">
 
@@ -212,6 +211,7 @@ export default {
                 this.categoria = categoria;
                 this.subcategoria = subcategoria;
                 this.schema = schema;
+               
             })
         },
         Buscar:async function(value){
