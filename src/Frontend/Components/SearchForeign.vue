@@ -1,14 +1,16 @@
 <template>
-    <div>
-        <SearchBar @SendSearchData="Buscar" />
-        <Table class="margin-tables"
-                :tabla="tabla"
-                :orden="orden"
-                :texts="texts"
-                :body="body" 
-                @clicked="enviar" 
-                />
-        <input type="button" value="Regresar" />
+    <div class="overlay" @click.self="enviar">
+        <div class="box" >
+            <SearchBar @SendSearchData.stop="Buscar" />
+            <Table class="margin-tables"
+                    :tabla="tabla"
+                    :orden="orden"
+                    :texts="texts"
+                    :body="body" 
+                    @clicked="enviar" 
+                    />
+            <input type="button" value="Regresar" @click="enviar"/>
+        </div>
     </div>
 </template>
 
@@ -61,12 +63,12 @@ export default {
         },
         enviar( contenido ) {
             let res = -1;
-            if ( typeof contenido == 'object' ) {
+            if ( contenido.hasOwnProperty('elemento') ) {
                 res = contenido.elemento.id;
             }
             
             console.log(res);
-            // this.$emit('SendForeign', res )
+            this.$emit('SendForeign', res )
         }
     },
     created(){
@@ -117,5 +119,16 @@ div{
     width: 100%;
     display: flex;
     justify-content: center;
+}
+div.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
 }
 </style>

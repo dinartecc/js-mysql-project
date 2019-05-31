@@ -17,13 +17,14 @@
                             <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                             <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                             <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
-                        
+                            <SearchBtn v-if="schema[llave].hasOwnProperty('foranea')"  @search="forSearch(llave)" />
                         <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
                     </div>
                     <div class="btn-container">
                         <button class="btn red" @click="cancel($event)">Cancelar</button>
                         <button class="btn" @click="confirmar($event)">Submit</button>
                     </div>
+                    <SearchForeign v-if="forshow" :tabla="this.fortabla" :seccion="this.seccion" @SendForeign="forUpdate" />
                 </form>
             
         
@@ -36,6 +37,8 @@
 
 import Swal from 'sweetalert2';
 import axios from 'axios'
+import SearchBtn from './SearchBtn.vue';
+import SearchForeign from './SearchForeign.vue';
 
 export default {
     props: {
@@ -43,6 +46,10 @@ export default {
         default: Object,
         texts: Object,
         seccion: String,
+        boolDefault: {
+            type: Boolean,
+            default: false
+        }
        
     },
     data: () => {
@@ -50,8 +57,14 @@ export default {
             Schema: {},
             valores: {},
             errores: {},
-            boolDefault : false
+            forkey: '',
+            forshow: false,
+            fortabla: '',
         }
+    },
+    components: {
+        SearchBtn,
+        SearchForeign
     },
     methods: {
         obtenerLlaves () {
@@ -60,6 +73,19 @@ export default {
         cancel(e){
             e.preventDefault();
             this.$emit('added')
+        },
+        forSearch(llave) {
+            this.forkey = llave;
+            this.fortabla = this.schema[llave].foranea;
+            this.forshow = true;
+        },
+        forUpdate(e) {
+            console.log('xd');
+            this.forshow = false;
+            if ( e != -1 ) {
+                this.valores[this.forkey] = e;
+            }
+
         },
         confirmar(e) {
             e.preventDefault();

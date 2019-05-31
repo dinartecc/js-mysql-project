@@ -101,7 +101,7 @@
             
 
         </div>
-        <searchForeign :tabla="'categoria'" :seccion="'clasificacion'" />
+
     </div>
     
 </template>
@@ -114,7 +114,6 @@ import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
 import Inputs from '../Components/Inputs.vue';
 import AddBtn from '../Components/AddBtn.vue';
-import SearchForeign from '../Components/SearchForeign.vue';
 
 
 export default {
@@ -177,8 +176,7 @@ export default {
         SearchBar,
         EmptyMsg,
         Inputs,
-        AddBtn,
-        SearchForeign
+        AddBtn
     },
     created(){
         this.actualizar()
