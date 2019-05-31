@@ -10,12 +10,14 @@
                 <tr :key="contenido.id" v-for="contenido of body">
                    
                     <td :key="items" v-for="(items, index) in orden">
-                        <div v-if="index == 0">{{contenido[items]}}</div>
-                        <div v-else-if="contenido[items] === 'Ninguno'" class="color ninguno"></div>
-                        <div v-else-if="contenido[items] === 'Leer'" class="color leer"></div>
-                        <div v-else-if="contenido[items] === 'Escribir'" class="color insertar"></div>
-                        <div v-else-if="contenido[items] === 'Actualizar'" class="color actualizar"></div>
-                        <div v-else-if="contenido[items] === 'Eliminar'" class="color eliminar"></div>
+                        <div class="color-container">
+                            <div v-if="index == 0">{{contenido[items]}}</div>
+                            <div v-else-if="contenido[items] === 'Ninguno'" class="color ninguno"></div>
+                            <div v-if="contenido[items] === 'Leer' || contenido[items] === 'Escribir' || contenido[items] === 'Actualizar' || contenido[items] === 'Eliminar'" class="color leer"></div>
+                            <div v-if="contenido[items] === 'Escribir' || contenido[items] === 'Actualizar' || contenido[items] === 'Eliminar'" class="color insertar"></div>
+                            <div v-if="contenido[items] === 'Actualizar' || contenido[items] === 'Eliminar'" class="color actualizar"></div>
+                            <div v-if="contenido[items] === 'Eliminar'" class="color eliminar"></div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -25,12 +27,16 @@
 
 
 <style scoped>
-
+.color-container{
+    display: flex;
+    min-width: 150px;
+    text-align: center;
+    border-radius: 4px;
+}
 .color{
     width: 100%;
-    min-width: 150px;
     height: 30px;
-    border-radius: 4px;
+    
 }
 .eliminar{
     background-color: #E8545F;
@@ -65,7 +71,7 @@ table{
     box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     border-collapse: collapse;
     width: 100%;
-    text-align: center;
+    
 }
 table td, table th {
     height: 30px;
