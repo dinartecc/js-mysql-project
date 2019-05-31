@@ -194,7 +194,7 @@ export default {
                 allowOutsideClick: () => !Swal.isLoading()
             })
             .then((result) => {
-                console.log(result);
+
                 if (result.value) {
                     Swal.fire(
                     '¡Éxito!',

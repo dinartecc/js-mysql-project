@@ -9,6 +9,9 @@
                     <table>
                         <thead>
                             <tr>
+                                <th v-if="boolDefault">
+                                    ID
+                                </th>
                                 <th v-for="llave of schemaLlaves" :key="llave">
                                     {{texts[llave].input}}
                                 </th>
@@ -16,6 +19,9 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td v-if="boolDefault">
+                                    <input class="input-default" :value="valores.id" disabled />
+                                </td>
                                 <td v-for="llave of schemaLlaves" :key="llave">
                                     <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                                     <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
@@ -23,12 +29,14 @@
                                     <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                                     <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
                                     <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
+                                    <SearchBtn v-if="schema[llave].hasOwnProperty('foranea')"  @search="forSearch(llave)" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
                 </form>
+                <SearchForeign v-if="forshow" :tabla="this.fortabla" :seccion="this.seccion" @SendForeign="forUpdate" />
                     <div class="btn-container">
                         <button class="btn red" @click="cancel($event)">Cancelar</button>
                         <button class="btn" @click="confirmar($event)">Guardar</button>
@@ -44,6 +52,8 @@
 
 import Swal from 'sweetalert2';
 import axios from 'axios'
+import SearchBtn from './SearchBtn.vue';
+import SearchForeign from './SearchForeign.vue';
 
 export default {
     props: {
@@ -51,7 +61,10 @@ export default {
         default: Object,
         texts: Object,
         seccion: String,
-        boolDefault: Boolean
+        boolDefault: {
+            type: Boolean,
+            default: false
+        }
        
     },
     data: () => {
@@ -59,8 +72,14 @@ export default {
             Schema: {},
             valores: {},
             errores: {},
-            
+            forkey: '',
+            forshow: false,
+            fortabla: '',
         }
+    },
+    components: {
+        SearchBtn,
+        SearchForeign
     },
     methods: {
         obtenerLlaves () {
@@ -69,6 +88,19 @@ export default {
         cancel(e){
             e.preventDefault();
             this.$emit('added')
+        },
+        forSearch(llave) {
+            this.forkey = llave;
+            this.fortabla = this.schema[llave].foranea;
+            this.forshow = true;
+        },
+        forUpdate(e) {
+
+            this.forshow = false;
+            if ( e != -1 ) {
+                this.valores[this.forkey] = e;
+            }
+
         },
         confirmar(e) {
             e.preventDefault();
@@ -123,7 +155,7 @@ export default {
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
-                    console.log(result);
+
                     if (result.value) {
                         Swal.fire(
                         '¡Éxito!',
@@ -215,7 +247,8 @@ export default {
             this.boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
             this.errores[llave] = '';
         }
-        this.valores.id = this.default.elemento.id; 
+        if (this.boolDefault) this.valores.id = this.default.elemento.id; 
+        
     }
 }
 
@@ -267,9 +300,6 @@ h3{
     width: 400px;
 }
 
-input{
-    
-}
 .btn{
     background-color: #6a7cab !important;
     color: white;

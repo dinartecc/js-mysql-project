@@ -13,12 +13,13 @@ const SchemaQuery =  () => {
   return new Promise( ( resolve, reject ) => {
 
     //Se crea el string de la query y el objeto de a conexion
-    const mysqlQuery = `select TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
+    const mysqlQueryColumns = `select TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_KEY from Information_schema.columns where TABLE_SCHEMA = '${process.db.database}'`,
+          mysqlQueryKeys = `select CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_SCHEMA = '${process.db.database}'`,
           connection  = CreateConnection;
 
 
     // Se realiza la query
-      connection.query( mysqlQuery, (error, results, fields) => {
+      connection.query( mysqlQueryColumns, (error, results, fields) => {
         //Si no hubo error, se hace un objeto schema, donde cada nombre de la tabla es una 
         //propiedad del objeto, y cada columna es una propiedad anidada con el tipo de dato que es.
 
@@ -67,23 +68,41 @@ const SchemaQuery =  () => {
              break;
           }
 
-          //Si la columna es la llave primaria de la tabla, se guarda dentro de la propiedad id
-          if ( tupla.COLUMN_KEY == 'PRI' ) {
-            schema[tupla.TABLE_NAME].id = tupla.COLUMN_NAME;
-          }
 
         }
 
         //Se guarda la ultima vez que se actualizo el schema
         schema.lastUpdate = Date.now();
-        
-        //Se guarda el schema en formato JSON
-        fs.writeFile( path.join( __dirname, '../../ServerFiles/Schema.json'), JSON.stringify(schema), (err) => {
 
-          if (err) throw error;
+        connection.query( mysqlQueryKeys, (error, results, fields) => {
+          for( let tupla of results ) {
+            
+            if (error) {
+              reject(error);
+              return null;  
+            } 
 
-        })
-        resolve (schema);
+            if( tupla.CONSTRAINT_NAME == 'PRIMARY') {
+              schema[tupla.TABLE_NAME].id = tupla.COLUMN_NAME;
+            }
+            else {
+              schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].foranea = tupla.REFERENCED_TABLE_NAME;
+            }
+          }
+
+          //Se guarda el schema en formato JSON
+          fs.writeFile( path.join( __dirname, '../../ServerFiles/Schema.json'), JSON.stringify(schema), (err) => {
+
+            if (err) {
+              reject(err)
+              return null;
+            };
+
+          })
+          resolve(schema);
+
+        });
+
       });
 
     });

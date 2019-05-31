@@ -101,18 +101,20 @@
             
 
         </div>
+
     </div>
     
 </template>
 
 <script>
-import axios from 'axios'
+import 'babel-polyfill';
+import axios from 'axios';
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
 import Inputs from '../Components/Inputs.vue';
 import AddBtn from '../Components/AddBtn.vue';
-import 'babel-polyfill';
+
 
 export default {
     
@@ -186,7 +188,7 @@ export default {
                 this.InputData.tabla = this.Selected;
                 this.InputData.elemento = undefined;
                 this.Selected = `anadir${this.Selected}`;
-                console.log(this.Selected)
+
             }
         },
         added: function(todo) {
@@ -225,10 +227,10 @@ export default {
                     this.categoria = categoria;
                     this.subcategoria = subcategoria;
                 }else{
-                    console.log( response.data )
+
                     response.data.length == 0 ? this.Show = true : this.Show = false;
                     this[this.Selected] = response.data
-                    console.log( this[this.Selected] )
+
                 }
             })
         },

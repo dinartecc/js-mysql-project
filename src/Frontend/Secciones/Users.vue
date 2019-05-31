@@ -129,7 +129,7 @@ export default {
             if(changes){
                 this.getRoles()
             }
-            console.log(this.roles)
+
             this.Selected = 'roles'
         },
         cambioSeccion(){
@@ -177,7 +177,7 @@ export default {
             })
             .then((response) => {
                 this.roles = response
-                console.log(this.roles)
+
             })
         }
         
