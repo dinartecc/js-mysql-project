@@ -4,7 +4,7 @@
 
 create table if not exists Roles(
     ID_rol int not null,
-    rol varchar(30) not null,
+    nombre varchar(30) not null,
     productos ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     clasificacion ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     lotes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,

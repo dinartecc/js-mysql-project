@@ -95,7 +95,7 @@ export default {
             usuarios: [],
             InputData: {},
             usuariosSchema: {},
-            usuariosOrden : [ 'name', 'roles__rol' ],
+            usuariosOrden : [ 'name', 'roles__nombre' ],
             usuariosTexts: {
                 nombre:{
                     titulo: 'Saludos',
@@ -105,7 +105,7 @@ export default {
                     titulo: 'Usuario',
                     input: 'Nombre de Usuario:'
                 },
-                roles__rol: {
+                roles__nombre: {
                     titulo: 'Rol',
                 },
                 ID_rol: {
@@ -122,9 +122,9 @@ export default {
                 }
             },
             roles: [],
-            rolesOrden: ['rol','clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
+            rolesOrden: ['nombre','clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
             rolesTexts: {
-                rol: {
+                nombre: {
                     titulo: 'Rol',
 
                 },

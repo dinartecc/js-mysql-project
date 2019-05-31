@@ -16,7 +16,7 @@ router.post('/roles/add', (req, res) =>{
       productos: Productos,
       reportes : Reportes,
       usuarios: Usuarios,
-      rol: nombre
+      nombre
     };
 
     AddToDatabase(query)
@@ -54,12 +54,32 @@ router.post('/roles/edit', (req, res) =>{
 })
 
 
+
+router.post('/usuarios/nuevo', (req,res) => {
+  console.log(req.body)
+  const {user, pass, name, ID_rol, tabla} = req.body
+  const Query = {
+    tabla,
+    user,
+    pass,
+    name,
+    ID_rol,
+  }
+  AddToDatabase( Query )
+  .then( console.log('TODO BIEN') )
+  .catch((error) => {
+    console.log(error)
+  })
+})
+
 router.post('/usuarios/buscar', (req, res) => {
   const Query = {
     tabla: 'roles',
-    columnas: ['rol', 'id'],
+    columnas: ['nombre', 'id'],
     desc: true,
   }
+
+
 
   QueryDatabase( Query )
   .then((response) => {
@@ -80,7 +100,7 @@ router.get('/getusers', (req, res) => {
         foranea: {
           ID_rol: {
             tabla: 'roles',
-            columnas: ['rol']
+            columnas: ['nombre']
           }
         }
       };
@@ -127,7 +147,7 @@ router.get('/getroles', (req, res) => {
 
     const Query = {
         tabla: 'roles',
-        columnas: ['id', 'rol', 'productos', 'clasificacion', 'lotes', 'usuarios', 'reportes', 'administrador']
+        columnas: ['id', 'nombre', 'productos', 'clasificacion', 'lotes', 'usuarios', 'reportes', 'administrador']
     }
 
     QueryDatabase( Query )
