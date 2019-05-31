@@ -9,6 +9,9 @@
                     <table>
                         <thead>
                             <tr>
+                                <th v-if="boolDefault">
+                                    ID
+                                </th>
                                 <th v-for="llave of schemaLlaves" :key="llave">
                                     {{texts[llave].input}}
                                 </th>
@@ -16,6 +19,9 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td v-if="boolDefault">
+                                    <input class="input-default" :value="valores.id" disabled />
+                                </td>
                                 <td v-for="llave of schemaLlaves" :key="llave">
                                     <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
                                     <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
@@ -89,7 +95,7 @@ export default {
             this.forshow = true;
         },
         forUpdate(e) {
-            console.log('xd');
+
             this.forshow = false;
             if ( e != -1 ) {
                 this.valores[this.forkey] = e;
@@ -149,7 +155,7 @@ export default {
                     },
                     allowOutsideClick: () => !Swal.isLoading()
                 }).then((result) => {
-                    console.log(result);
+
                     if (result.value) {
                         Swal.fire(
                         '¡Éxito!',
@@ -241,7 +247,8 @@ export default {
             this.boolDefault ? this.valores[llave] = this.default.elemento[llave] : this.valores[llave] = '';
             this.errores[llave] = '';
         }
-        this.valores.id = this.default.elemento.id; 
+        if (this.boolDefault) this.valores.id = this.default.elemento.id; 
+        
     }
 }
 

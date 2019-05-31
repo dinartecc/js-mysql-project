@@ -1,7 +1,7 @@
 <template>
     <div class="overlay" @click.self="enviar">
         <div class="box" >
-            <SearchBar @SendSearchData.stop="Buscar" />
+            <SearchBar @SendSearchData="Buscar" />
             <Table class="margin-tables"
                     :tabla="tabla"
                     :orden="orden"
@@ -17,6 +17,13 @@
 
 
 <script>
+/*
+    <SearchForeign v-if="forshow" :tabla="this.fortabla" :seccion="this.seccion" @SendForeign="forUpdate" />
+    Para usar este component, le tenes que pasar el nombre de la tabla en la que se va a buscar
+    y la seccion de donde se va a sacar la info (del backend, para la ruta /seccion/buscar)
+    Va a emitir un evento SendForeign Key con el valor del id
+*/
+
 import axios from 'axios';
 import SearchBar  from './SearchBar.vue';
 import Table from './Table.vue';
@@ -57,7 +64,7 @@ export default {
             
             await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: tipo })
             .then((response) => {
-                 console.log(value,response);
+
                 this.body = response.data;
             })
         },
@@ -66,8 +73,7 @@ export default {
             if ( contenido.hasOwnProperty('elemento') ) {
                 res = contenido.elemento.id;
             }
-            
-            console.log(res);
+
             this.$emit('SendForeign', res )
         }
     },
@@ -115,15 +121,28 @@ table td{
 
 table tbody tr:hover td{ background-color: #323b4e ; transition: .2s}
 table tbody tr td{transition: .5s}
-div{
-    width: 100%;
+
+div.box{
+    width: 50;
     display: flex;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    background-color: #232730;
+    padding: 10px 40px;
+    border-radius: 20px;
+    color: white !important;
+}
+div.box > * {
+    margin: 10px 0;
 }
 div.overlay {
     position: absolute;
+    display: flex;
+    justify-content: center;
     width: 100%;
     height: 100%;
+    align-items: center;
     background-color: rgba(0,0,0,0.5);
     top: 0; 
     left: 0;

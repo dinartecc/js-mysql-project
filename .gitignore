@@ -6,3 +6,4 @@ build/
 src/ServerFiles/Schema.json
 src/ServerFiles/dbCredentialsLocal.json
 src/Frontend/.cache/
+public/js/bundle.js
