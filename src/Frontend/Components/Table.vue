@@ -29,7 +29,6 @@ export default {
     },
     methods: {
         respuesta( contenido ) {
-            console.log(this.body)
             const res = {
                 elemento: contenido,
                 tabla: this.tabla

@@ -38,7 +38,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="false"
-                @added="added" />
+                @added="added(false)" />
             </transition>
             <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
                 titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
@@ -52,7 +52,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="true"
-                @added="added" />
+                @added="added(true)" />
             </transition>
 
 
@@ -69,7 +69,6 @@
                     ></Table>
                 </transition>  
             </div>
-
 
             
             <transition name="slide-fade">
@@ -93,7 +92,7 @@
                 :texts="subcategoriaTexts"
                 :body="subcategoria" 
                 @clicked="editar" 
-                v-if="Selected == 'subcategoria' || Selected == 'todo'"
+                v-if="(Selected == 'subcategoria' || Selected == 'todo') || (Selected == 'anadirsubcategoria')"
                 ></Table>
 
             </transition>
@@ -101,18 +100,20 @@
             
 
         </div>
+
     </div>
     
 </template>
 
 <script>
-import axios from 'axios'
+import 'babel-polyfill';
+import axios from 'axios';
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
 import EmptyMsg from '../Components/EmptyMsg.vue'
 import Inputs from '../Components/Inputs.vue';
 import AddBtn from '../Components/AddBtn.vue';
-import 'babel-polyfill';
+
 
 export default {
     
@@ -150,7 +151,7 @@ export default {
             },
             subcategoriaTexts: {
                 ID_categoria: {
-                    input: 'ID de categoría padre:'
+                    input: 'Categoría:'
                 },
                 categoria__nombre: {
                     titulo: 'Categoría'
@@ -186,11 +187,12 @@ export default {
                 this.InputData.tabla = this.Selected;
                 this.InputData.elemento = undefined;
                 this.Selected = `anadir${this.Selected}`;
-                console.log(this.Selected)
+
             }
         },
-        added: function() {
-            this.Selected = 'todo';
+        added: function(todo) {
+            todo ? this.Selected = 'todo' : null;
+            
             this.actualizar();
         },
         cambioSeccion: function(){
@@ -209,6 +211,7 @@ export default {
                 this.categoria = categoria;
                 this.subcategoria = subcategoria;
                 this.schema = schema;
+               
             })
         },
         Buscar:async function(value){
@@ -224,10 +227,10 @@ export default {
                     this.categoria = categoria;
                     this.subcategoria = subcategoria;
                 }else{
-                    console.log( response.data )
+
                     response.data.length == 0 ? this.Show = true : this.Show = false;
                     this[this.Selected] = response.data
-                    console.log( this[this.Selected] )
+
                 }
             })
         },

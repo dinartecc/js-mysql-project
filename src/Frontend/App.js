@@ -18,7 +18,7 @@ const router = new VueRouter({
     mode: 'history',
 })
 
-const getUserInfo =async function(){
+const getUserInfo = async function(){
     try {
         let info = await axios('/userinfo') // Pide la informacion almacenada en la sesion del backend.
         let {permissions , user} = info.data    // Extrae la informacion de los datos recibidos.
@@ -30,6 +30,11 @@ const getUserInfo =async function(){
 
 router.beforeEach( async (to, from, next) => {
     if(store.state.IsLogged){
+        let response = await axios('/islogged')
+        if(response.data == false){
+            store.state.IsLogged = false;
+            next('/login') 
+        }
         next()
     }else{
         try {

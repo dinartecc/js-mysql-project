@@ -26,7 +26,8 @@ export default {
 input{
     outline: 0;
     width: 100%;
-    max-height:30px;;
+    height:30px;
+    color: white;
     border: 2px solid #555861;
     background-color: #232730;
     border-radius: 30px;

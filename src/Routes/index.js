@@ -7,12 +7,14 @@ import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFro
 import ValidateInput from '../ServerComponents/ValidateInput/ValidateInput';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
+import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import {join} from 'path'
+const connection = CreateConnection;
 SchemaQuery();
 
 
 router.get('/hola',(req, res) => {
-    res.send(req.session.user);
+  
 })
 
 /* ----- Inicializar Database -----*/

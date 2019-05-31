@@ -3,7 +3,7 @@
 
 
 create table if not exists Roles(
-    ID_rol int not null auto_increment,
+    ID_rol int not null,
     rol varchar(30) not null,
     productos ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     clasificacion ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
@@ -16,7 +16,7 @@ create table if not exists Roles(
 
 
 create table if not exists Usuarios (
-    ID_usuario int not null auto_increment,
+    ID_usuario int not null,
     user varchar(30) not null,
     pass varchar(30) not null,
     name varchar(30) not null,

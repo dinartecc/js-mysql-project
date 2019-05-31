@@ -131,21 +131,22 @@ export default {
             // | ContadorText = 3 | Reportes          | ####    | #### | ####     | ####       | ####   | <- Input[ContadorText] |
             // +------------------+-------------------+---------+------+----------+------------+--------+------------------------+   
             let {elemento} = this.defaultValues;
+            let elementoTemporal = Object.assign({}, elemento)
             this.titulo = this.nombre = elemento.rol;
-            this.id = elemento.id;
+            this.id = elementoTemporal.id;
             //Elimino las propiedades que no me interesan
-            delete elemento.rol; 
-            delete elemento.id;
-            delete elemento.administrador;
+            delete elementoTemporal.rol;
+            delete elementoTemporal.id;
+            delete elementoTemporal.administrador;
 
             let Titulos = this.body; // =  ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios']
-            for(const value in elemento){ //  Iteracion en el objeto recibido del elemento el cual se dio click
+            for(const value in elementoTemporal){ //  Iteracion en el objeto recibido del elemento el cual se dio click
                 let contadorText = 0; // Contador para saber la posicion actual del arreglo Titulos
                 for(let titulo in Titulos){
 
                     if(value == Titulos[contadorText].toLowerCase()){ // La propiedad y el titulo son iguales...
 
-                        this.inputs[contadorText] = this.textToNumberRoles(elemento[value]) //  Se asigna el valor numerico del elemento al arreglo 
+                        this.inputs[contadorText] = this.textToNumberRoles(elementoTemporal[value]) //  Se asigna el valor numerico del elemento al arreglo 
                         break; // Ya que matcheo, se sale del ciclo                         //  inputs segun la posicion segun el valor de contadorText       
 
                     }
@@ -193,13 +194,16 @@ export default {
                 allowOutsideClick: () => !Swal.isLoading()
             })
             .then((result) => {
-                console.log(result);
+
                 if (result.value) {
                     Swal.fire(
                     '¡Éxito!',
                     `Se ${ this.action == 'edit' ? 'editó' : 'añadió'} exitosamente.`,
                     'success'
                     )
+                    .then(() => {
+                        axios.post('/resetroles', {id: this.id})
+                    })
                     .then(()=>this.$emit('finish' , true));
                     
                 }

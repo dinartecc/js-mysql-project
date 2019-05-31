@@ -3,8 +3,6 @@ import VerificarLogin from '../AuthComponents/VerificarLogin/VericarLogin';
 const router = require('express').Router();
 
 
-
-
 router.get('/islogged', (req, res) =>{
   if(typeof req.session.user !== 'undefined'){
     res.send(true)
@@ -40,27 +38,28 @@ router.post('/login',( req, res ) => {
     .then((response) => { return JSON.parse(response)} )
     .then( (response) => { 
       console.log(response);
-      const {user, name,productos, clasificacion, lotes, usuarios, admin, rol} = response;
-      req.session.permissions = { productos, clasificacion, lotes, usuarios, rol , admin};
-      req.session.user = {user, name};
+      const {user, name,productos, clasificacion, lotes, usuarios, administrador, rol, ID_rol} = response;
+      req.session.permissions = { productos, clasificacion, lotes, usuarios , administrador}; // Asignando todos los valores al objeto permissions de la sesion
+      req.session.ID_rol = ID_rol; // Asignando ID_rol a la session
+      req.session.user = {user, name};  // Asignando los valores al objeto user de la sesion
 
-      res.send(JSON.stringify({
-        permissions: { 
+
+      // Mandando informacion
+      res.send(JSON.stringify({ // Se manda la informacion al frontend para que lo almacene y así según eso realice ciertas acciones
+        permissions: { // Se manda los permisos del usuario
           productos, 
           clasificacion, 
           lotes, 
           usuarios, 
-          admin, 
+          administrador, 
           rol 
         }, 
-        user: {
+        user: { // Se manda la información básica del usuario.
           user, 
           name
         }}
         
       ))
-
-      
     })
     .catch( (response) => console.log(response) );
     

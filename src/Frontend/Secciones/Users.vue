@@ -18,18 +18,17 @@
             </div>
         </div>
         <transition name="slide-fade">
-            <div id="table-container" v-if="Selected == 'usuarios'">
+            <div class="table-container" v-if="Selected == 'usuarios'">
                 <Table class="margin-tables text-center"
                 :tabla="'Usuarios'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios"
-                
                 ></Table>
             </div>
         </transition>    
         <transition name="slide-fade">
-            <div id="table-container" v-if="Selected == 'roles'">
+            <div class="table-container" v-if="Selected == 'roles'">
                 <Table class="margin-tables text-center"
                 :tabla="'Roles'"
                 :orden="rolesOrden" 
@@ -39,7 +38,15 @@
                 ></Table>
             </div>
         </transition>
-        
+        <transition name="slide-fade">
+            <div class="table-container">
+                <TableColors
+                :orden="rolesOrden" 
+                :texts="rolesTexts"
+                :body="roles">
+                </TableColors> 
+            </div>
+        </transition>    
         <transition name="slide-fade">
             <div id="add-container" v-if="Selected == 'addRoles' || Selected == 'editRoles'">
                 <TableAdd 
@@ -53,15 +60,26 @@
                 </TableAdd>
             </div>
         </transition>
+        <transition name="slide-fade">
+            <Inputs v-if="Selected == 'addUsuarios'"
+            :seccion="'usuarios'" 
+            :texts="usuariosTexts"
+            :schema="usuariosSchema" 
+            :default="InputData" 
+            :boolDefault="false"
+            @added="added(true)" />
+        </transition>
 
     </div>
 </template>
 
 <script>
+import TableColors from '../Components/TableColors.vue'
 import TableAdd from '../Components/TableAdd.vue'
 import AddBtn from '../Components/AddBtn.vue'
 import SearchBar from '../Components/SearchBar.vue'
 import Table from '../Components/Table.vue'
+import Inputs from '../Components/Inputs.vue'
 import axios from 'axios'
 
 export default {
@@ -75,26 +93,40 @@ export default {
             ShowAdd: false,
             Selected: 'roles',
             usuarios: [],
+            InputData: {},
+            usuariosSchema: {},
             usuariosOrden : [ 'name', 'roles__rol' ],
             usuariosTexts: {
+                nombre:{
+                    titulo: 'Saludos',
+                    input: 'Saludos x2'
+                },
                 name: {
                     titulo: 'Usuario',
-                    input: 'Nombre de marca:'
+                    input: 'Nombre de Usuario:'
                 },
                 roles__rol: {
                     titulo: 'Rol',
-                    input: 'ID:'
+                },
+                ID_rol: {
+                    input: 'Rol del usuario'
+                },
+                name: {
+                    input: 'Nombre del Usuario'
+                },
+                user: {
+                    input: 'Usuario para Login'
+                },
+                pass: {
+                    input: 'Contraseña'
                 }
             },
             roles: [],
-            rolesOrden: ['id','rol', 'clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
+            rolesOrden: ['rol','clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
             rolesTexts: {
-                id: {
-                    titulo: 'ID'
-                },
                 rol: {
                     titulo: 'Rol',
-                   
+
                 },
                 clasificacion: {
                     titulo: 'Clasificacion',
@@ -102,7 +134,6 @@ export default {
                 },
                 lotes: {
                     titulo: 'Lotes',
-                    
                 },
                 productos: {
                     titulo: 'Productos',
@@ -115,9 +146,6 @@ export default {
                 usuarios: {
                     titulo: 'Usuarios',
                   
-                },
-                ID_rol: {
-                    titulo: 'ID',
                 }
             }
         }
@@ -127,11 +155,13 @@ export default {
             if(changes){
                 this.getRoles()
             }
+
             this.Selected = 'roles'
         },
         cambioSeccion(){
             this.actionRoles = 'add'
-            this.getRoles()
+            this.InputData.tabla = 'usuarios';
+            this.InputData.elemento = undefined;
         },
         buscar: function(){
 
@@ -145,7 +175,8 @@ export default {
                     this.actionRoles = 'add'
                     this.Selected = 'addRoles'
                     break;
-                    
+                case 'usuarios':
+                    this.Selected = 'addUsuarios'
                 default:
                     
                     break;
@@ -159,8 +190,11 @@ export default {
         getUsers(){
             axios.get('/getusers')
             .then((response) => {
-                this.usuarios = JSON.parse(response.data);
-                //console.log(JSON.parse(response.data))
+                let {users, schema} = JSON.parse(response.data)
+                this.usuarios = users;
+                console.log("SCHEMA",schema.usuarios)
+                this.usuariosSchema = schema.usuarios
+                
             })
             .catch((error) => {
                 console.log(error)
@@ -174,11 +208,13 @@ export default {
             })
             .then((response) => {
                 this.roles = response
+
             })
         }
         
     },
     created(){
+        
         this.getUsers()
         this.getRoles()
     },
@@ -186,7 +222,9 @@ export default {
         SearchBar,
         AddBtn,
         Table,
-        TableAdd
+        TableAdd,
+        TableColors,
+        Inputs
     }
 
 }
@@ -239,7 +277,7 @@ export default {
     input[type="radio"]{
         display: none;
     }
-    #table-container{
+    .table-container{
         width: 90%
     }
     #add-container{
