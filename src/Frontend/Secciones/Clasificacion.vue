@@ -38,7 +38,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="false"
-                @added="added" />
+                @added="added(false)" />
             </transition>
             <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
                 titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
@@ -52,7 +52,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="true"
-                @added="added" />
+                @added="added(true)" />
             </transition>
 
 
@@ -93,7 +93,7 @@
                 :texts="subcategoriaTexts"
                 :body="subcategoria" 
                 @clicked="editar" 
-                v-if="Selected == 'subcategoria' || Selected == 'todo'"
+                v-if="(Selected == 'subcategoria' || Selected == 'todo') || (Selected == 'anadirsubcategoria')"
                 ></Table>
 
             </transition>
@@ -189,8 +189,9 @@ export default {
                 console.log(this.Selected)
             }
         },
-        added: function() {
-            this.Selected = 'todo';
+        added: function(todo) {
+            todo ? this.Selected = 'todo' : null;
+            
             this.actualizar();
         },
         cambioSeccion: function(){

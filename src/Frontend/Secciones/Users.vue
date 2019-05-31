@@ -18,18 +18,17 @@
             </div>
         </div>
         <transition name="slide-fade">
-            <div id="table-container" v-if="Selected == 'usuarios'">
+            <div class="table-container" v-if="Selected == 'usuarios'">
                 <Table class="margin-tables text-center"
                 :tabla="'Usuarios'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios"
-                
                 ></Table>
             </div>
         </transition>    
         <transition name="slide-fade">
-            <div id="table-container" v-if="Selected == 'roles'">
+            <div class="table-container" v-if="Selected == 'roles'">
                 <Table class="margin-tables text-center"
                 :tabla="'Roles'"
                 :orden="rolesOrden" 
@@ -39,7 +38,16 @@
                 ></Table>
             </div>
         </transition>
-        
+        <transition name="slide-fade">
+            <div class="table-container">
+                <TableColors
+                :orden="rolesOrden" 
+                :texts="rolesTexts"
+                :body="roles">
+
+                </TableColors> 
+            </div>
+        </transition>    
         <transition name="slide-fade">
             <div id="add-container" v-if="Selected == 'addRoles' || Selected == 'editRoles'">
                 <TableAdd 
@@ -58,6 +66,7 @@
 </template>
 
 <script>
+import TableColors from '../Components/TableColors.vue'
 import TableAdd from '../Components/TableAdd.vue'
 import AddBtn from '../Components/AddBtn.vue'
 import SearchBar from '../Components/SearchBar.vue'
@@ -87,14 +96,11 @@ export default {
                 }
             },
             roles: [],
-            rolesOrden: ['id','rol', 'clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
+            rolesOrden: ['rol','clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
             rolesTexts: {
-                id: {
-                    titulo: 'ID'
-                },
                 rol: {
                     titulo: 'Rol',
-                   
+
                 },
                 clasificacion: {
                     titulo: 'Clasificacion',
@@ -102,7 +108,6 @@ export default {
                 },
                 lotes: {
                     titulo: 'Lotes',
-                    
                 },
                 productos: {
                     titulo: 'Productos',
@@ -115,9 +120,6 @@ export default {
                 usuarios: {
                     titulo: 'Usuarios',
                   
-                },
-                ID_rol: {
-                    titulo: 'ID',
                 }
             }
         }
@@ -127,6 +129,7 @@ export default {
             if(changes){
                 this.getRoles()
             }
+            console.log(this.roles)
             this.Selected = 'roles'
         },
         cambioSeccion(){
@@ -174,6 +177,7 @@ export default {
             })
             .then((response) => {
                 this.roles = response
+                console.log(this.roles)
             })
         }
         
@@ -186,7 +190,8 @@ export default {
         SearchBar,
         AddBtn,
         Table,
-        TableAdd
+        TableAdd,
+        TableColors
     }
 
 }
@@ -239,7 +244,7 @@ export default {
     input[type="radio"]{
         display: none;
     }
-    #table-container{
+    .table-container{
         width: 90%
     }
     #add-container{

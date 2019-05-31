@@ -6,25 +6,33 @@
             </div>
             
                 <form id="form">
-                    <div class="section-input">
-                         <h3>ID:</h3>
-                        <input class="input-default blocked" v-model="valores.id" type="text" disabled/>
-                    </div>
-                    <div class="section-input" v-for="llave of schemaLlaves" :key="llave">
-                        <h3>{{texts[llave].input}}</h3>
-                            <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                            <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                            <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                            <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                            <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
-                        
-                        <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th v-for="llave of schemaLlaves" :key="llave">
+                                    {{texts[llave].input}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td v-for="llave of schemaLlaves" :key="llave">
+                                    <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                    <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                    <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                    <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                    <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
+                                    <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </form>
                     <div class="btn-container">
                         <button class="btn red" @click="cancel($event)">Cancelar</button>
-                        <button class="btn" @click="confirmar($event)">Submit</button>
+                        <button class="btn" @click="confirmar($event)">Guardar</button>
                     </div>
-                </form>
             
         
     </div>
@@ -43,6 +51,7 @@ export default {
         default: Object,
         texts: Object,
         seccion: String,
+        boolDefault: Boolean
        
     },
     data: () => {
@@ -50,7 +59,7 @@ export default {
             Schema: {},
             valores: {},
             errores: {},
-            boolDefault : false
+            
         }
     },
     methods: {
@@ -216,16 +225,18 @@ export default {
 <style scoped>
 
 .btn-container{
+    justify-content: center;
     display: flex;
+    margin-bottom: 5px;
 }
 
 .input-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-
     width: 100%;
     background-color: #2a3141;
+    margin-bottom: 15px;
 }
 h3{
     margin-top: 0;
@@ -238,19 +249,13 @@ h3{
 .blocked {
     cursor:not-allowed
 }
-.section-input{
-   
-    margin-top: ;
-    margin-left: 15px;
-    margin-right: 10px;
 
-}
 .input-default{
     border: 2px solid #555861;
-    width: 100%;
-    min-width: 200px;
+    width: 80%;
+    min-width: 250px;
     outline: 0;
-    border-radius: 30px;
+    border-radius: 15px;
     padding-left: 10px;
     background-color: rgba(0, 0, 0, 0);
     height: 30px !important;
@@ -262,11 +267,13 @@ h3{
     width: 400px;
 }
 
-
+input{
+    
+}
 .btn{
     background-color: #6a7cab !important;
     color: white;
-    margin: 20px;
+    margin: 15px 10px;
     padding: 8px 20px;
     border: 0;
     outline: 0;
@@ -290,19 +297,21 @@ table{
 }
 table td, table th {
     height: 30px;
-    padding: 8px;
+    padding: 0 20px;
+    text-align: start;
 }
+
+
 table th{
-    background-color: #4b5976;
+
     color:#dedfe0;
 }
-table td{
+td{
     background-color: #2a3141;
     color:#dedfe0;
     font-weight: 300 !important;
     border-left: 0;
     border-right: 0;
-    
 }
 
 input.error {

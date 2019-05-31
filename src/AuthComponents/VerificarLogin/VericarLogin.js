@@ -3,9 +3,8 @@ import CreateConnection from '../../ServerComponents/CreateConnection/CreateConn
 
 const VerificarLogin = ( usuario, contra ) => {
   return new Promise( (resolve, reject) => {
-    
     const connection = CreateConnection;
-    const query = `select user,name, 
+    const query = `select roles.ID_rol,rol,user,name, 
     (case productos
           when 'Ninguno' then 1
           when 'Leer' then 2

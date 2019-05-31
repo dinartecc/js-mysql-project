@@ -21,7 +21,7 @@ router.post('/roles/edit', (req, res) =>{
     const {nombre, id} = req.body.info;
 
     const Query = {
-        tabla: 'roles',
+        tabla:          'roles',
         id,
         clasificacion:  Clasificacion,
         lotes:          Lotes,
@@ -43,6 +43,8 @@ router.post('/roles/edit', (req, res) =>{
 
 })
 
+
+// Ruta que te responde con todos los usuarios
 router.get('/getusers', (req, res) => {
     const Query = {
         tabla: 'usuarios',
@@ -67,6 +69,26 @@ router.get('/getusers', (req, res) => {
 })
 
 
+// Ruta que le pasas un id como body, revisa entre todas las sesiones activas si hay alguna con ese id de ese rol.
+// Si es asi, borra esa registro o mejor dicho, esa "sesion"
+router.post('/resetroles', (req, res) => {
+    const {id} = req.body;
+    connection.query('select * from sessions', function(errror, results, fields){
+        results.forEach(function(elemento, index) {
+          let temp = JSON.parse(elemento.data)
+          if(temp.ID_rol == id){
+            connection.query(`DELETE FROM sessions WHERE session_id = '${elemento.session_id}'`, function(error, results, fields){
+              if (error) throw error;
+            })
+          }
+        })
+    })
+    res.send('Rol reseteado')
+})
+
+
+
+// Ruta que te retorna todos los roles existentes
 router.get('/getroles', (req, res) => {
 
     const Query = {
@@ -74,17 +96,11 @@ router.get('/getroles', (req, res) => {
         columnas: ['id', 'rol', 'productos', 'clasificacion', 'lotes', 'usuarios', 'reportes', 'administrador']
     }
 
-
     QueryDatabase( Query )
     .then((response) => {
         console.log(JSON.stringify(response))
         res.send(JSON.stringify(response))
     })
-    /*connection.query( `select * from roles`, (error, results, fields) => {
-
-        let response = JSON.stringify(results)
-        res.send(response)
-    });*/
 })
 
 
