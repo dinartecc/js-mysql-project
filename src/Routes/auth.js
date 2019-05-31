@@ -3,11 +3,7 @@ import VerificarLogin from '../AuthComponents/VerificarLogin/VericarLogin';
 const router = require('express').Router();
 
 
-router.get('/login',(req, res) => {
-    
-    res.render('inicio.hbs');
-    
-})
+
 
 router.get('/islogged', (req, res) =>{
   if(typeof req.session.user !== 'undefined'){
@@ -29,9 +25,9 @@ router.get('/userinfo', (req, res) =>{
 })
 
 
-router.get('/logout' , (req,res) => {
+router.get('/logout' , (req,res, next) => {
     req.session.destroy()
-    res.render('inicio.hbs');
+    next()
 })
 
 
