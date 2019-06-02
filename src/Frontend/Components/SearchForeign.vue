@@ -11,7 +11,6 @@
                     :body="body" 
                     @clicked="enviar" 
                     />
-                    
             <input type="button" class="btn red" value="Regresar" @click="enviar"/>
         </div>
     </div>
@@ -20,8 +19,8 @@
 
 
 <script>
-/*
-    <SearchForeign v-if="forshow" :tabla="this.fortabla" :seccion="this.seccion" @SendForeign="forUpdate" />
+/* 
+    <SearchForeign v-if="forshow" :tabla="this.fortabla" :seccion="this.seccion" @SendForeign="forUpdate"/>
     Para usar este component, le tenes que pasar el nombre de la tabla en la que se va a buscar
     y la seccion de donde se va a sacar la info (del backend, para la ruta /seccion/buscar)
     Va a emitir un evento SendForeign Key con el valor del id

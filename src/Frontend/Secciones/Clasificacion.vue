@@ -8,7 +8,7 @@
         <div id="search-container">
 
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
-
+            <DropSelector :titles="['Nombre', 'ID']" :values="['nombre', 'id']" v-model="tipo" ></DropSelector>
             <div id="seccion-btn">
                 <label for="all">
                     <div class="boton-seccion" @click="cambioSeccion">Todos</div>
@@ -107,6 +107,7 @@
 
 <script>
 import 'babel-polyfill';
+import DropSelector from '../Components/MicroComponents/DropSelector.vue'
 import axios from 'axios';
 import Table from '../Components/Table.vue';
 import SearchBar  from '../Components/SearchBar.vue';
@@ -124,6 +125,7 @@ export default {
             //InputData. Esto va a tener un .tabla de la tabla que se va a usar y un .elemento que va a ser para los valores predeterminados
             InputData: {},
             SearchData: '',
+            tipo: 'aaaaaaaaa',
             categoria: [],
             subcategoria: [],
             marca: [],
@@ -175,7 +177,8 @@ export default {
         SearchBar,
         EmptyMsg,
         Inputs,
-        AddBtn
+        AddBtn,
+        DropSelector
     },
     created(){
         this.actualizar()
@@ -216,9 +219,8 @@ export default {
         },
         Buscar:async function(value){
             let busqueda = value;
-            var tipo = 'nombre';
             
-            await axios.post('/clasificacion/buscar/', {tabla: this.Selected, busqueda: busqueda, tipo: tipo })
+            await axios.post('/clasificacion/buscar/', {tabla: this.Selected, busqueda: busqueda, tipo: this.tipo })
             .then((response) => {
                 if(this.Selected == 'todo'){
                     const {categoria, subcategoria, marca} = response.data;
@@ -227,10 +229,8 @@ export default {
                     this.categoria = categoria;
                     this.subcategoria = subcategoria;
                 }else{
-
                     response.data.length == 0 ? this.Show = true : this.Show = false;
                     this[this.Selected] = response.data
-
                 }
             })
         },

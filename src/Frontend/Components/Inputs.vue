@@ -12,7 +12,6 @@
                                     ID
                                 </th>
                                 <th v-for="llave of schemaLlaves" :key="llave">
-                                 
                                     {{texts[llave].input}}
                                 </th>
                             </tr>

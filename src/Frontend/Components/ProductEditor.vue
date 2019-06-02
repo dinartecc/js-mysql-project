@@ -15,8 +15,9 @@
                         <input type="text" class="input-default input-group-two">
                     </div>
                     <div class="group-two">
-                        <label for="nombre">Categoria</label>
-                        <input type="text" v-model="categoria" class="input-default input-group-two">
+                        <label for="nombre">Subcategoria</label>
+                        <!--SearchForeign :tabla="'categoria'" :seccion="'clasificacion'" > </SearchForeign-->
+                        <input type="text" v-model="subcategoria" class="input-default input-group-two">
                     </div>
                 </div>
                 <div class="input-group">
@@ -28,19 +29,7 @@
 
 
         <div id="specific-info">
-
-            <div id="proveedor-container" class="bg">
-                <div class="titulo-container">
-                    <h3>Información de proveedor</h3>
-                </div>
-                <div class="inputs-container">
-                    <div class="input-group">
-                        <label for="nombre"><h3>Proveedor</h3></label>
-                        <input id="nombre" type="text" class="input-default" :v-model="nombre">
-                    </div>
-                </div>
-            </div>
-
+            
             <div id="precio-container" class="bg flex column align">
                 <div class="titulo-container">
                     <h3>Información de precio</h3>
@@ -49,9 +38,7 @@
                     <div class="input-group">
                         <label for="nombre"><h3>Precio</h3></label>
                         <!--span id="number-sign">C$</span-->
-                        <CurrencyInput v-model="precio"></CurrencyInput>
-                        
-                        
+                        <PercentInput v-model="margen"></PercentInput>      
                     </div>
                     <div class="input-group">
                         <label for="nombre"><h3>Margen de ganancia</h3></label>
@@ -79,15 +66,15 @@
         </div>
     </div>
 </template>
-
-
 <script>
-
+import Dropdown from './MicroComponents/Dropdown.vue'
 import CurrencyInput from './MicroComponents/CurrencyInput.vue'
 import PercentInput from './MicroComponents/PercentInput.vue'
+import SearchForeign from './SearchForeign.vue'
 export default {
     data: function(){
         return{
+            
             nombre: '',
             proveedor: '',
             descripcion: '',
@@ -100,7 +87,9 @@ export default {
     },
     components: {
         CurrencyInput,
-        PercentInput
+        PercentInput,
+        SearchForeign,
+        Dropdown
     }
 }
 </script>
@@ -153,11 +142,10 @@ input[type="number"]{
 
 
 .align{
-    align-items: center;
+    align-items: center; 
 }
 
 #precio-container{
-    margin-top: 50px;
     padding-bottom: 50px;
     border-radius: 10px;
 }
