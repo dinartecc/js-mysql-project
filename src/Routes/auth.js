@@ -28,8 +28,6 @@ router.get('/logout' , (req,res, next) => {
     next()
 })
 
-
-
 router.post('/login',( req, res ) => {
 
   const { user, pass} = req.body;
@@ -38,8 +36,8 @@ router.post('/login',( req, res ) => {
     .then((response) => { return JSON.parse(response)} )
     .then( (response) => { 
       console.log(response);
-      const {user, name,productos, clasificacion, lotes, usuarios, administrador, rol, ID_rol} = response;
-      req.session.permissions = { productos, clasificacion, lotes, usuarios , administrador}; // Asignando todos los valores al objeto permissions de la sesion
+      const {user, name,productos, clasificacion, lotes, administrador, rol, ID_rol} = response;
+      req.session.permissions = { productos, clasificacion, lotes , administrador}; // Asignando todos los valores al objeto permissions de la sesion
       req.session.ID_rol = ID_rol; // Asignando ID_rol a la session
       req.session.user = {user, name};  // Asignando los valores al objeto user de la sesion
 
@@ -49,8 +47,7 @@ router.post('/login',( req, res ) => {
         permissions: { // Se manda los permisos del usuario
           productos, 
           clasificacion, 
-          lotes, 
-          usuarios, 
+          lotes,  
           administrador, 
           rol 
         }, 

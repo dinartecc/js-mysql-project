@@ -51,7 +51,9 @@ export default {
 </script>
 
 <style scoped>
-
+caption{
+    color: white;
+}
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);

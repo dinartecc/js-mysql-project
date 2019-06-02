@@ -4,7 +4,6 @@
             <div id="title">
                 <h2>{{ boolDefault ? 'Editar elemento ' + formatearTitulo : 'Agregar elemento a ' + formatearTitulo }}</h2>
             </div>
-            
                 <form id="form">
                     <table>
                         <thead>
@@ -24,13 +23,17 @@
                                     <input class="input-default" :value="valores.id" disabled />
                                 </td>
                                 <td v-for="llave of schemaLlaves" :key="llave">
-                                    <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                                    <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                                    <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                                    <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
-                                    <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
-                                    <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
-                                    <SearchBtn v-if="schema[llave].hasOwnProperty('foranea')"  @search="forSearch(llave)" />
+                                    <div class="element-container">
+                                        <input class="input-default" v-if="schema[llave].tipo == 'int'" @blur="validarInt(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                        <input class="input-default" v-else-if="schema[llave].tipo == 'moneda'" @blur="validarMoneda(llave)" :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                        <input class="input-default" v-else-if="schema[llave].tipo == 'date'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                        <input class="input-default" v-else-if="schema[llave].tipo == 'varchar'"  :class="{'error': errores[llave] != '' }" type='text' v-model="valores[llave]" minlength="1" :maxlength="schema[llave].longitud" />
+                                        <input class="input-default" v-else-if="schema[llave].tipo == 'boolean'"  :class="{'error': errores[llave] != '' }" type='checkbox' v-model="valores[llave]" />
+                                        <span :key="errores[llave]" :class="{ 'hide' : errores[llave] == '', 'error' : errores[llave] != '' }">{{errores[llave]}}</span>
+                                     
+                                        <SearchBtn id="busqueda" v-if="schema[llave].hasOwnProperty('foranea')"  @search="forSearch(llave)" />
+                             
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -88,7 +91,7 @@ export default {
         },
         cancel(e){
             e.preventDefault();
-            this.$emit('added')
+            this.$emit('added', false)
         },
         forSearch(llave) {
             this.forkey = llave;
@@ -163,7 +166,7 @@ export default {
                         `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
                         'success'
                         )
-                        .then(()=>this.$emit('added'));
+                        .then(()=>this.$emit('added', true));
                         
                     }
                 })
@@ -257,6 +260,23 @@ export default {
 
 
 <style scoped>
+#busqueda{
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    margin-top: 8px;
+    margin-left: 70px ;
+}
+
+.element-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+
+}
 
 .btn-container{
     justify-content: center;
@@ -272,6 +292,20 @@ export default {
     background-color: #2a3141;
     margin-bottom: 15px;
 }
+
+h2{
+    color: white;
+    margin: 0
+}
+#title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    background-color: #4b5976;
+}
 h3{
     margin-top: 0;
     margin-bottom: 10px;
@@ -286,8 +320,7 @@ h3{
 
 .input-default{
     border: 2px solid #555861;
-    width: 80%;
-    min-width: 250px;
+    width: 100%;
     outline: 0;
     border-radius: 15px;
     padding-left: 10px;
@@ -296,10 +329,7 @@ h3{
     color: #cacaca;
 }
 
-#title{
-    text-align: center;
-    width: 400px;
-}
+
 
 .btn{
     background-color: #6a7cab !important;
@@ -343,6 +373,7 @@ td{
     font-weight: 300 !important;
     border-left: 0;
     border-right: 0;
+
 }
 
 input.error {

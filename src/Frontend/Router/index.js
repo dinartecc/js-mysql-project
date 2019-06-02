@@ -3,6 +3,7 @@ import Inicio from '../Secciones/Inicio.vue';
 import Clasificacion from '../Secciones/Clasificacion.vue';
 import Logout from '../Secciones/Logout.vue'
 import Users from '../Secciones/Users.vue'
+import Products from '../Secciones/Products.vue'
 import store from '../Store/store.js'
 export default[
     {
@@ -17,7 +18,7 @@ export default[
     },
     { 
         path: '/login' ,
-        component: Login , 
+        component: Login, 
         name: 'login', 
         meta: {notAuth: true},
         beforeEnter: (to, from, next) =>  store.state.IsLogged == true ? next('/') : next()
@@ -25,11 +26,15 @@ export default[
     {
         path: '/usuarios',
         component: Users,
-        name: 'users'
+        name: 'users',
+        beforeEnter: (to, from, next) =>  store.state.Permissions.administrador > 1 ? next() : next('/')
     },
-
-
-
+    {
+        path: '/productos',
+        component: Products,
+        name: 'productos',
+        beforeEnter: (to, from, next) => store.state.Permissions.productos > 1 ? next() : next('/')
+    },
 
 
     { path: '/logout', component: Logout}

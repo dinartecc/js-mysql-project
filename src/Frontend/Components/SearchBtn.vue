@@ -5,11 +5,11 @@
 
 <style>
     img{
-        width: 40px;
-        height: 40px;
+        width: 15px;
+        height: 15px;
         cursor: pointer;
         margin-left: 15px;
-        fill: white;
+        fill: rgb(209, 209, 209);
     }
 </style>
 

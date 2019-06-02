@@ -8,7 +8,6 @@ create table if not exists Roles(
     productos ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     clasificacion ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     lotes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
-    usuarios ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     reportes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     administrador ENUM('No', 'Si') not null,
     constraint PK_rol primary key (ID_rol)

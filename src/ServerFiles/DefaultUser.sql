@@ -6,5 +6,5 @@ insert into marca ( ID_marca, nombre ) values ( 0, 'Borrado');
 insert into producto ( SKU, nombre, ID_categoria, ID_subcategoria, ID_marca, precio_unit, paga_imp ) values ( '000000000000', 'Borrado', 0, 0, 0, 0, false);
 insert into lotes ( ID_lotes, SKU, cantidad, fecha_ingreso, ID_almacen, fecha_caducidad ) values ( 0, '000000000000', 0, '1970-01-01', 0, '1970-01-01') ;
 
-insert into roles (productos, clasificacion, lotes, usuarios, reportes, administrador, nombre, ID_rol) values (5 ,5 ,5 ,5 , 5, 2, 'Administrador', 1);
+insert into roles (productos, clasificacion, lotes, reportes, administrador, nombre, ID_rol) values (5 ,5 ,5 , 5, 2, 'Administrador', 1);
 insert into usuarios (user, pass, name, ID_rol, ID_usuario) values ('admin' ,'admin', 'Administrador', 1, 1);

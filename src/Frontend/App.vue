@@ -45,18 +45,23 @@ export default {
     #container{
         overflow-x: hidden;
         display: flex;
-
         width: 100%;
         font-family: 'Raleway', sans-serif;
     }
     #content{
         width: 90%;
-        
+        display: flex;
+        align-items: center;
+        flex-direction: column;
         background-color: #232730;
     }
-    Sidebar{
+    #sidebar{
+        background-color: #4a5864;
+        
         width: 10%;
         min-width: 190px;
-        height: auto;
+        height: 100%;
+        
+        background-color: #4a5864;
     }
 </style>

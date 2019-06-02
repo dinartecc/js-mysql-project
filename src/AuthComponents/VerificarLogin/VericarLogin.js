@@ -26,13 +26,6 @@ const VerificarLogin = ( usuario, contra ) => {
           when 'Actualizar' then 4
           when 'Eliminar' then 5
           end) as lotes,
-    (case usuarios
-          when 'Ninguno' then 1
-          when 'Leer' then 2
-          when 'Escribir' then 3
-          when 'Actualizar' then 4
-          when 'Eliminar' then 5
-          end) as usuarios,
     (case reportes
           when 'Ninguno' then 1
           when 'Leer' then 2

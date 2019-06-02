@@ -15,7 +15,6 @@ router.post('/roles/add', (req, res) =>{
       lotes : Lotes,
       productos: Productos,
       reportes : Reportes,
-      usuarios: Usuarios,
       nombre
     };
 
@@ -23,7 +22,7 @@ router.post('/roles/add', (req, res) =>{
       .then( () => res.send('OK'))
       .catch( (err) => {
         console.log(err);
-        res.send('Error')
+        res.status(404).end();
       });
 })
 router.post('/roles/edit', (req, res) =>{
@@ -56,19 +55,28 @@ router.post('/roles/edit', (req, res) =>{
 
 
 router.post('/usuarios/nuevo', (req,res) => {
-  console.log(req.body)
-  const {user, pass, name, ID_rol, tabla} = req.body
-  const Query = {
-    tabla,
-    user,
-    pass,
-    name,
-    ID_rol,
-  }
-  AddToDatabase( Query )
-  .then( console.log('TODO BIEN') )
+  const {query} = req.body
+  AddToDatabase( query )
+  .then((response)  =>  {
+    res.send('OK')
+  })
   .catch((error) => {
     console.log(error)
+  })
+})
+
+router.post('/usuarios/editar', (req, res) => {
+  const {query} = req.body;
+  query.tabla = 'usuarios'
+  console.log(query)
+  UpdateDatabase( query )
+  .then((response) => {
+    console.log('Elemento actualizado!')
+    res.send('OK')
+  })
+  .catch((error) => {
+    console.log(error)
+    res.status(404).end();
   })
 })
 
@@ -78,9 +86,6 @@ router.post('/usuarios/buscar', (req, res) => {
     columnas: ['nombre', 'id'],
     desc: true,
   }
-
-
-
   QueryDatabase( Query )
   .then((response) => {
     console.log(response)
@@ -96,7 +101,7 @@ router.get('/getusers', (req, res) => {
     const Query = {
         tabla: 'usuarios',
         desc: true,
-        columnas: ['id','name','ID_rol'],
+        columnas: ['id','name','user','ID_rol'],
         foranea: {
           ID_rol: {
             tabla: 'roles',
@@ -110,11 +115,10 @@ router.get('/getusers', (req, res) => {
       schema = (({ usuarios }) => ({ usuarios }))(schemaFull);
 
 
-      console.log("SALUDOS SCHEMA",schema)
     QueryDatabase( Query )
     .then((response)=> {
         response = JSON.stringify({users: response, schema})
-        //console.log(response)
+ 
         res.json(response)
     })
     .catch((response) => {
@@ -147,12 +151,11 @@ router.get('/getroles', (req, res) => {
 
     const Query = {
         tabla: 'roles',
-        columnas: ['id', 'nombre', 'productos', 'clasificacion', 'lotes', 'usuarios', 'reportes', 'administrador']
+        columnas: ['id', 'nombre', 'productos', 'clasificacion', 'lotes', 'reportes', 'administrador']
     }
 
     QueryDatabase( Query )
     .then((response) => {
-        console.log(JSON.stringify(response))
         res.send(JSON.stringify(response))
     })
 })
