@@ -60,13 +60,13 @@ export default {
     computed: {
         displayValue: {
             get: function() {
-               validate();
+               this.validate();
                 return this.value;
                 
             },
             set: function(modifiedValue) {
                 
-                validate();
+                this.validate();
                 
                 this.$emit('input', modifiedValue)
             }
