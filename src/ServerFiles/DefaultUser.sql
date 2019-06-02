@@ -22,7 +22,7 @@ insert into venta_lotes ( ID_venlote, ID_lotes, ID_venta) values ( 0, 0, 0 );
 insert into ventasdescuento ( ID_venta, monto_producto, monto_general ) values ( 0, 0, 0);
 insert into ventasimpuestos ( ID_venta, monto_impuesto ) values ( 0, 0 );
 
-insert into roles (productos, clasificacion, lotes, usuarios, reportes, administrador, nombre, ID_rol) values (5 ,5 ,5 ,5 , 5, 2, 'Administrador', 1);
+insert into roles (productos, clasificacion, lotes, reportes, administrador, nombre, ID_rol) values (5 ,5 ,5 , 5, 2, 'Administrador', 1);
 insert into usuarios (user, pass, name, ID_rol, ID_usuario) values ('admin' ,'admin', 'Administrador', 1, 1);
 
 

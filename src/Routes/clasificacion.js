@@ -77,9 +77,6 @@ router.get('/clasificacion/info',async(req, res) => {
 
 router.post('/clasificacion/nuevo',async (req, res) => {
 
-
-  console.log('xdDDDDDDDDDDDDDDDDDDD');
-
     const query = req.body.query;
 
     if(typeof query == 'undefined' && typeof query.tabla == 'undefined' ){

@@ -131,11 +131,14 @@ export default {
             // | ContadorText = 3 | Reportes          | ####    | #### | ####     | ####       | ####   | <- Input[ContadorText] |
             // +------------------+-------------------+---------+------+----------+------------+--------+------------------------+   
             let {elemento} = this.defaultValues;
+            console.log(this.defaultValues)
             let elementoTemporal = Object.assign({}, elemento)
-            this.titulo = this.nombre = elemento.rol;
+            this.titulo = 
+            this.nombre = elemento.nombre;
+
             this.id = elementoTemporal.id;
             //Elimino las propiedades que no me interesan
-            delete elementoTemporal.rol;
+            delete elementoTemporal.nombre;
             delete elementoTemporal.id;
             delete elementoTemporal.administrador;
 

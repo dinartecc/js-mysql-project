@@ -9,26 +9,38 @@
 
             <div id="seccion-btn">
                 <label for="usuarios">
-                    <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'usuarios'}">Usuarios</div>
+                    <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'usuarios' || Selected == 'addUsuarios'}">Usuarios</div>
                 </label>
                 <label for="roles">
                     <div class="boton-seccion" @click="cambioSeccion" v-bind:class="{btnactive: Selected == 'roles'}">Roles</div>
                 </label>
-                <AddBtn v-if="this.$store.state.Permissions.usuarios > 2" @add="add" :class="[{blocked: Selected !== 'roles' && Selected !== 'usuarios'}]" ></AddBtn>
+                <AddBtn @add="add" :class="[{blocked: Selected !== 'roles' && Selected !== 'usuarios'}]" ></AddBtn>
             </div>
         </div>
         <transition name="slide-fade">
-            <div class="table-container" v-if="Selected == 'usuarios'">
+            <div class="table-container" v-if="Selected == 'addUsuarios' || Selected == 'editarUsuarios'">
+                <Inputs
+                :seccion="'usuarios'" 
+                :texts="usuariosTexts"
+                :schema="usuariosSchema" 
+                :default="InputData" 
+                :boolDefault="boolDefault"
+                @added="FinishAdd"/>
+            </div>
+        </transition>
+        <transition name="slide-fade">
+            <div class="table-container" v-if="Selected == 'usuarios' || Selected == 'addUsuarios'">
                 <Table class="margin-tables text-center"
                 :tabla="'Usuarios'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios"
+                @clicked="editar"
                 ></Table>
             </div>
         </transition>    
         <transition name="slide-fade">
-            <div class="table-container" v-if="Selected == 'roles'">
+            <div class="table-container" v-if="false">
                 <Table class="margin-tables text-center"
                 :tabla="'Roles'"
                 :orden="rolesOrden" 
@@ -39,7 +51,7 @@
             </div>
         </transition>
         <transition name="slide-fade">
-            <div class="table-container">
+            <div class="table-container" v-if="Selected == 'roles'">
                 <TableColors
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
@@ -60,15 +72,6 @@
                 </TableAdd>
             </div>
         </transition>
-        <transition name="slide-fade">
-            <Inputs v-if="Selected == 'addUsuarios'"
-            :seccion="'usuarios'" 
-            :texts="usuariosTexts"
-            :schema="usuariosSchema" 
-            :default="InputData" 
-            :boolDefault="false"
-            @added="added(true)" />
-        </transition>
 
     </div>
 </template>
@@ -86,21 +89,18 @@ export default {
     data: () => {
         return{
             AddTableTitle: ['Seccion','Ninguno', 'Leer' , 'Escribir', 'Actualizar', 'Borrar'],
-            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes', 'Usuarios'],
+            AddTableTexts: ['Clasificacion', 'Lotes', 'Productos', 'Reportes'],
             EditRolesInfo: [], 
             actionRoles: 'add',
             EditValues: {},
             ShowAdd: false,
-            Selected: 'roles',
+            boolDefault: false,
+            Selected: 'usuarios',
             usuarios: [],
             InputData: {},
             usuariosSchema: {},
             usuariosOrden : [ 'name', 'roles__nombre' ],
             usuariosTexts: {
-                nombre:{
-                    titulo: 'Saludos',
-                    input: 'Saludos x2'
-                },
                 name: {
                     titulo: 'Usuario',
                     input: 'Nombre de Usuario:'
@@ -111,9 +111,6 @@ export default {
                 ID_rol: {
                     input: 'Rol del usuario'
                 },
-                name: {
-                    input: 'Nombre del Usuario'
-                },
                 user: {
                     input: 'Usuario para Login'
                 },
@@ -122,7 +119,7 @@ export default {
                 }
             },
             roles: [],
-            rolesOrden: ['nombre','clasificacion', 'lotes', 'productos', 'reportes', 'usuarios'],
+            rolesOrden: ['nombre','clasificacion', 'lotes', 'productos', 'reportes'],
             rolesTexts: {
                 nombre: {
                     titulo: 'Rol',
@@ -142,10 +139,6 @@ export default {
                 reportes: {
                     titulo: 'Reportes',
                     
-                },
-                usuarios: {
-                    titulo: 'Usuarios',
-                  
                 }
             }
         }
@@ -160,22 +153,30 @@ export default {
         },
         cambioSeccion(){
             this.actionRoles = 'add'
-            this.InputData.tabla = 'usuarios';
-            this.InputData.elemento = undefined;
         },
         buscar: function(){
 
         },
+        editar: function(value){
+            this.InputData = value;
+            this.boolDefault = true;
+            this.Selected = 'editarUsuarios';
+        
+        },
+        FinishAdd: function(cambio){
+            cambio ? this.getUsers() : null;
+            this.Selected = 'usuarios'
+            
+            
+        },
         add: function(){
             switch (this.Selected) {
-                case 'addRoles':
-                    return null;
-                    break;
                 case 'roles':
                     this.actionRoles = 'add'
                     this.Selected = 'addRoles'
                     break;
                 case 'usuarios':
+                    this.boolDefault = false;
                     this.Selected = 'addUsuarios'
                 default:
                     
@@ -214,7 +215,8 @@ export default {
         
     },
     created(){
-        
+        this.InputData.tabla = 'usuarios';
+        this.InputData.elemento = undefined;
         this.getUsers()
         this.getRoles()
     },

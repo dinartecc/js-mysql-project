@@ -38,7 +38,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="false"
-                @added="added(false)" />
+                @added="added" />
             </transition>
             <!-- Este se encarga de input editar. Le manda la seccion, el schema y texts (texts son las cosas de
                 titulo y el label de los inputs), los valores default, y en este caso porque es editar tenes que poner
@@ -52,7 +52,7 @@
                 :schema="schema[InputData.tabla]" 
                 :default="InputData" 
                 :boolDefault="true"
-                @added="added(true)" />
+                @added="added" />
             </transition>
 
 

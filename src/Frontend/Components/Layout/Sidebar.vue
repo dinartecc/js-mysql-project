@@ -20,7 +20,14 @@
         </router-link>
      
     </div>
-    <div class="dropdown-menu" v-show="this.$store.state.Permissions.usuarios > 1">
+    <div v-show="this.$store.state.Permissions.clasificacion > 1">
+        <router-link to="/productos">
+            <div>
+                <img src="img/clasificacion.svg" alt=""> <p>Productos</p>
+            </div>
+        </router-link>
+    </div>
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.administrador > 1">
         <router-link to="/usuarios">
             <div>
                 <img src="img/usuario.svg" alt=""> <p>Usuarios</p>
@@ -41,8 +48,6 @@
         <div>
             <img src="img/ajustes.svg" alt=""> <p>Configuraciones</p>
         </div>
-
-
         <div class="drop">
             <p>Prueba 1</p>
             <p>Prueba 2</p>
@@ -106,11 +111,6 @@ a{
     text-decoration: none;
 }
 
-#menu{
-    color:white;
-    width: 100%;
-    max-height: auto;
-}
 #menu img{
     width: 20px;
     height: 20px;
@@ -140,7 +140,6 @@ a{
     color: white;
     }
 #menu{
-
     align-items: flex-start;
     display:flex;
     flex-direction: column;
@@ -151,6 +150,11 @@ a{
     background-color: #353942;
     background-color: #282f41;
     background-color: #4a5864;
+    position: fixed;
+    top: 0;
+    color:white;
+    width: 10%;
+    max-height: 100%;
 }
 
 .drop{
