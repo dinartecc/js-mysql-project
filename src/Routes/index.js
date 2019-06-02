@@ -9,6 +9,7 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import {join} from 'path'
+import GenerateSKU from '../ServerComponents/GenerateSKU/GenerateSKU';
 const connection = CreateConnection;
 SchemaQuery();
 
@@ -52,11 +53,11 @@ router.post('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  const test = {
-    tabla: 'subcategoria',
-    ID_categoria: 2,
-    nombre: 'NREL',
-   }
+  // const test = {
+  //   tabla: 'subcategoria',
+  //   ID_categoria: 2,
+  //   nombre: 'NREL',
+  //  }
 
    
 
@@ -93,7 +94,7 @@ router.post('/prueba', (req, res) => {
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
-   AddToDatabase(test)
+   GenerateSKU(2,4)
    .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   // res.send(ValidateInput(test));

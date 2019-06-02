@@ -51,7 +51,7 @@ create table if not exists Marca (
 -- PRODUCTOS, DESCUENTOS POR PRODUCTO, PROVEEDORES
 
 create table if not exists Producto (
-	SKU char(12) not null,
+	SKU char(11) not null,
     ID_subcategoria int(3) unsigned not null,
     ID_marca int(3) unsigned not null,
     nombre varchar(30) not null,
@@ -71,7 +71,7 @@ create table if not exists Proveedor (
 
 create table if not exists Producto_Proveedor(
     ID_proprov int unsigned not null ,
-	SKU char(12) not null,
+	SKU char(11) not null,
 	ID_proveedor int unsigned not null,
 	constraint PK_pro_dpr primary key (ID_proprov),
     constraint FK_proprv_pro foreign key (SKU) references Producto(SKU),
@@ -96,9 +96,9 @@ create table if not exists Lotes (
     pasillo varchar(20),
     estante varchar(20),
     fecha_caducidad date,
-    constraint FK_lot_pro foreign key (SKU) references Producto(SKU),
+    constraint FK_lot_pro foreign key (SKU) references Producto(SKU) on update cascade,
     constraint FK_lot_alm foreign key (ID_almacen) references Almacen(ID_almacen),
-    constraint PK_lot primary key (ID_lotes)
+    constraint PK_lot primary key (ID_lotes) 
 ) ENGINE = InnoDB;
 
 -- VENTAS, CLIENTES, DESCUENTO GENERAL
