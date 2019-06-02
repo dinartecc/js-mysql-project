@@ -52,14 +52,13 @@ create table if not exists Marca (
 
 create table if not exists Producto (
 	SKU char(12) not null,
-	ID_categoria int(3),
     ID_subcategoria int(3) unsigned not null,
     ID_marca int(3) unsigned not null,
     nombre varchar(30) not null,
-    precio_unit numeric (15,2) not null,
-    paga_imp boolean default true,
+    descripcion text,
+    margen_ganancia numeric(4,2),
+    porcentaje_impuestos numeric(4,2),
     constraint PK_sku primary key (SKU),
-    constraint FK_sku_cat foreign key (ID_categoria) references Categoria(ID_categoria),
     constraint FK_sku_sub foreign key (ID_subcategoria) references Subcategoria(ID_subcategoria),
     constraint FK_sku_mar foreign key (ID_marca) references Marca(ID_marca)
 ) ENGINE = InnoDB;
@@ -92,7 +91,10 @@ create table if not exists Lotes (
     SKU char(12) not null,
     cantidad numeric (10,2) not null,
     fecha_ingreso date not null,
-    ID_almacen int unsigned,
+    costo numeric (15,2) not null,
+    ID_almacen int unsigned not null,
+    pasillo varchar(20),
+    estante varchar(20),
     fecha_caducidad date,
     constraint FK_lot_pro foreign key (SKU) references Producto(SKU),
     constraint FK_lot_alm foreign key (ID_almacen) references Almacen(ID_almacen),

@@ -49,7 +49,6 @@ export default {
     box-sizing: border-box;
     border: 2px solid #747885;
     width: 100%;
-    min-width: ;
     outline: 0;
     border-radius: 10px;
     padding-left: 10px;
