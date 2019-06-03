@@ -1,6 +1,6 @@
 
 <template>
-    <input class="input-default" :class="{'error': this.error  }" type='text' v-model="displayValue" :maxlength="longitud"/>
+    <input class="input-default" :class="[{'error-input': this.error  }, {'green' : displayValue.length >= 1 && !this.error}]" type='text' v-model="displayValue" :maxlength="longitud"/>
    </template>
 
 
@@ -89,7 +89,11 @@ export default {
     height: 40px !important;
     color: #cacaca;
 }
-.error {
-    border:red 2px solid;
+.error-input {
+    border:red 2px solid !important;
+}
+
+.green{
+    border: #48B77F 2px solid !important
 }
 </style>

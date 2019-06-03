@@ -64,6 +64,8 @@ create table if not exists Producto (
     margen_ganancia numeric(4,2),
     porcentaje_impuestos numeric(4,2),
     borrado boolean not null default false,
+    vigilar boolean default 0,
+    minimo_stock int(4) unsigned not null,
     constraint PK_sku primary key (SKU),
     constraint FK_sku_sub foreign key (ID_subcategoria) references Subcategoria(ID_subcategoria),
     constraint FK_sku_mar foreign key (ID_marca) references Marca(ID_marca)

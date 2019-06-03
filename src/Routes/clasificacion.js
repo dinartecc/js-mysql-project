@@ -124,7 +124,7 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
         tabla: seccion,
         id: id
     }
-    console.log(borrar)
+    
     DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D"))
     .then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
     .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
@@ -139,9 +139,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     }   
 
     let {tabla, busqueda, tipo} = req.body;
-    console.log(tabla)
-    console.log(busqueda)
-    console.log(tipo)
+
     if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
         res.response("NEL")
     }
@@ -198,7 +196,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
             }
         }
         };
-        console.log(busqueda)
+   
         categoriaQuery.condiciones = {}
         marcaQuery.condiciones = {}
         subcategoriaQuery.condiciones = {}
@@ -217,7 +215,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     }else{
         QueryDatabase ( query )
         .then((response) => {
-        console.log(response)
+        
         res.send(JSON.stringify(response))
     })
     }

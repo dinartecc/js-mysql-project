@@ -1,15 +1,15 @@
 <template>
 <div id="container-pe">
-    <h2>Añadir Producto</h2>
+    <h2 class="white">Añadir Producto</h2>
     <div id="product-container">
         <div id="general-info" class="bg">
             <div class="titulo-container">
-                Detalles generales
+                <h4> Detalles generales</h4>
             </div>
             <div class="inputs-container">
                 <div class="input-group">
                     <label for="nombre">Nombre del producto</label>
-                    <input id="nombre" type="text" class="input-default" v-model="nombre">
+                    <input id="nombre" type="text" class="input-default" v-model="nombre" required>
                     
                 </div>
                 <div class="group-two-container input-group">
@@ -37,7 +37,7 @@
             
             <div id="precio-container" class="bg flex column align">
                 <div class="titulo-container">
-                    <h3>Información de precio</h3>
+                    <h4>Información de precio</h4>
                 </div>
                 <div class="inputs-container">
                     <div class="input-group">
@@ -47,9 +47,23 @@
                     </div>
                     <div class="input-group">
                         <label for="nombre"><h3>Impuesto</h3></label>
-                        
-                        
                         <PercentInput v-model="impuesto"> </PercentInput>
+                    </div>
+                    
+                </div>
+            </div>
+            <div id="vigilar" class="bg flex column align padding-abajo">
+                <div class="titulo-container">
+                    <h4>Notificaciones</h4>
+                </div>
+                <div class="inputs-container">
+                    <div class="input-group">
+                        <label for="nombre"><h3>Vigilar este producto?</h3></label>
+                        <ToggleBtn v-model="vigilar" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
+                    </div>
+                    <div class="input-group" v-show="vigilar == true">
+                        <label for="nombre"><h3>Minimo en stock para alertar</h3></label> 
+                        <IntInput v-model="minimoStock"></IntInput>     
                     </div>
                     
                 </div>
@@ -57,32 +71,40 @@
         
         </div>
     </div>
-    <button @click="send">enviar</button>
+    <button @click="send" class="btn">Guardar</button>
 </div>
     
 </template>
 <script>
+import IntInput from './MicroComponents/IntInput.vue'
+import ToggleBtn from './MicroComponents/Button.vue'
 import axios from 'axios'
 import Dropdown from './MicroComponents/Dropdown.vue'
 import CurrencyInput from './MicroComponents/CurrencyInput.vue'
 import PercentInput from './MicroComponents/PercentInput.vue'
 import SearchForeign from './SearchForeign.vue'
 import SearchForeingInput from './MicroComponents/SearchForeignInput.vue'
+import Alertas from '../Utilidades/Alertas'
 export default {
     props: {
-        action: String
+        action: String,
+        edit: Object
     },
     data: function(){
         return{
+            minimoStock: '',
             nombre: '',
             descripcion: '',
             marca: '',
             impuesto: 0, 
             subcategoria: '',
             margen: 0,
+            vigilar: false,
         }
     },
     components: {
+        IntInput,
+        ToggleBtn,
         CurrencyInput,
         PercentInput,
         SearchForeign,
@@ -97,17 +119,49 @@ export default {
                 subcategoria:   this.subcategoria,
                 impuesto:       this.impuesto,
                 margen:         this.margen,
+                vigilar:        this.vigilar,
+                minimoStock:   this.minimoStock
 
             }
-            axios.post(`/productos/nuevo`, sendInfo)
-            .then(console.log('ENVIADO'))
-        }
+            Alertas.toSend( '/productos/nuevo ' , sendInfo)
+           
+            //axios.post(`/productos/nuevo`, sendInfo)
+            //.then(console.log('ENVIADO'))
+        },
+        editar: function(){
+            if(this.action == 'editar'){
+                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock} = this.edit.elemento;
+                this.nombre =       nombre;
+                this.descripcion =  descripcion;
+                this.marca =        ID_marca.toString();
+                this.subcategoria = ID_subcategoria.toString();
+                this.impuesto =     porcentaje_impuestos;
+                this.margen =       margen_ganancia;
+                this.vigilar =      vigilar === 1? true : false;
+                this.minimoStock =  minimo_stock.toString();
+                console.log('eaeaea', this.edit.elemento)
+            }else{
+                console.log('nel')
+            }
+        },
+    },
+    created(){
+        this.editar()
     }
 }
 </script>
 
 
 <style scoped>
+
+#vigilar{
+    margin-top: 30px;
+}
+
+.padding-abajo{
+    padding-bottom: 50px;
+}
+
 #container-pe{
     display: flex;
     flex-direction: column;
@@ -153,7 +207,7 @@ input[type="number"]{
 
 }
 
-.titulo-container h3{
+.titulo-container h4{
     margin: 0;
     margin-left: 20px;
 }
@@ -178,6 +232,7 @@ input[type="number"]{
 }
 
 .bg{
+    transition: 2s;
     background-color: #657786;
     background-color: #243447;
     background-color: #100E17;
@@ -194,6 +249,15 @@ input[type="number"]{
   
 }
 
+.btn{
+    background-color: #6a7cab !important;
+    color: white;
+    margin: 15px 10px;
+    padding: 8px 20px;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+}
 #proveedor-container{
     
     display: flex;
@@ -212,7 +276,7 @@ input[type="number"]{
    
     width: 60%;
     height: auto;
-    padding-bottom: 150pxñ
+    padding-bottom: 30px;
 
     
 }
@@ -228,7 +292,7 @@ input[type="number"]{
 
 .textarea{
     box-sizing: border-box;
-    resize:vertical;
+    resize:none;
     border-radius: 5px;
     padding-left: 10px;
     background-color: rgba(0, 0, 0, 0);
@@ -250,8 +314,11 @@ input[type="number"]{
 }
 .inputs-container{
     width: 80%;
-}
 
+}
+.white{
+    color: white;
+}
 .input-group{
     margin-top: 40px;
     width: 100%
