@@ -130,7 +130,7 @@ export default {
             // | ContadorText = 2 | Productos         | ####    | #### | ####     | ####       | ####   | <- Input[ContadorText] |
             // | ContadorText = 3 | Reportes          | ####    | #### | ####     | ####       | ####   | <- Input[ContadorText] |
             // +------------------+-------------------+---------+------+----------+------------+--------+------------------------+   
-            let {elemento} = this.defaultValues;
+            let elemento = this.defaultValues;
             console.log(this.defaultValues)
             let elementoTemporal = Object.assign({}, elemento)
             this.titulo = 

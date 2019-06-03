@@ -1,4 +1,6 @@
 <template>
+<div id="container-pe">
+    <h2>Añadir Producto</h2>
     <div id="product-container">
         <div id="general-info" class="bg">
             <div class="titulo-container">
@@ -7,12 +9,13 @@
             <div class="inputs-container">
                 <div class="input-group">
                     <label for="nombre">Nombre del producto</label>
-                    <input id="nombre" type="text" class="input-default" :v-model="nombre">
+                    <input id="nombre" type="text" class="input-default" v-model="nombre">
+                    
                 </div>
                 <div class="group-two-container input-group">
                     <div class="group-two">
                         <label for="nombre">Marca</label>
-                        <SearchForeingInput v-model="subcategoria" :tabla="'marca'" :seccion="'clasificacion'"></SearchForeingInput>
+                        <SearchForeingInput v-model="marca" :tabla="'marca'" :seccion="'clasificacion'"></SearchForeingInput>
                     </div>
                     <div class="group-two">
                         <label for="nombre">Subcategoria</label>
@@ -38,53 +41,44 @@
                 </div>
                 <div class="inputs-container">
                     <div class="input-group">
-                        <label for="nombre"><h3>Precio</h3></label>
+                        <label for="nombre"><h3>Margen de ganancia</h3></label>
                         <!--span id="number-sign">C$</span-->
                         <PercentInput v-model="margen"></PercentInput>      
                     </div>
                     <div class="input-group">
-                        <label for="nombre"><h3>Margen de ganancia</h3></label>
+                        <label for="nombre"><h3>Impuesto</h3></label>
                         
                         
-                        <PercentInput v-model="margen"> </PercentInput>
+                        <PercentInput v-model="impuesto"> </PercentInput>
                     </div>
-                    <div class="input-group">
-                        <h3>Impuesto</h3>
-                        <div class="flex">
-                            <label for="radio1">
-                                <div >Si</div>
-                            </label>
-                            <input type="radio" v-model="impuesto" id="radio1" name="impuesto">
-
-                            <label class="" for="radio2">
-                                <div >No</div>
-                            </label>
-                            <input type="radio" v-model="impuesto" id="radio2" name="impuesto">
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
-
+        
         </div>
     </div>
+    <button @click="send">enviar</button>
+</div>
+    
 </template>
 <script>
+import axios from 'axios'
 import Dropdown from './MicroComponents/Dropdown.vue'
 import CurrencyInput from './MicroComponents/CurrencyInput.vue'
 import PercentInput from './MicroComponents/PercentInput.vue'
 import SearchForeign from './SearchForeign.vue'
 import SearchForeingInput from './MicroComponents/SearchForeignInput.vue'
 export default {
+    props: {
+        action: String
+    },
     data: function(){
         return{
-            
             nombre: '',
-            proveedor: '',
             descripcion: '',
             marca: '',
-            impuesto: true, 
+            impuesto: 0, 
             subcategoria: '',
-            precio: 0,
             margen: 0,
         }
     },
@@ -94,13 +88,33 @@ export default {
         SearchForeign,
         Dropdown,
         SearchForeingInput
+    }, methods: {
+        send: function(){
+            const sendInfo = {
+                nombre:         this.nombre,
+                descripcion:    this.descripcion,
+                marca:          this.marca,
+                subcategoria:   this.subcategoria,
+                impuesto:       this.impuesto,
+                margen:         this.margen,
+
+            }
+            axios.post(`/productos/nuevo`, sendInfo)
+            .then(console.log('ENVIADO'))
+        }
     }
 }
 </script>
 
 
 <style scoped>
-
+#container-pe{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+}
 .radio-label{
     min-width: 100px;
     background: #cacaca
@@ -176,8 +190,8 @@ input[type="number"]{
 #specific-info{
     
     width: 35%;
-    height: 500px;
-    margin-top: 100px;
+    height: auto;
+  
 }
 
 #proveedor-container{
@@ -195,14 +209,16 @@ input[type="number"]{
     flex-direction: column;
     align-items: center;
     
-    margin-top: 100px;
+   
     width: 60%;
-    height: 1800px;
+    height: auto;
+    padding-bottom: 150pxñ
 
     
 }
 
 #product-container{
+    margin-top: 50px;
     width: 80%;
     color: white;
     display: flex;

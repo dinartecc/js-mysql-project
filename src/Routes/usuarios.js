@@ -25,21 +25,20 @@ router.post('/roles/add', (req, res) =>{
         res.status(404).end();
       });
 })
+
 router.post('/roles/edit', (req, res) =>{
-    const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
-    const {nombre, id} = req.body.info;
-
-    const Query = {
-        tabla:          'roles',
-        id,
-        clasificacion:  Clasificacion,
-        lotes:          Lotes,
-        productos:      Productos,
-        reportes:       Reportes,
-        usuarios:       Usuarios,
-        rol:            nombre
-    }
-
+  const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
+  const {nombre, id} = req.body.info;
+  
+  const Query = {
+    tabla:          'roles',
+    id,
+    clasificacion:  Clasificacion,
+    lotes:          Lotes,
+    productos:      Productos,
+    reportes:       Reportes,
+    nombre:            nombre
+  }
     UpdateDatabase( Query )
     .then((response) => {
         console.log(`Se ha actualizado el registro ${id} de la tabla Roles`)

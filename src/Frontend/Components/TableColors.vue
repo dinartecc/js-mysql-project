@@ -7,7 +7,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr :key="contenido.id" v-for="contenido of body">
+                <tr :key="contenido.id" v-for="contenido of body" @click="send(contenido)">
                    
                     <td :key="items" v-for="(items, index) in orden">
                         <div class="color-container">
@@ -91,7 +91,6 @@ table td{
     border-left: 0;
     border-right: 0;
     cursor: pointer;
-    
 }
 
 </style>
@@ -103,6 +102,12 @@ export default {
         body: Array,
         orden: Array,
         texts: Object
+    },
+    methods: {
+        send: function(value){
+            console.log(value)
+            this.$emit('clicked', value)
+        }
     }
 }
 </script>

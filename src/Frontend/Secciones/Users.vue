@@ -55,7 +55,9 @@
                 <TableColors
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
-                :body="roles">
+                :body="roles"
+                @clicked="editRoles"
+                >
                 </TableColors> 
             </div>
         </transition>    
@@ -68,6 +70,7 @@
                 :defaultValues="EditValues"
                 :editInfo="EditRolesInfo"
                 @finish="RolesEnd"
+                
                 >
                 </TableAdd>
             </div>

@@ -5,7 +5,7 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
-
+import AddToProduct from '../ServerComponents/AddToDatabase/AddToProduct'
 const connection = CreateConnection;
 
 
@@ -79,7 +79,7 @@ router.post('/clientes/actualizar/', (req,res) => {
 })
 
 
-router.post('/clientes/buscar', function(req, res){
+router.post('/clientes/buscar', (req, res) => {
     const {busqueda, check} = req.body;
     connection.query(`SELECT * from Cliente where ${check} like '%${busqueda}%' `, function (error, results, fields){
         console.log(check)
@@ -97,7 +97,23 @@ router.post('/clientes/buscar', function(req, res){
 
 
 
-
+router.post('/productos/nuevo', (req, res) => {
+    console.log(req.body)
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion} = req.body;
+    const Query = {
+        tabla: 'producto',
+        ID_marca :              marca,
+        ID_subcategoria:        subcategoria, 
+        margen_ganancia:        margen,
+        porcentaje_impuestos:   impuesto,
+        nombre :                nombre,
+        descripcion
+    }
+    AddToProduct( Query )
+    .then(() => res.send('OK'))
+    .then(console.log('Elemento anadido exitosamente'))
+    .catch((error) => console.log(error))
+})
 
 
 
