@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <input class="input-default" type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true"/>
+        <input class="input-default" :maxlength="maxlength" type="text" v-model="displayValue" @blur="isInputActive = false" @focus="isInputActive = true"/>
     </div>
 </template>
 
@@ -9,7 +9,8 @@
 <script>
 export default {
     props: {
-        value: Number
+        value: Number,
+        maxlength: Number
     },
     data: function() {
         return {

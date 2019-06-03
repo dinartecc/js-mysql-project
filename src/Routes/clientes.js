@@ -157,6 +157,18 @@ router.post('/productos/info', (req, res) => {
 })
 
 
+router.post('/productos/eliminar', (req, res) => {
+    const sku = req.body.query;
+    const Query = {
+        tabla:  'producto',
+        id:    sku
+    }
+    DeleteFromDatabase(Query)
+    .then(res.send('OK'))
+    .catch(res.status(404).end())
+    console.log(sku)
+})
+
 
 
 

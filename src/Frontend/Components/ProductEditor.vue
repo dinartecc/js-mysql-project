@@ -1,6 +1,10 @@
 <template>
 <div id="container-pe">
-    <h2 class="white">Añadir Producto</h2>
+    <div>
+
+        <h2 class="white">Añadir Producto</h2>
+        <button class="btn red" v-if="action == 'editar'" @click="deleteElement"> Borrar </button>
+    </div>
     <div id="product-container">
         <div id="general-info" class="bg">
             <div class="titulo-container">
@@ -43,11 +47,11 @@
                     <div class="input-group">
                         <label for="nombre"><h3>Margen de ganancia</h3></label>
                         <!--span id="number-sign">C$</span-->
-                        <PercentInput v-model="margen"></PercentInput>      
+                        <PercentInput v-model="margen" :maxlength="6"></PercentInput>      
                     </div>
                     <div class="input-group">
                         <label for="nombre"><h3>Impuesto</h3></label>
-                        <PercentInput v-model="impuesto"> </PercentInput>
+                        <PercentInput v-model="impuesto" :maxlength="6"> </PercentInput>
                     </div>
                     
                 </div>
@@ -100,6 +104,7 @@ export default {
             subcategoria: '',
             margen: 0,
             vigilar: false,
+            sku: 0
         }
     },
     components: {
@@ -111,6 +116,7 @@ export default {
         Dropdown,
         SearchForeingInput
     }, methods: {
+
         send: function(){
             const sendInfo = {
                 nombre:         this.nombre,
@@ -123,8 +129,20 @@ export default {
                 minimoStock:   this.minimoStock
 
             }
-            Alertas.toSend( '/productos/nuevo ' , sendInfo)
-           
+
+            if(
+                // Validaciones de los inputs
+                (this.vigilar === true && this.minimoStock == '') ||
+                (this.nombre === '')                              || 
+                (!typeof this.marca == 'number')                  ||
+                (this.marca == '')                                ||
+                (this.subcategoria == '')                           
+                ){
+                Alertas.Error()
+                return null
+            }
+            Alertas.ToSend( '/productos/nuevo ' , sendInfo)
+
             //axios.post(`/productos/nuevo`, sendInfo)
             //.then(console.log('ENVIADO'))
         },
@@ -139,11 +157,15 @@ export default {
                 this.margen =       margen_ganancia;
                 this.vigilar =      vigilar === 1? true : false;
                 this.minimoStock =  minimo_stock.toString();
+                this.sku =          sku;
                 console.log('eaeaea', this.edit.elemento)
             }else{
                 console.log('nel')
             }
         },
+        deleteElement: function(){
+            Alertas.DeleteElement('/productos/eliminar', this.sku)
+        }
     },
     created(){
         this.editar()
@@ -250,13 +272,17 @@ input[type="number"]{
 }
 
 .btn{
-    background-color: #6a7cab !important;
+    background-color: #6a7cab ;
     color: white;
     margin: 15px 10px;
     padding: 8px 20px;
     border: 0;
     outline: 0;
     border-radius: 10px;
+}
+
+.red{
+    background-color: #e66f66;
 }
 #proveedor-container{
     
