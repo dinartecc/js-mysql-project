@@ -12,14 +12,16 @@
                 <div class="group-two-container input-group">
                     <div class="group-two">
                         <label for="nombre">Marca</label>
-                        <input type="text" class="input-default input-group-two">
+                        <SearchForeingInput v-model="subcategoria" :tabla="'marca'" :seccion="'clasificacion'"></SearchForeingInput>
                     </div>
                     <div class="group-two">
                         <label for="nombre">Subcategoria</label>
                         <!--SearchForeign :tabla="'categoria'" :seccion="'clasificacion'" > </SearchForeign-->
-                        <input type="text" v-model="subcategoria" class="input-default input-group-two">
+                        <SearchForeingInput v-model="subcategoria" :tabla="'subcategoria'" :seccion="'clasificacion'"></SearchForeingInput>
+                        <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
                     </div>
                 </div>
+
                 <div class="input-group">
                     <label for="nombre">Descripción del producto</label>
                     <textarea class="textarea" v-model="descripcion" id="text-area" name=""  cols="30" rows="10"></textarea>
@@ -71,6 +73,7 @@ import Dropdown from './MicroComponents/Dropdown.vue'
 import CurrencyInput from './MicroComponents/CurrencyInput.vue'
 import PercentInput from './MicroComponents/PercentInput.vue'
 import SearchForeign from './SearchForeign.vue'
+import SearchForeingInput from './MicroComponents/SearchForeignInput.vue'
 export default {
     data: function(){
         return{
@@ -89,7 +92,8 @@ export default {
         CurrencyInput,
         PercentInput,
         SearchForeign,
-        Dropdown
+        Dropdown,
+        SearchForeingInput
     }
 }
 </script>

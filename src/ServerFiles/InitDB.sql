@@ -69,14 +69,6 @@ create table if not exists Proveedor (
     constraint PK_prv primary key (ID_proveedor)
 ) ENGINE = InnoDB;
 
-create table if not exists Producto_Proveedor(
-    ID_proprov int unsigned not null ,
-	SKU char(12) not null,
-	ID_proveedor int unsigned not null,
-	constraint PK_pro_dpr primary key (ID_proprov),
-    constraint FK_proprv_pro foreign key (SKU) references Producto(SKU),
-    constraint FK_proprv_prv foreign key (ID_proveedor) references Proveedor(ID_proveedor)
-) ENGINE = InnoDB;
 
 -- LOTES, ALMACEN, CADUCIDAD
 

@@ -1,8 +1,11 @@
 
 <template>
-    <div>
-        <input class="input-default" :class="{'error': this.error  }" type='text' v-model="displayValue" />
-        <SearchBtn id="busqueda"  @search="forStart" />
+    <div id="contenedor">
+        <div id="contenedor2">
+            <input class="input-default" :class="{'error': this.error  }" type='text' v-model="displayValue" />
+            <span id="busqueda"><img id="add" @click="forStart" src="/img/buscar.svg" ></span>
+        </div>
+        
         <div class="overlay" v-show="forshow">
             <div class="box" >
                 <SearchBar @SendSearchData="Buscar" />
@@ -13,7 +16,6 @@
                         :body="body" 
                         @clicked="enviar" 
                         />
-                        
                 <input type="button" class="btn red" value="Regresar" @click="enviar"/>
             </div>
         </div>
@@ -57,7 +59,7 @@ export default {
         tipo: String,
         orden: {
             type: Array,
-            default: () => { return ['id','nombre'];}
+            default: () => { return ['nombre','id']}
         },
         texts: {
             type: Object,
@@ -150,6 +152,27 @@ export default {
 
 
 <style scoped>
+#contenedor{
+    width: 100%
+}
+#busqueda{
+    position: absolute;
+    
+    margin-left: 80%;
+    
+}
+
+
+#busqueda img{
+    width: 25px;
+}
+#contenedor2{
+    
+    display: flex;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
@@ -238,4 +261,8 @@ div .overlay {
 .error {
     border:red 2px solid;
 }
+
+
+
+
 </style>
