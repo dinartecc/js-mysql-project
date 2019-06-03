@@ -1,15 +1,21 @@
 <template>
     <div id="container">
+        <div id="titulo">
+
+        </div>
         <h2 @click="add">Añadir</h2>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode"></ProductEditor>
-        <Table class="text-center"
-        :tabla="'categoria'"
-        :orden="productosOrden" 
-        :texts="productosTexts"
-        :body="productos"
-        @clicked="editar"
-        v-if="editMode === false">
-        </Table>
+        <div class="table-container">
+
+            <Table class="text-center"
+            :tabla="'categoria'"
+            :orden="productosOrden" 
+            :texts="productosTexts"
+            :body="productos"
+            @clicked="editar"
+            v-if="editMode === false">
+            </Table>
+        </div>
     </div>
 
 </template>
@@ -20,6 +26,7 @@
 import axios from 'axios'
 import Table from '../Components/Table.vue'
 import ProductEditor from '../Components/ProductEditor.vue'
+
 export default {
     data: () => {
         return{
@@ -82,6 +89,11 @@ export default {
 
 
 <style scoped>
+
+.table-container{
+    width: 80%
+}
+
 #container{
     display: flex;
     flex-direction: column;

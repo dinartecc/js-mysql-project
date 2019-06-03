@@ -71,7 +71,7 @@
         
         </div>
     </div>
-    <button @click="send">enviar</button>
+    <button @click="send" class="btn">Guardar</button>
 </div>
     
 </template>
@@ -84,6 +84,7 @@ import CurrencyInput from './MicroComponents/CurrencyInput.vue'
 import PercentInput from './MicroComponents/PercentInput.vue'
 import SearchForeign from './SearchForeign.vue'
 import SearchForeingInput from './MicroComponents/SearchForeignInput.vue'
+import Alertas from '../Utilidades/Alertas'
 export default {
     props: {
         action: String,
@@ -122,8 +123,10 @@ export default {
                 minimoStock:   this.minimoStock
 
             }
-            axios.post(`/productos/nuevo`, sendInfo)
-            .then(console.log('ENVIADO'))
+            Alertas.toSend( '/productos/nuevo ' , sendInfo)
+           
+            //axios.post(`/productos/nuevo`, sendInfo)
+            //.then(console.log('ENVIADO'))
         },
         editar: function(){
             if(this.action == 'editar'){
@@ -141,7 +144,6 @@ export default {
                 console.log('nel')
             }
         },
-
     },
     created(){
         this.editar()
@@ -247,6 +249,15 @@ input[type="number"]{
   
 }
 
+.btn{
+    background-color: #6a7cab !important;
+    color: white;
+    margin: 15px 10px;
+    padding: 8px 20px;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+}
 #proveedor-container{
     
     display: flex;

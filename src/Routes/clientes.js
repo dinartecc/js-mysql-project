@@ -97,7 +97,7 @@ router.post('/clientes/buscar', (req, res) => {
 
 router.post('/productos/nuevo', (req, res) => {
     console.log(req.body)
-    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar} = req.body;
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar} = req.body.query;
     const Query = {
         tabla: 'producto',
         ID_marca :              marca,
