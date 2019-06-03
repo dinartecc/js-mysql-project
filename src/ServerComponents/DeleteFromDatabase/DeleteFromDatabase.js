@@ -7,7 +7,7 @@ import HandleSchema from '../HandleSchema/HandleSchema'
  * @param Object Se manda .id con el ID de la tabla y .tabla con el nombre de la tabla.
  * @returns
  */
-const DeleteFromDatabase = ( obj, cascade = false ) => {
+const DeleteFromDatabase = ( obj  ) => {
   return new Promise( async( resolve, reject ) => {
 
     if(obj.id == 0) {
@@ -57,7 +57,7 @@ const DeleteFromDatabase = ( obj, cascade = false ) => {
       }
 
       //Crea la query para borrar el registro
-      let deleteQuery = `delete from ${obj.tabla} where ${obj.idname} = ${obj.id}`;
+      let deleteQuery = `update ${obj.tabla} set borrado = true where ${obj.idname} = '${obj.id}'`;
 
       //Ejecuta la query
       connection.query( deleteQuery, (error, results, fields) => {

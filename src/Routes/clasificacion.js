@@ -6,6 +6,7 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 import { promises, readFileSync } from 'fs';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
+import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 
 
 // const subcategoria  = [
@@ -84,7 +85,7 @@ router.post('/clasificacion/nuevo',async (req, res) => {
     }
     
     try{
-        await AddToDatabase( query );
+        await CheckForeigns(query).then(()=>AddToDatabase( query )).catch((e)=>res.status(404).end());
         console.log(`Registro añadido a la tabla ${query.tabla} exitosamente`)
         let resp = 'Elemento añadido exitosamente!';
         res.send(JSON.stringify(resp))
@@ -102,16 +103,18 @@ router.post('/clasificacion/editar', async (req, res) => {
       res.status(404).end();
   }
   
-  UpdateDatabase( query )
-    .then(()=> {
-      console.log(`Registro ${query.id} de la tabla ${query.tabla} editado exitosamente`)
-      let resp = 'Elemento editado exitosamente!';
-      res.send(JSON.stringify(resp));
-    })
-    .catch(err => {
-      console.log(err)  
-      res.status(404).end();
-    });
+  await CheckForeigns(query).then(()=> 
+    UpdateDatabase( query )
+      .then(()=> {
+        console.log(`Registro ${query.id} de la tabla ${query.tabla} editado exitosamente`)
+        let resp = 'Elemento editado exitosamente!';
+        res.send(JSON.stringify(resp));
+      })
+      .catch(err => {
+        console.log(err)  
+       res.status(404).end();
+    }))
+    .catch((e)=>res.status(404).end());
 });
 
 

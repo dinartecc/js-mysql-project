@@ -10,6 +10,7 @@ import HandleSchema from '../HandleSchema/HandleSchema';
  *  @param {string} obj.orden La columna por la cual se va a ordenar
  *  @param {boolean} obj.desc Invertir el orden del buscar
  *  @param {number} obj.limite La cantidad de resultados por query.
+ *  @param { boolean } obj.borrados Mostrar los borrados o no. 
  * @return {Array } El array con los resultados.
  */
 const QueryDatabase = ( obj ) => {
@@ -28,6 +29,9 @@ const QueryDatabase = ( obj ) => {
       }
       if ( !obj.hasOwnProperty('limite')) {
         obj.limite = 10
+      }
+      if ( !obj.hasOwnProperty('borrados')){
+        obj.borrados = false;
       }
       if ( !obj.hasOwnProperty('columnas') || obj.columnas.length == 0 ) {
         throw new Error ('Error: no se envio un array en .columnas')
@@ -114,7 +118,7 @@ const QueryDatabase = ( obj ) => {
 
       //Las condiciones where. Si no se enviaron, solo se pone que no muestre el 0
       if ( !obj.hasOwnProperty( 'condiciones' ) ) {
-        mysqlQuery += `where ${obj.idname} != 0 `;
+        mysqlQuery += `where ${obj.idname} != 0 ${ obj.borrados ? '': `and ${obj.tabla}.borrado = false `}`;
       }
       else {
         
@@ -138,7 +142,7 @@ const QueryDatabase = ( obj ) => {
         //Si se mando un objeto condicion vacio, se retorna un error
 
         //Se quita el ultimo and y se pone esta seccion a la query
-        mysqlQuery += `where ${condicionQuery} ${obj.idname} != 0 `;
+        mysqlQuery += `where ${condicionQuery} ${obj.idname} != 0 ${ obj.borrados ? '': `and ${obj.tabla}.borrado = false `}`;
       
 
       }
