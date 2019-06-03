@@ -9,6 +9,9 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import {join} from 'path'
+import GenerateSKU from '../ServerComponents/GenerateSKU/GenerateSKU';
+import AddToProduct from '../ServerComponents/AddToDatabase/AddToProduct';
+import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
 const connection = CreateConnection;
 SchemaQuery();
 
@@ -52,11 +55,11 @@ router.post('/prueba', (req, res) => {
   //   telefono : '111',
   //   direccion : 'Casita'
   // }
-  const test = {
-    tabla: 'subcategoria',
-    ID_categoria: 2,
-    nombre: 'NREL',
-   }
+  // const test = {
+  //   tabla: 'subcategoria',
+  //   ID_categoria: 2,
+  //   nombre: 'NREL',
+  //  }
 
    
 
@@ -89,11 +92,22 @@ router.post('/prueba', (req, res) => {
 //   limite: 25
 // }
 
+const product = {
+  SKU: '00200400004',
+  tabla: 'producto',
+  ID_subcategoria: 2,
+  ID_marca: 3,
+  nombre: 'DID IT WORK',
+  descripcion: `iwi`,
+  margen_ganancia: '12.1',
+  porcentaje_impuestos: '0'
+}
+
 
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
-   AddToDatabase(test)
+  UpdateProduct(product)
    .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   // res.send(ValidateInput(test));
