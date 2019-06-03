@@ -82,8 +82,6 @@ router.post('/clientes/actualizar/', (req,res) => {
 router.post('/clientes/buscar', (req, res) => {
     const {busqueda, check} = req.body;
     connection.query(`SELECT * from Cliente where ${check} like '%${busqueda}%' `, function (error, results, fields){
-        console.log(check)
-        console.log(busqueda)
         if (error) throw error;
         results.forEach(results => {
             console.log('\n\n\n\n\n');
@@ -99,7 +97,7 @@ router.post('/clientes/buscar', (req, res) => {
 
 router.post('/productos/nuevo', (req, res) => {
     console.log(req.body)
-    const {marca,subcategoria, margen, impuesto, nombre, descripcion} = req.body;
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar} = req.body;
     const Query = {
         tabla: 'producto',
         ID_marca :              marca,
@@ -107,10 +105,53 @@ router.post('/productos/nuevo', (req, res) => {
         margen_ganancia:        margen,
         porcentaje_impuestos:   impuesto,
         nombre :                nombre,
-        descripcion
+        descripcion:            descripcion,
+        vigilar:                vigilar,
+        minimo_stock:           minimoStock
     }
-    AddToProduct( Query )
-    .then(() => res.send('OK'))
+
+    if(nombre !== ''){
+        
+        AddToProduct( Query )
+        .then(() => res.send('OK'))
+        .then(console.log('Elemento anadido exitosamente'))
+        .catch((error) => {
+            console.log(error)
+            res.status(404).end()
+        })
+
+        
+    }else{
+        res.status(404).end();
+
+    }
+    
+    
+ 
+})
+
+
+router.post('/productos/info', (req, res) => {
+    console.log('hey')
+    const {pagina, busqueda} = req.body;
+    const Query = {
+        tabla: 'producto',
+        desc: true,
+        columnas: ['nombre','sku','ID_subcategoria','ID_marca', 'descripcion', 'margen_ganancia', 'porcentaje_impuestos', 'vigilar', 'minimo_stock'],
+        foranea: {
+            ID_subcategoria: {
+                tabla:      'subcategoria',
+                columnas:   ['nombre']
+            },
+            ID_marca: {
+                tabla:      'marca',
+                columnas:   ['nombre']
+            }
+        },
+        pagina: 1
+      };
+    QueryDatabase( Query )
+    .then((response) => res.send(response))
     .then(console.log('Elemento anadido exitosamente'))
     .catch((error) => console.log(error))
 })
