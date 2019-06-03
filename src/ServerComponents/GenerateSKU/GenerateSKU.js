@@ -8,11 +8,14 @@ import CreateConnection from './../CreateConnection/CreateConnection';
  * @param {Number} marca  La marca del producto
  * @returns {String}
  */
-const GenerateSKU = ( subcategoria, marca ) => {
+const GenerateSKU = ( obj ) => {
   return new Promise( async( resolve, reject ) => {
     try {
+
       //Crea el objeto para la conexión e importa el schema
       const connection = CreateConnection,
+            subcategoria = obj.ID_subcategoria,
+            marca = obj.ID_marca,
             mysqlQuery = `select sku from producto where (ID_subcategoria = ${subcategoria} or ID_subcategoria = 0) and (ID_marca = ${marca} or ID_marca = 0) order by sku desc;`;
 
       //Realiza la query. Si no hay error, resuelve con los resultados
@@ -21,7 +24,6 @@ const GenerateSKU = ( subcategoria, marca ) => {
           reject(error);
         }
         else {
-          console.log(mysqlQuery);
 
           let sku = results[0].sku,
               variante = parseInt(sku.substring(6)) + 1,

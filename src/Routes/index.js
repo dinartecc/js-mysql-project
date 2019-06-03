@@ -10,6 +10,7 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 import {join} from 'path'
 import GenerateSKU from '../ServerComponents/GenerateSKU/GenerateSKU';
+import AddToProduct from '../ServerComponents/AddToDatabase/AddToProduct';
 const connection = CreateConnection;
 SchemaQuery();
 
@@ -90,11 +91,21 @@ router.post('/prueba', (req, res) => {
 //   limite: 25
 // }
 
+const product = {
+  tabla: 'producto',
+  ID_subcategoria: 2,
+  ID_marca: 4,
+  nombre: 'pan bimbo',
+  descripcion: `XDDDDDDDDDDDDDDDDDDDDDDDDDDDDasdmals alsk sald lsajd`,
+  margen_ganancia: '12.1',
+  porcentaje_impuestos: '0'
+}
+
 
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
-   GenerateSKU(2,4)
+   AddToProduct(product)
    .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   // res.send(ValidateInput(test));
