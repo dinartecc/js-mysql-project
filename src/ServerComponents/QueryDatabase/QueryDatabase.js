@@ -25,7 +25,7 @@ const QueryDatabase = ( obj ) => {
         obj.orden = 'id';
       }
       if ( !obj.hasOwnProperty('pagina')) {
-        obj.pagina = 1;
+        obj.pagina = 0;
       }
       if ( !obj.hasOwnProperty('limite')) {
         obj.limite = 10
@@ -151,14 +151,21 @@ const QueryDatabase = ( obj ) => {
       mysqlQuery += `order by ${ ( obj.orden == 'id' )? `${obj.tabla}.${obj.idname}` : `${obj.tabla}.${obj.orden}` } ${ obj.desc ? 'desc ' : '' } `;
       
       // Pagina
-      mysqlQuery += `limit ${ obj.limite } ${ obj.pagina == 1 ? '' : `offset ${ (obj.pagina - 1) * limitePagina  }` };`;
+      mysqlQuery += `limit ${ obj.limite } ${ obj.pagina == 0 ? '' : `offset ${ (obj.pagina ) * obj.limite  }` };\n`;
+
+      //Sacar count de la tabla 
+      mysqlQuery += `select count(*) as count from ${ obj.tabla };`
       // Realiza la query
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {
           reject(error);
         }
         else {
-          resolve(results);
+          const response = {};
+          response.body = results[0];
+          response.count = Math.ceil( results[1][0].count / obj.limite ) - 1;
+
+          resolve(response);
         }
       });
 

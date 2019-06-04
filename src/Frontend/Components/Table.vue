@@ -13,6 +13,12 @@
                 </tr>
             </tbody>
         </table>
+        <div class="controls">
+            <span @click="page('primera')">Primera P&aacute;gina</span>
+            <span @click="page('anterior')">P&aacute;gina Anterior</span>
+            <span @click="page('siguiente')">Siguiente P&aacute;gina</span>
+            <span @click="page('ultima')">&Uacute;ltima P&aacute;gina</span>
+        </div>
     </div>
 </template>
 
@@ -34,6 +40,13 @@ export default {
                 tabla: this.tabla
             }
             this.$emit('clicked', res )
+        },
+        page( val ) {
+            const res = {
+                tabla: this.tabla,
+                accion: val
+            }
+            this.$emit('page', res);
         }
     },
     created(){
@@ -53,6 +66,8 @@ export default {
 <style scoped>
 caption{
     color: white;
+    font-size: 1.5em;
+    
 }
 table{
     -webkit-box-shadow: 10px 14px 63px -49px rgba(0,0,0,0.75);
@@ -81,10 +96,31 @@ table td{
 
 table tbody tr:hover td{ background-color: #323b4e ; transition: .2s}
 table tbody tr td{transition: .5s}
-div{
+div {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+div.controls {
+    flex-direction: row;
+    background-color: #252c3d;
+    justify-content: space-around;
+    box-sizing: border-box;
+    padding: 5px;
+    
+}
+div.controls span {
+    padding: 5px;
+    transition: 0.5s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+div.controls span:hover {
+    background-color: #3d4864;
 }
 </style>
 
