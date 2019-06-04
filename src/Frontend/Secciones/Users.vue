@@ -24,6 +24,7 @@
                 :texts="usuariosTexts"
                 :schema="usuariosSchema" 
                 :default="InputData" 
+                :pagina="false"
                 :boolDefault="boolDefault"
                 @added="FinishAdd"/>
             </div>
@@ -35,6 +36,7 @@
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
                 :body="usuarios.body"
+                :pagina="false"
                 @clicked="editar"
                 ></Table>
             </div>
@@ -46,6 +48,7 @@
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
                 :body="roles.body"
+                :pagina="false"
                 @clicked="editRoles"
                 ></Table>
             </div>
