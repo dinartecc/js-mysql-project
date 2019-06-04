@@ -170,7 +170,6 @@ router.post('/productos/eliminar', (req, res ) => {
 
 
 router.post('/productos/info', (req, res) => {
-    console.log('hey')
     const {pagina, busqueda} = req.body;
     const Query = {
         tabla: 'producto',
@@ -186,11 +185,11 @@ router.post('/productos/info', (req, res) => {
                 columnas:   ['nombre']
             }
         },
-        pagina: 1
+        pagina: pagina
       };
+      console.log(Query);
     QueryDatabase( Query )
     .then((response) => res.send(response))
-    .then(console.log('Elemento anadido exitosamente'))
     .catch((error) => console.log(error))
 })
 
@@ -205,6 +204,47 @@ router.post('/productos/eliminar', (req, res) => {
     .then(res.send('OK'))
     .catch(res.status(404).end())
     console.log(sku)
+})
+
+router.post('/productos/buscar/',async (req, res) =>{
+
+  for( let variable in req.body ){ // Cambia a minuscula todas las variables en req.body
+      typeof req.body[variable] == 'string' ? req.body[variable] = req.body[variable].toLowerCase() : null 
+  }   
+
+  let {tabla, busqueda, tipo, pagina} = req.body;
+
+  if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
+      res.response("NEL")
+  }
+
+  const query = {
+      tabla:  tabla,
+      columnas: ['nombre','sku','ID_subcategoria','ID_marca', 'descripcion', 'margen_ganancia', 'porcentaje_impuestos', 'vigilar', 'minimo_stock', 'perecedero'],
+        foranea: {
+            ID_subcategoria: {
+                tabla:      'subcategoria',
+                columnas:   ['nombre']
+            },
+            ID_marca: {
+                tabla:      'marca',
+                columnas:   ['nombre']
+            }
+        },
+      desc: true, 
+      limite: 10,
+      //PAGE: poner esto en el router de buscar
+      pagina: pagina || 0
+  }
+  
+  
+  
+  QueryDatabase ( query )
+      .then((response) => {
+      
+  res.send(JSON.stringify(response))
+  })
+  
 })
 
 

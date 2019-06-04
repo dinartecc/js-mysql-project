@@ -88,14 +88,19 @@ router.post('/usuarios/editar', (req, res) => {
 })
 
 router.post('/usuarios/buscar', (req, res) => {
+  
+  let {tabla, busqueda, tipo, pagina} = req.body;
+
   const Query = {
-    tabla: 'roles',
+    tabla: tabla,
     columnas: ['nombre', 'id'],
     desc: true,
+    pagina: pagina
   }
+
+
   QueryDatabase( Query )
   .then((response) => {
-    console.log(response)
     res.json(response)
   })
   .catch((error) => console.log(error))

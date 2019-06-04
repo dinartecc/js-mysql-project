@@ -13,7 +13,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="controls">
+        <div v-if="pagina" class="controls">
             <span @click="page('primera')">Primera P&aacute;gina</span>
             <span @click="page('anterior')">P&aacute;gina Anterior</span>
             <span @click="page('siguiente')">Siguiente P&aacute;gina</span>
@@ -30,7 +30,11 @@ export default {
         tabla: String,
         body: Array,
         orden: Array,
-        texts: Object
+        texts: Object,
+        pagina: {
+            type: Boolean,
+            default: true,
+        }
 
     },
     methods: {

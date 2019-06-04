@@ -12,6 +12,7 @@
             :texts="productosTexts"
             :body="productos.body"
             @clicked="editar"
+            @page="page"
             v-if="editMode === false">
             </Table>
         </div>
@@ -47,9 +48,9 @@ export default {
                 }
             },
             productosOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre' ],
-            productos: [],
+            productos: {},
             busqueda: '',
-            paginaProductos: 1,
+            productosPage: 0,
             editarInfo: {},
             editMode: false,
             action: 'editar'
@@ -74,10 +75,32 @@ export default {
             this.editarInfo  = value
             this.editMode = true;
         },
+        page: async function(res) {
+            let page = this[`productosPage`];
+            switch (res.accion) {
+                case 'primera':
+                    this[`productosPage`] = 0;
+                    break;
+                case 'anterior':
+                    this[`productosPage`] = (page - 1 < 0 ? 0 : page - 1 );
+                    break;
+                case 'siguiente':
+                    this[`productosPage`] = (page + 1 > this.productos.count ? this.productos.count : page + 1 );
+                    break;
+                case 'ultima' :
+                    this[`productosPage`] = this.productos.count;
+                    break;
+            }
+
+            await axios.post('/productos/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo, pagina: this[`productosPage`] })
+            .then((response) => {
+                this.productos = response.data;
+            })
+        },
         getProducts:  function(){
             const Query = {
                 busqueda: this.busqueda,
-                pagina: this.paginaProductos
+                pagina: this.productosPage
             }
             axios.post('/productos/info',Query)
             .then((response) => {

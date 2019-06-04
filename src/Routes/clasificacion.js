@@ -44,7 +44,6 @@ router.get('/clasificacion/info',async(req, res) => {
     const marcaQuery = {
         tabla: 'marca',
         columnas: ['nombre', 'id'],
-        limite: 2,
         desc: true
     }
     const subcategoriaQuery = {
@@ -86,7 +85,7 @@ router.post('/clasificacion/nuevo',async (req, res) => {
     }
     
     try{
-        await CheckForeigns(query).then(()=>AddToDatabase( query )).catch((e)=>res.status(404).end());
+        await CheckForeigns(query).then(()=>AddToDatabase( query ).catch((e)=>res.status(404).end())).catch((e)=>res.status(404).end());
         console.log(`Registro añadido a la tabla ${query.tabla} exitosamente`)
         let resp = 'Elemento añadido exitosamente!';
         res.send(JSON.stringify(resp))
@@ -151,7 +150,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     const query = {
         tabla:  tabla,
         desc: true, 
-        limite: 2,
+        limite: 10,
         //PAGE: poner esto en el router de buscar
         pagina: pagina || 0
     }
