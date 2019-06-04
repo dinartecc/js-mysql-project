@@ -8,8 +8,9 @@
                     :tabla="tabla"
                     :orden="orden"
                     :texts="texts"
-                    :body="body" 
-                    @clicked="enviar" 
+                    :body="body.body" 
+                    @clicked="enviar"
+                    @page="page" 
                     />
             <input type="button" class="btn red" value="Regresar" @click="enviar"/>
         </div>
@@ -32,7 +33,9 @@ import Table from './Table.vue';
 export default {
     data: () => {
         return{
-            body: []
+            body: [],
+            pagina: 0,
+            busqueda: ''
         }
     },
     props: { 
@@ -60,13 +63,37 @@ export default {
     },
     methods: {
         Buscar:async function(value){
+            
             let busqueda = value == undefined ? '': value ;
-            var tipo = 'nombre';
+            this.busqueda = busqueda;
+            const tipo = 'nombre';
            
             
-            await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: tipo })
+            await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: this.busqueda, tipo: tipo, pagina: this.pagina })
             .then((response) => {
 
+                this.body = response.data;
+            })
+        },
+        page: async function(res) {
+            switch (res.accion) {
+                case 'primera':
+                    this.pagina = 0;
+                    break;
+                case 'anterior':
+                    this.pagina = (this.pagina - 1 < 0 ? 0 : this.pagina - 1 );
+                    break;
+                case 'siguiente':
+                    this.pagina = (this.pagina + 1 > this.body.count ? this.body.count : this.pagina + 1 );
+                    break;
+                case 'ultima' :
+                    this.pagina = this.body.count;
+                    break;
+            }
+            const tipo = 'nombre';
+
+            await axios.post('/clasificacion/buscar/', {tabla: res.tabla, busqueda: this.busqueda, tipo: tipo, pagina: this.pagina })
+            .then((response) => {
                 this.body = response.data;
             })
         },

@@ -122,7 +122,7 @@ router.post('/clasificacion/editar', async (req, res) => {
 router.post('/clasificacion/eliminar' ,(req, res) => {
     const {seccion, id} = req.body.query;
     let resp;
-    console.log(req.body)
+
     const borrar = {
         tabla: seccion,
         id: id
@@ -141,7 +141,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
         typeof req.body[variable] == 'string' ? req.body[variable] = req.body[variable].toLowerCase() : null 
     }   
 
-    let {tabla, busqueda, tipo} = req.body;
+    let {tabla, busqueda, tipo, pagina} = req.body;
 
     if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
         res.response("NEL")
@@ -149,8 +149,11 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
 
     const query = {
         tabla:  tabla,
-        desc: true
+        desc: true, 
+        //PAGE: poner esto en el router de buscar
+        pagina: pagina || 0
     }
+    
     query.condiciones = {};
     query.condiciones[tipo] = busqueda;
     switch (tabla) {
@@ -174,6 +177,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
             //res.send("NEL")
             break;
     }
+    console.log(query);
 
     if( tabla == 'todo' ){
 
@@ -218,10 +222,10 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     }else{
         QueryDatabase ( query )
         .then((response) => {
+         
         
         res.send(JSON.stringify(response))
     })
     }
-    //if(req.params == 'marca'){ query.columnas = ["orden 1", "orden 2"]}
 })
 module.exports = router;

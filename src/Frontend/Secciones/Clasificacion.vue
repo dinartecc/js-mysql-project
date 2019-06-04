@@ -58,13 +58,15 @@
 
             <EmptyMsg v-show="Show"></EmptyMsg>
             <div id="wrapper">
+                <!-- PAGE: tenes que poner el @page. Tambien cambiar el :body a que usen el .body -->
                 <transition name="slide-fade">
                     <Table class="margin-tables"
                     :tabla="'marca'"
                     :orden="marcaOrden" 
                     :texts="marcaTexts"
-                    :body="marca"
+                    :body="marca.body"
                     @clicked="editar"
+                    @page="page" aa
                     v-if="(Selected == 'marca' || Selected == 'todo') || (Selected == 'anadirmarca' )"
                     ></Table>
                 </transition>  
@@ -77,8 +79,9 @@
                 :tabla="'categoria'"
                 :orden="categoriaOrden" 
                 :texts="categoriaTexts"
-                :body="categoria"
+                :body="categoria.body"
                 @clicked="editar" 
+                @page="page"
                 v-if="( Selected == 'categoria' || Selected == 'todo' ) || (Selected == 'anadircategoria' )"
                 id="oli"
                 ></Table>
@@ -90,8 +93,9 @@
                 :tabla="'subcategoria'"
                 :orden="subcategoriaOrden"
                 :texts="subcategoriaTexts"
-                :body="subcategoria" 
+                :body="subcategoria.body" 
                 @clicked="editar" 
+                @page="page"
                 v-if="(Selected == 'subcategoria' || Selected == 'todo') || (Selected == 'anadirsubcategoria')"
                 ></Table>
 
@@ -170,6 +174,11 @@ export default {
             marcaOrden : [ 'nombre', 'id' ],
             categoriaOrden: [ 'nombre', 'id' ],
             subcategoriaOrden: [ 'nombre', 'categoria__nombre', 'id' ],
+            //PAGE: inicializar las variables page
+            marcaPage: 0,
+            categoriaPage: 0,
+            subcategoriaPage: 0,
+            busqueda: ''
         }
     },
     components: {
@@ -205,6 +214,28 @@ export default {
         editar: function(value){
             this.InputData = value;
             this.Selected = 'editar';
+        }, // PAGE: copias esta funcion. Me avisai si no sirbe
+        page: async function(res) {
+            let page = this[`${res.tabla}Page`];
+            switch (res.accion) {
+                case 'primera':
+                    this[`${res.tabla}Page`] = 0;
+                    break;
+                case 'anterior':
+                    this[`${res.tabla}Page`] = (page - 1 < 0 ? 0 : page - 1 );
+                    break;
+                case 'siguiente':
+                    this[`${res.tabla}Page`] = (page + 1 > this[res.tabla].count ? this[res.tabla].body : page + 1 );
+                    break;
+                case 'ultima' :
+                    this[`${res.tabla}Page`] = this[res.tabla].count;
+                    break;
+            }
+
+            await axios.post('/clasificacion/buscar/', {tabla: res.tabla, busqueda: this.busqueda, tipo: this.tipo, pagina: this[`${res.tabla}Page`] })
+            .then((response) => {
+                this[res.tabla] = response.data;
+            })
         },
         actualizar:async function(){
             await axios.get('/clasificacion/info')
@@ -219,10 +250,13 @@ export default {
         },
         Buscar:async function(value){
             let busqueda = value;
-            
+            //PAGE: Tenes que poner esta wea para que se paginen las busquedas
+            this.busqueda = value;
+            console.log(this.Selected);
             await axios.post('/clasificacion/buscar/', {tabla: this.Selected, busqueda: busqueda, tipo: this.tipo })
             .then((response) => {
                 if(this.Selected == 'todo'){
+                    console.log(response);
                     const {categoria, subcategoria, marca} = response.data;
                     categoria.length == 0 && subcategoria.length == 0 && marca.length == 0 ? this.Show = true : this.Show = false;
                     this.marca = marca;
@@ -230,6 +264,7 @@ export default {
                     this.subcategoria = subcategoria;
                 }else{
                     response.data.length == 0 ? this.Show = true : this.Show = false;
+                    console.log(response);
                     this[this.Selected] = response.data
                 }
             })

@@ -42,7 +42,11 @@ export default {
             this.$emit('clicked', res )
         },
         page( val ) {
-            this.$emit('page', val);
+            const res = {
+                tabla: this.tabla,
+                accion: val
+            }
+            this.$emit('page', res);
         }
     },
     created(){
