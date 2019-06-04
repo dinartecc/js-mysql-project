@@ -41,12 +41,13 @@ export default[
         path: '/lotes',
         component: Lotes,
         name: 'lotes',
-
+        beforeEnter: (to, from, next) => store.state.Permissions.lotes > 1 ? next() : next('/')
     },
     {
         path: '/almacen',
         component: Almacen,
-        name: 'almacen'
+        name: 'almacen',
+        beforeEnter: (to, from, next) => store.state.Permissions.administrador > 1 ? next() : next('/')
     },
     { path: '/logout', component: Logout }
 ]

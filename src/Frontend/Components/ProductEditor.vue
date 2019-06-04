@@ -1,8 +1,11 @@
 <template>
 <div id="container-pe">
     <div id="title">
-
-        <h2 class="white">Añadir Producto</h2>
+        <h2 class="white">{{action == 'editar' ? `Editar Elemento `: 'Añadir Elemento'}}</h2>
+    </div>
+    <div id="title-btn">
+        <button @click="out" class="btn">Salir</button>
+        
         <button class="btn red" v-if="action == 'editar'" @click="deleteElement"> Borrar </button>
     </div>
     <div id="product-container">
@@ -80,7 +83,7 @@
     </div>
     <div class="flex">
     <button @click="send" class="btn">Guardar</button>
-    <button @click="out" class="btn">Salir</button>
+    
 
     </div>
 </div>
@@ -183,8 +186,8 @@ export default {
             let sku = this.sku;
             console.log(sku)
             Alertas.DeleteElement('/productos/eliminar', this.sku)
-            .then(console.log('TO BIEN'))
-            this.$emit('added' , true)
+            .then(() => this.$emit('added' , true))
+            
         }
     },
     created(){
@@ -195,8 +198,16 @@ export default {
 
 
 <style scoped>
+#title-btn{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
 #title{
     display: flex;
+    width: 80%;
+    justify-content: center;
 }
 #vigilar{
     margin-top: 30px;
@@ -297,7 +308,8 @@ input[type="number"]{
     background-color: #6a7cab ;
     color: white;
     margin: 15px 10px;
-    padding: 8px 20px;
+    padding: 8px 30px;
+    min-width: 110px;
     border: 0;
     outline: 0;
     border-radius: 10px;
@@ -330,7 +342,7 @@ input[type="number"]{
 }
 
 #product-container{
-    margin-top: 50px;
+    margin-top: 0px;
     width: 80%;
     color: white;
     display: flex;

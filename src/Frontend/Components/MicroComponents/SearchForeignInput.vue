@@ -16,6 +16,7 @@
                         :body="body.body" 
                         @clicked="enviar" 
                         @page="page"
+                        :pagina="false"
                         />
                 <input type="button" class="btn red" value="Regresar" @click="enviar"/>
             </div>

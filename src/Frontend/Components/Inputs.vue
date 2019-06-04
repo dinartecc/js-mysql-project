@@ -43,6 +43,7 @@
                     <div class="btn-container">
                         <button class="btn red" @click="cancel($event)">Cancelar</button>
                         <button class="btn" @click="confirmar($event)">Guardar</button>
+                        <button class="btn red" @click="borrar($event)" v-if="boolDefault">Borrar</button>
                     </div>
             
         
@@ -57,6 +58,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios'
 import SearchBtn from './SearchBtn.vue';
 import SearchForeign from './SearchForeign.vue';
+import Alertas from '../Utilidades/Alertas'
 
 export default {
     props: {
@@ -104,6 +106,14 @@ export default {
                 this.valores[this.forkey] = e;
             }
 
+        },
+        borrar(e){
+            const req = Object.assign({}, this.valores );
+            req.tabla = this.default.tabla;
+            Alertas.DeleteElement( `/${this.seccion}/eliminar`, req)
+            .then(()=>this.$emit('added', true))
+            .catch(() => this.$emit('added', false))
+            
         },
         confirmar(e) {
             e.preventDefault();

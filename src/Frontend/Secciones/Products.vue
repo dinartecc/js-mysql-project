@@ -1,8 +1,11 @@
 <template>
     <div id="container">
         <div id="titulo">
-
             <h2 @click="add">Añadir</h2>
+        </div>
+        <div id="search" v-show="!editMode">
+            <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
+            <DropSelector :titles="['Nombre', 'SKU', 'Marca', 'Subcategoria']" :values="['nombre', 'sku', 'ID_marca', 'ID_subcategoria']" v-model="tipo" ></DropSelector>
         </div>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
         <div class="table-container">
@@ -23,10 +26,11 @@
 
 
 <script>
+import SearchBar from '../Components/SearchBar.vue'
 import axios from 'axios'
 import Table from '../Components/Table.vue'
 import ProductEditor from '../Components/ProductEditor.vue'
-
+import DropSelector from '../Components/MicroComponents/DropSelector.vue'
 export default {
     data: () => {
         return{
@@ -50,6 +54,7 @@ export default {
             productosOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre' ],
             productos: {},
             busqueda: '',
+            tipo: '',
             productosPage: 0,
             editarInfo: {},
             editMode: false,
@@ -59,9 +64,18 @@ export default {
     ,
     components: {
         ProductEditor,
-        Table
+        Table,
+        SearchBar,
+        DropSelector
     },
     methods:{
+        Buscar:function(value){
+            console.log(this.Selected);
+            axios.post('/productos/buscar', {tabla: 'producto', busqueda: value, tipo: this.tipo })
+            .then((response) => {
+                this.productos = response.data
+            })
+        },
         added: function(cambio){
             cambio ? this.getProducts() : null
             this.editMode = false;
@@ -75,7 +89,7 @@ export default {
             this.editarInfo  = value
             this.editMode = true;
         },
-        page: async function(res) {
+        page: function(res) {
             let page = this[`productosPage`];
             switch (res.accion) {
                 case 'primera':
@@ -92,9 +106,10 @@ export default {
                     break;
             }
 
-            await axios.post('/productos/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo, pagina: this[`productosPage`] })
+            axios.post('/productos/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo})
             .then((response) => {
                 this.productos = response.data;
+                console.log(response)
             })
         },
         getProducts:  function(){
@@ -117,11 +132,28 @@ export default {
 
 <style scoped>
 #titulo{
-    background-color: ;
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    background-color: #2E2A3D;
+    background-color: #375C7D;
+    background-color: #467E85;
+    background-color: #1E5666;
     width: 100%;
+}
+
+#titulo h2{
+    margin:0;
 }
 .table-container{
     width: 80%
+}
+
+#search{
+    width: 80%;
+    display: flex;
 }
 
 #container{

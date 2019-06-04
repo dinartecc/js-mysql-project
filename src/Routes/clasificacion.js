@@ -120,19 +120,21 @@ router.post('/clasificacion/editar', async (req, res) => {
 
 
 router.post('/clasificacion/eliminar' ,(req, res) => {
-    const {seccion, id} = req.body.query;
-    let resp;
-
+    const {tabla, id} = req.body.query;
+    console.log(req.body.query)
     const borrar = {
-        tabla: seccion,
+        tabla: tabla,
         id: id
     }
     
-    DeleteFromDatabase( borrar ).then(console.log("BORRADO >:D"))
-    .then(() => console.log(`Registro de ${seccion} eliminado exitosamente`))
-    .then(() => { return resp = 'Elemento eliminado exitosamente!'} )
-    .then((resp) => res.send(JSON.stringify(resp)))
-    .catch((response) => console.log(response))
+    DeleteFromDatabase( borrar )
+    .then(() => console.log("BORRADO >:D"))
+    .then(() => res.send('OK'))
+    .catch((response) => {
+        console.log(response)
+        res.status(404).end()
+    })
+
      
 });
 
@@ -144,7 +146,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     let {tabla, busqueda, tipo, pagina} = req.body;
 
     if(typeof tabla === undefined || typeof busqueda === undefined  || typeof tipo === undefined) { // Si alguna variable no existe...
-        res.response("NEL")
+        res.status(404).end()
     }
 
     const query = {
@@ -223,10 +225,8 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     }else{
         QueryDatabase ( query )
         .then((response) => {
-         
-        
-        res.send(JSON.stringify(response))
-    })
+            res.send(JSON.stringify(response))
+        })
     }
 })
 module.exports = router;

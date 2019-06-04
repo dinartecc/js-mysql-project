@@ -1,6 +1,6 @@
 <template>
  <div id="menu">
-    <div id="titulo">
+    <div id="dashboard">
         <router-link to="/"><h3 style="margin-left:50px;">Dashboard</h3></router-link>
     </div>
     <div id="database-img" class="dropdown-menu"> 
@@ -130,7 +130,7 @@ a{
     height: 20px;
     margin-right: 2px;
 }
-#menu > div div:nth-child(1):hover{ transition: 0.5s ; transform: scale(1.1)}
+#menu > div div:nth-child(1):hover{ transition: 0.3s ; transform: scale(1.1)}
 #menu > div div:nth-child(1){
     transition: 0.5s;
     cursor: pointer;
@@ -145,14 +145,17 @@ a{
 #menu  div p{
     margin-left: 5px;
 }
-#titulo h3{margin:0 !important;}
-#titulo{
+#dashboard h3{
+    margin:0 !important;
+    color: white;
+}
+#dashboard{
     width: 100%; 
     display: flex; 
     justify-content: center; 
     padding: 20px 0 20px 0;
-    color: white;
-    }
+    
+}
 #menu{
     align-items: flex-start;
     display:flex;
@@ -162,9 +165,9 @@ a{
     min-height: 100vh;
     
     background-color: #353942;
-    background-color: #4a5864;
-    background-color: #282f41;
     background-color: #4D82B0;
+    background-color: #282f41;
+    background-color: #4a5864;
     position: fixed;
     top: 0;
     color:white;
