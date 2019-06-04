@@ -13,8 +13,9 @@
                         :tabla="tabla"
                         :orden="orden"
                         :texts="texts"
-                        :body="body" 
+                        :body="body.body" 
                         @clicked="enviar" 
+                        @page="page"
                         />
                 <input type="button" class="btn red" value="Regresar" @click="enviar"/>
             </div>
@@ -79,7 +80,9 @@ export default {
             isInputActive: false,
             error: false,
             forshow: false,
-            body: []
+            body: [],
+            pagina: 0,
+            busqueda: ''
         }
     },
     components: {
@@ -96,6 +99,29 @@ export default {
             await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: this.buscarPor })
             .then((response) => {
                 
+                this.body = response.data;
+            })
+            
+        },
+        page: async function(res) {
+            switch (res.accion) {
+                case 'primera':
+                    this.pagina = 0;
+                    break;
+                case 'anterior':
+                    this.pagina = (this.pagina - 1 < 0 ? 0 : this.pagina - 1 );
+                    break;
+                case 'siguiente':
+                    this.pagina = (this.pagina + 1 > this.body.count ? this.body.count : this.pagina + 1 );
+                    break;
+                case 'ultima' :
+                    this.pagina = this.body.count;
+                    break;
+            }
+            const tipo = 'nombre';
+
+            await axios.post('/clasificacion/buscar/', {tabla: res.tabla, busqueda: this.busqueda, tipo: tipo, pagina: this.pagina })
+            .then((response) => {
                 this.body = response.data;
             })
         },

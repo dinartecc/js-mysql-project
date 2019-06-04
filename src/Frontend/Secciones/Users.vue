@@ -34,7 +34,7 @@
                 :tabla="'Usuarios'"
                 :orden="usuariosOrden" 
                 :texts="usuariosTexts"
-                :body="usuarios"
+                :body="usuarios.body"
                 @clicked="editar"
                 ></Table>
             </div>
@@ -45,7 +45,7 @@
                 :tabla="'Roles'"
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
-                :body="roles"
+                :body="roles.body"
                 @clicked="editRoles"
                 ></Table>
             </div>
@@ -55,7 +55,7 @@
                 <TableColors
                 :orden="rolesOrden" 
                 :texts="rolesTexts"
-                :body="roles"
+                :body="roles.body"
                 @clicked="editRoles"
                 >
                 </TableColors> 
@@ -102,6 +102,7 @@ export default {
             usuarios: [],
             InputData: {},
             usuariosSchema: {},
+            usuariosPage: 0,
             usuariosOrden : [ 'name', 'roles__nombre' ],
             usuariosTexts: {
                 name: {
@@ -122,6 +123,7 @@ export default {
                 }
             },
             roles: [],
+            rolesPage: 0,
             rolesOrden: ['nombre','clasificacion', 'lotes', 'productos', 'reportes'],
             rolesTexts: {
                 nombre: {
@@ -143,7 +145,8 @@ export default {
                     titulo: 'Reportes',
                     
                 }
-            }
+            },
+            busqueda: 0
         }
     },
     methods: {
@@ -186,6 +189,28 @@ export default {
                     break;
             }
         }, 
+        page: async function(res) {
+            let page = this[`${res.tabla}Page`];
+            switch (res.accion) {
+                case 'primera':
+                    this[`${res.tabla}Page`] = 0;
+                    break;
+                case 'anterior':
+                    this[`${res.tabla}Page`] = (page - 1 < 0 ? 0 : page - 1 );
+                    break;
+                case 'siguiente':
+                    this[`${res.tabla}Page`] = (page + 1 > this[res.tabla].count ? this[res.tabla].count : page + 1 );
+                    break;
+                case 'ultima' :
+                    this[`${res.tabla}Page`] = this[res.tabla].count;
+                    break;
+            }
+
+            await axios.post('/usuarios/buscar/', {tabla: res.tabla, busqueda: this.busqueda, tipo: this.tipo, pagina: this[`${res.tabla}Page`] })
+            .then((response) => {
+                this[res.tabla] = response.data;
+            })
+        },
         editRoles: function(value){
             this.EditValues = value;
             this.actionRoles = 'edit'
