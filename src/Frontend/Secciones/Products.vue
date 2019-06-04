@@ -11,7 +11,7 @@
             :tabla="'Productos'"
             :orden="productosOrden" 
             :texts="productosTexts"
-            :body="productos"
+            :body="productos.body"
             @clicked="editar"
             v-if="editMode === false">
             </Table>

@@ -44,6 +44,7 @@ router.get('/clasificacion/info',async(req, res) => {
     const marcaQuery = {
         tabla: 'marca',
         columnas: ['nombre', 'id'],
+        limite: 2,
         desc: true
     }
     const subcategoriaQuery = {
@@ -150,6 +151,7 @@ router.post('/clasificacion/buscar/',async (req, res) =>{
     const query = {
         tabla:  tabla,
         desc: true, 
+        limite: 2,
         //PAGE: poner esto en el router de buscar
         pagina: pagina || 0
     }

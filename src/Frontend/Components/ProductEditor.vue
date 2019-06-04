@@ -145,7 +145,7 @@ export default {
             if(
                 // Validaciones de los inputs
                 (this.vigilar === true && this.minimoStock == '') ||
-                (this.nombre === '')                              || 
+                (this.nombre === '')                              ||
                 (!typeof this.marca == 'number')                  ||
                 (this.marca == '')                                ||
                 (this.subcategoria == '')                           

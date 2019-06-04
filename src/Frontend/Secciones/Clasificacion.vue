@@ -83,7 +83,6 @@
                 @clicked="editar" 
                 @page="page"
                 v-if="( Selected == 'categoria' || Selected == 'todo' ) || (Selected == 'anadircategoria' )"
-                id="oli"
                 ></Table>
             </transition>
 
@@ -227,7 +226,7 @@ export default {
                     this[`${res.tabla}Page`] = (page - 1 < 0 ? 0 : page - 1 );
                     break;
                 case 'siguiente':
-                    this[`${res.tabla}Page`] = (page + 1 > this[res.tabla].count ? this[res.tabla].body : page + 1 );
+                    this[`${res.tabla}Page`] = (page + 1 > this[res.tabla].count ? this[res.tabla].count : page + 1 );
                     break;
                 case 'ultima' :
                     this[`${res.tabla}Page`] = this[res.tabla].count;

@@ -89,7 +89,6 @@ router.post('/clientes/buscar', (req, res) => {
             console.log('\n\n\n\n\n');
             console.log('Se ha encontrado ' + results.nombre);
         });
-       
         var respuesta = JSON.parse(JSON.stringify(results));
         res.json({ respuesta });
     })
@@ -118,7 +117,6 @@ router.post('/productos/editar',async (req, res) => {
         .then(res.send('OK'))
         .catch((error) => console.log(error))
         .catch(() => res.status(404).end())
-
     })
     .catch((e)=>res.status(404).end());
 })
