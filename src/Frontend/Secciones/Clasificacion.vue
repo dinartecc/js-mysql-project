@@ -206,7 +206,6 @@ export default {
             this.Selected = 'todo'
             console.log(cambio)
             
-            
         },
         cambioSeccion: function(){
             this.Show = false;

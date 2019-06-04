@@ -4,7 +4,7 @@ import CreateConnection from '../../ServerComponents/CreateConnection/CreateConn
 const VerificarLogin = ( usuario, contra ) => {
   return new Promise( (resolve, reject) => {
     const connection = CreateConnection;
-    const query = `select roles.ID_rol,nombre,user,name, 
+    const query = `select roles.ID_rol,nombre,user,name, pass,
     (case productos
           when 'Ninguno' then 1
           when 'Leer' then 2
@@ -37,8 +37,7 @@ const VerificarLogin = ( usuario, contra ) => {
           when 'No' then 1
           when 'Si' then 2
           end) as administrador 
-      from usuarios join roles on usuarios.ID_rol = roles.ID_rol  where upper(user) regexp ${mysql.escape(usuario)} and upper(pass) regexp ${mysql.escape(contra)}`;
-
+      from usuarios join roles on usuarios.ID_rol = roles.ID_rol  where upper(user) regexp ${mysql.escape(usuario)} and pass regexp ${mysql.escape(contra)}`;
   
     connection.query(query, (error, results, fields) => {
       

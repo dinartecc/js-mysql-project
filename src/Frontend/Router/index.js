@@ -35,7 +35,5 @@ export default[
         name: 'productos',
         beforeEnter: (to, from, next) => store.state.Permissions.productos > 1 ? next() : next('/')
     },
-
-
     { path: '/logout', component: Logout}
 ]

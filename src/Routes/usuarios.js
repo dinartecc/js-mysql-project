@@ -4,8 +4,9 @@ import connection from '../ServerComponents/CreateConnection/CreateConnection';
 import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
-
+import crypto from 'crypto-js'
 router.post('/roles/add', (req, res) =>{
+    let hash = 'Super Secret Hash'
     console.log(req.body)
     const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
     const {nombre} = req.body.info;
@@ -17,7 +18,7 @@ router.post('/roles/add', (req, res) =>{
       reportes : Reportes,
       nombre
     };
-
+    
     AddToDatabase(query)
       .then( () => res.send('OK'))
       .catch( (err) => {
@@ -51,10 +52,10 @@ router.post('/roles/edit', (req, res) =>{
 
 })
 
-
-
 router.post('/usuarios/nuevo', (req,res) => {
   const {query} = req.body
+  let hash = crypto.SHA256(query.pass)
+  query.pass = hash.toString()
   AddToDatabase( query )
   .then((response)  =>  {
     res.send('OK')
@@ -67,6 +68,12 @@ router.post('/usuarios/nuevo', (req,res) => {
 router.post('/usuarios/editar', (req, res) => {
   const {query} = req.body;
   query.tabla = 'usuarios'
+  if(query.pass != ''){
+    let hash = crypto.SHA256(query.pass)
+    query.pass = hash.toString()
+  }else{
+    delete query.pass;
+  }
   console.log(query)
   UpdateDatabase( query )
   .then((response) => {
@@ -77,6 +84,7 @@ router.post('/usuarios/editar', (req, res) => {
     console.log(error)
     res.status(404).end();
   })
+
 })
 
 router.post('/usuarios/buscar', (req, res) => {
@@ -158,6 +166,8 @@ router.get('/getroles', (req, res) => {
         res.send(JSON.stringify(response))
     })
 })
+
+
 
 
 module.exports = router;

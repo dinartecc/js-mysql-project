@@ -40,7 +40,6 @@ export default {
 
 
 <style scoped>
-    
 
     #container{
         overflow-x: hidden ;

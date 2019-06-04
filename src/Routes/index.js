@@ -14,11 +14,11 @@ import AddToProduct from '../ServerComponents/AddToDatabase/AddToProduct';
 import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 const connection = CreateConnection;
+import crypto from 'crypto-js'
 SchemaQuery();
 
-
 router.get('/hola',(req, res) => {
-  
+
 })
 
 /* ----- Inicializar Database -----*/

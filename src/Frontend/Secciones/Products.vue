@@ -6,7 +6,6 @@
         </div>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
         <div class="table-container">
-
             <Table class="text-center"
             :tabla="'Productos'"
             :orden="productosOrden" 

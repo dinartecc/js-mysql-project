@@ -146,8 +146,6 @@ router.post('/productos/nuevo', (req, res) => {
             console.log(error)
             res.status(404).end()
         })
-
-        
     }else{
         res.status(404).end();
 

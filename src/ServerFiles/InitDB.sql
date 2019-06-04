@@ -18,9 +18,9 @@ create table if not exists Roles(
 create table if not exists Usuarios (
     ID_usuario int not null,
     user varchar(30) not null,
-    pass varchar(30) not null,
+    pass varchar(70) not null,
     name varchar(30) not null,
-    ID_rol int not null, 
+    ID_rol int not null,
     borrado boolean not null default false,
     constraint PK_usr primary key (ID_usuario),
     constraint FK_usr_rol foreign key (ID_rol) references Roles(ID_rol)
