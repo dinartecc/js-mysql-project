@@ -37,7 +37,7 @@ const DeleteFromDatabase = ( obj  ) => {
       //Si hay tablas hijos, inicializa este codigo
       if ( results.length > 0 ) {
 
-        if (!cascade) {
+        
           let changeQuery = '';
           //Crea el query con cada tabla hijo para actualizar el id al 0
           for( let child of results ) {
@@ -53,7 +53,7 @@ const DeleteFromDatabase = ( obj  ) => {
             });
           }
 
-        }
+        
       }
 
       //Crea la query para borrar el registro

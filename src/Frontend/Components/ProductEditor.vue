@@ -1,6 +1,6 @@
 <template>
 <div id="container-pe">
-    <div>
+    <div id="title">
 
         <h2 class="white">Añadir Producto</h2>
         <button class="btn red" v-if="action == 'editar'" @click="deleteElement"> Borrar </button>
@@ -28,7 +28,10 @@
                         <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
                     </div>
                 </div>
-
+                <div class="input-group">
+                        <label for="nombre"><h3>Perecedero?</h3></label>
+                        <ToggleBtn v-model="perecedero" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
+                    </div>
                 <div class="input-group">
                     <label for="nombre">Descripción del producto</label>
                     <textarea class="textarea" v-model="descripcion" id="text-area" name=""  cols="30" rows="10"></textarea>
@@ -75,7 +78,11 @@
         
         </div>
     </div>
+    <div class="flex">
     <button @click="send" class="btn">Guardar</button>
+    <button @click="out" class="btn">Salir</button>
+
+    </div>
 </div>
     
 </template>
@@ -96,7 +103,7 @@ export default {
     },
     data: function(){
         return{
-            minimoStock: '',
+            minimoStock: '0',
             nombre: '',
             descripcion: '',
             marca: '',
@@ -104,7 +111,8 @@ export default {
             subcategoria: '',
             margen: 0,
             vigilar: false,
-            sku: 0
+            perecedero: false,
+            sku: ''
         }
     },
     components: {
@@ -116,7 +124,9 @@ export default {
         Dropdown,
         SearchForeingInput
     }, methods: {
-
+        out: function(){
+            this.$emit('added', false)
+        },
         send: function(){
             const sendInfo = {
                 nombre:         this.nombre,
@@ -126,10 +136,12 @@ export default {
                 impuesto:       this.impuesto,
                 margen:         this.margen,
                 vigilar:        this.vigilar,
-                minimoStock:   this.minimoStock
+                minimoStock:    this.minimoStock,
+                perecedero:     this.perecedero,
+                sku:            this.sku
 
             }
-
+            
             if(
                 // Validaciones de los inputs
                 (this.vigilar === true && this.minimoStock == '') ||
@@ -138,17 +150,21 @@ export default {
                 (this.marca == '')                                ||
                 (this.subcategoria == '')                           
                 ){
-                Alertas.Error()
+                Alertas.ErrorMsg()
                 return null
             }
-            Alertas.ToSend( '/productos/nuevo ' , sendInfo)
-
+            let url = this.action == 'anadir' ?  '/productos/nuevo' :  '/productos/editar';
+            
+            Alertas.ToSend( url , sendInfo)
+            .then(() => this.$emit('added' , true))
+            .catch(() => console.log('BUH >C'))
+            
             //axios.post(`/productos/nuevo`, sendInfo)
             //.then(console.log('ENVIADO'))
         },
         editar: function(){
             if(this.action == 'editar'){
-                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock} = this.edit.elemento;
+                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock, perecedero} = this.edit.elemento;
                 this.nombre =       nombre;
                 this.descripcion =  descripcion;
                 this.marca =        ID_marca.toString();
@@ -158,13 +174,17 @@ export default {
                 this.vigilar =      vigilar === 1? true : false;
                 this.minimoStock =  minimo_stock.toString();
                 this.sku =          sku;
-                console.log('eaeaea', this.edit.elemento)
+                this.perecedero =   perecedero === 1? true : false;
             }else{
                 console.log('nel')
             }
         },
         deleteElement: function(){
+            let sku = this.sku;
+            console.log(sku)
             Alertas.DeleteElement('/productos/eliminar', this.sku)
+            .then(console.log('TO BIEN'))
+            this.$emit('added' , true)
         }
     },
     created(){
@@ -175,7 +195,9 @@ export default {
 
 
 <style scoped>
-
+#title{
+    display: flex;
+}
 #vigilar{
     margin-top: 30px;
 }

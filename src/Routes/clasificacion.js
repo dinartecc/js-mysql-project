@@ -112,7 +112,7 @@ router.post('/clasificacion/editar', async (req, res) => {
       })
       .catch(err => {
         console.log(err)  
-       res.status(404).end();
+        res.status(404).end();
     }))
     .catch((e)=>res.status(404).end());
 });

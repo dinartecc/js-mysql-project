@@ -2,13 +2,13 @@
     <div id="container">
         <div id="titulo">
 
+            <h2 @click="add">Añadir</h2>
         </div>
-        <h2 @click="add">Añadir</h2>
-        <ProductEditor :edit="editarInfo" :action="action" v-if="editMode"></ProductEditor>
+        <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
         <div class="table-container">
 
             <Table class="text-center"
-            :tabla="'categoria'"
+            :tabla="'Productos'"
             :orden="productosOrden" 
             :texts="productosTexts"
             :body="productos"
@@ -43,11 +43,11 @@ export default {
                 nombre: {
                     titulo: 'Nombre'
                 },
-                margen_ganancia: {
-                    titulo: 'Margen de ganancia'
+                marca__nombre: {
+                    titulo: 'Marca'
                 }
             },
-            productosOrden: ['nombre','sku', 'subcategoria__nombre', 'margen_ganancia'],
+            productosOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre' ],
             productos: [],
             busqueda: '',
             paginaProductos: 1,
@@ -62,13 +62,18 @@ export default {
         Table
     },
     methods:{
+        added: function(cambio){
+            cambio ? this.getProducts() : null
+            this.editMode = false;
+        },
         add: function() {
             this.action = 'anadir'
             this.editMode = true; 
         },
         editar: function(value){
+            this.action = 'editar'
             this.editarInfo  = value
-            this.editMode = true
+            this.editMode = true;
         },
         getProducts:  function(){
             const Query = {
@@ -89,7 +94,10 @@ export default {
 
 
 <style scoped>
-
+#titulo{
+    background-color: ;
+    width: 100%;
+}
 .table-container{
     width: 80%
 }

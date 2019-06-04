@@ -143,13 +143,14 @@ a{
     align-items: flex-start;
     display:flex;
     flex-direction: column;
-    min-width: 180px;
+    min-width: 190px;
     height: auto;
     min-height: 100vh;
     
     background-color: #353942;
-    background-color: #282f41;
     background-color: #4a5864;
+    background-color: #282f41;
+    background-color: #4D82B0;
     position: fixed;
     top: 0;
     color:white;

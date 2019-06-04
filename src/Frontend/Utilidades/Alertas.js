@@ -4,102 +4,112 @@ import axios from 'axios'
 
 
 const DeleteElement = function ( url , info) {
-    Swal.fire({
-        title: 'Estas Seguro?',
-        text: 'Si este elemento contiene elementos hijos, su unión será borrada',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true,
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-            return axios({
-                    method: 'post',
-                    url: url,
-                    headers: {}, 
-                    data: {
-                        query: info, 
-                    }
-                })
-            .then(response => {
-                if (response.status !== 200) {
-                    throw new Error(response.statusText)
-                }
-                return true;
-            })
-            .catch(error => {
-                Swal.showValidationMessage(
-                `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
-                )
-                return false;
-            })  
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
+    return new Promise(function(resolve, reject){
 
-        if (result.value) {
-            Swal.fire(
-            '¡Éxito!',
-            `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
-            'success'
-            )
-            .then(()=>this.$emit('added', true));
-            
-        }
+        Swal.fire({
+            title: 'Estas Seguro?',
+            text: 'Si este elemento contiene elementos hijos, su unión será borrada',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return axios({
+                        method: 'post',
+                        url: url,
+                        headers: {}, 
+                        data: {
+                            query: info, 
+                        }
+                    })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText)
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(
+                    `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
+                    )
+                    reject(new Error('ERROR'))
+                    return false;
+                })  
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+    
+            if (result.value) {
+                Swal.fire(
+                '¡Éxito!',
+                `Se elimino exitosamente.`,
+                'success'
+                )
+                .then(() => {resolve(true)});
+                
+            }
+        })
+
+
     })
+    
 }
 
 
 const ToSend = function ( url , info ){
-    Swal.fire({
-        title: '¿Está seguro?',
-        text: "¿Desea ingresar los datos?",
-        type: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true,
-        showLoaderOnConfirm: true,
-        preConfirm: () => {
-            return axios({
-                    method: 'post',
-                    url: url,
-                    headers: {}, 
-                    data: {
-                        query: info, 
+    return new Promise(function(resolve, reject){
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "¿Desea ingresar los datos?",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return axios({
+                        method: 'post',
+                        url: url,
+                        headers: {}, 
+                        data: {
+                            query: info, 
+                        }
+                    })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText)
                     }
+                    return true;
                 })
-            .then(response => {
-                if (response.status !== 200) {
-                    throw new Error(response.statusText)
-                }
-                return true;
-            })
-            .catch(error => {
-                Swal.showValidationMessage(
-                `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
+                .catch(error => {
+                    Swal.showValidationMessage(
+                    `Ocurrió un problema. Verifique sus datos e inténtelo más tarde`
+                    )
+                    reject(new Error('ERROR'))
+                    return false
+                })  
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+    
+            if (result.value) {
+                Swal.fire(
+                '¡Éxito!',
+                `Acción ejecutada exitosamente.`,
+                'success'
                 )
-                return false;
-            })  
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-
-        if (result.value) {
-            Swal.fire(
-            '¡Éxito!',
-            `Se ${ this.boolDefault ? 'editó' : 'añadió'} exitosamente.`,
-            'success'
-            )
-            .then(()=>this.$emit('added', true));
-            
-        }
+                .then(() => {resolve(true)});
+                
+            }
+        })
     })
-}
+};
 
 
-const Error = function () {
+const ErrorMsg = function () {
     Swal.fire({
         type: 'error',
         title: 'Error!',
@@ -110,6 +120,6 @@ const Error = function () {
 
 export default {
     ToSend,
-    Error,
+    ErrorMsg,
     DeleteElement
 }

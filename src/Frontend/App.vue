@@ -43,23 +43,24 @@ export default {
     
 
     #container{
-        overflow-x: hidden;
+        overflow-x: hidden ;
         display: flex;
         width: 100%;
         font-family: 'Raleway', sans-serif;
     }
     #content{
-        width: 90%;
+        width: calc(100% - 190px);
         display: flex;
         align-items: center;
         flex-direction: column;
         background-color: #232730;
+        
     }
     #sidebar{
         background-color: #4a5864;
         
-        width: 10%;
-        min-width: 190px;
+        width: 190px;
+  
         height: 100%;
         
         background-color: #4a5864;

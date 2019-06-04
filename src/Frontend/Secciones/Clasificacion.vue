@@ -193,10 +193,12 @@ export default {
 
             }
         },
-        added: function(todo) {
-            todo ? this.Selected = 'todo' : null;
+        added: function(cambio) {
+            cambio ? this.actualizar(): null;
+            this.Selected = 'todo'
+            console.log(cambio)
             
-            this.actualizar();
+            
         },
         cambioSeccion: function(){
             this.Show = false;

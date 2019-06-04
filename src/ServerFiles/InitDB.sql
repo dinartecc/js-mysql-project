@@ -65,6 +65,7 @@ create table if not exists Producto (
     porcentaje_impuestos numeric(5,2),
     borrado boolean not null default false,
     vigilar boolean default 0,
+    perecedero boolean default 0,
     minimo_stock int(4) unsigned not null,
     constraint PK_sku primary key (SKU),
     constraint FK_sku_sub foreign key (ID_subcategoria) references Subcategoria(ID_subcategoria),
