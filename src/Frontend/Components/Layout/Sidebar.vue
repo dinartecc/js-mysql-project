@@ -34,6 +34,20 @@
             </div>
         </router-link>
     </div>
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.administrador > 1">
+        <router-link to="/lotes">
+            <div>
+                <img src="img/usuario.svg" alt=""> <p>Lotes</p>
+            </div>
+        </router-link>
+    </div>
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.administrador > 1">
+        <router-link to="/almacen">
+            <div>
+                <img src="img/usuario.svg" alt=""> <p>Almacen</p>
+            </div>
+        </router-link>
+    </div>
     <div class="dropdown-menu">
         <div>
             <img src="img/reportes.svg" alt=""> <p>Reportes</p>

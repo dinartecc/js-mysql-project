@@ -1,10 +1,12 @@
 import Login from '../Secciones/Login.vue';
 import Inicio from '../Secciones/Inicio.vue';
 import Clasificacion from '../Secciones/Clasificacion.vue';
-import Logout from '../Secciones/Logout.vue'
-import Users from '../Secciones/Users.vue'
-import Products from '../Secciones/Products.vue'
-import store from '../Store/store.js'
+import Logout from '../Secciones/Logout.vue';
+import Users from '../Secciones/Users.vue';
+import Products from '../Secciones/Products.vue';
+import store from '../Store/store.js';
+import Lotes from '../Secciones/Lotes.vue';
+import Almacen from '../Secciones/Almacen.vue';
 export default[
     {
         path: '/',
@@ -35,5 +37,16 @@ export default[
         name: 'productos',
         beforeEnter: (to, from, next) => store.state.Permissions.productos > 1 ? next() : next('/')
     },
-    { path: '/logout', component: Logout}
+    {
+        path: '/lotes',
+        component: Lotes,
+        name: 'lotes',
+
+    },
+    {
+        path: '/almacen',
+        component: Almacen,
+        name: 'almacen'
+    },
+    { path: '/logout', component: Logout }
 ]
