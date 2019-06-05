@@ -1,13 +1,8 @@
-<script>
-import $ from 'jquery'
-</script>
-
-
 
 <template>
-<div>
+<div id="container">
     <h1>Bienvenido {{nombre}}</h1>
-    <h2>Alertas</h2>
+    <h2 id="alertas">Alertas</h2>
     <div v-if="alertaCantidad.length == 0 && alertaVencimiento.length == 0">
         No hay alertas
     </div>
@@ -135,5 +130,11 @@ export default {
     h1{
         text-align: center;
         color: white;
+    }
+    #container{
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>

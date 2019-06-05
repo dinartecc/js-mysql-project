@@ -65,12 +65,19 @@ router.post('/usuarios/eliminar', (req, res) => {
     tabla: 'usuarios',
     id
   }
-  console.log(Query)
-  DeleteFromDatabase(Query)
-  .then((response) => res.send('OK'))
-  .catch(() => {
-    res.status(404).end();
+
+  if(id != 1){
+    console.log(Query)
+    DeleteFromDatabase(Query)
+    .then((response) => res.send('OK'))
+    .catch(() => {
+      res.status(404).end();
   })
+  }else{
+    res.status(404).end();
+  }
+
+  
 })
 
 router.post('/usuarios/nuevo', (req,res) => {

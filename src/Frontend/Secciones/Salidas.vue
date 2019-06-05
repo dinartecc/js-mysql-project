@@ -58,16 +58,21 @@ export default {
     },
     methods: {
         enviar: async function(){
+            if(this.cantidad.toString() < 0){
+                Alertas.ErrorMsg()
+                
+            }else{
+                Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
+                .then((response) => {
+                    console.log(response)
+                    let {cantidad, ids, sacados} = response.data;
+                    this.restante = cantidad;
+                    this.sacados = sacados;
+                    this.ids = ids;
+                })
+                .catch((error) => console.log(error))
+                }
             
-            Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
-            .then((response) => {
-                console.log(response)
-                let {cantidad, ids, sacados} = response.data;
-                this.restante = cantidad;
-                this.sacados = sacados;
-                this.ids = ids;
-            })
-            .catch((error) => console.log(error))
         },
         
     },

@@ -1,7 +1,7 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Almacen</h2>
+            <h2 >Usuarios</h2>
         </div>
         <div id="search-container">
 
