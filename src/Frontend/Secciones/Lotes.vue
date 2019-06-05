@@ -12,6 +12,16 @@
                 v-if="editMode === false">
                 </Table>
         </div>
+
+        <div id="editor-container">
+            <LotesEditor
+            :edit="editarInfo" 
+            :action="action" 
+            v-if="editMode" 
+            @added="added"
+            >   
+            </LotesEditor>
+        </div>
     </div>
 </template>
 
@@ -19,7 +29,7 @@
 <script>
 import axios from 'axios'
 import Table from '../Components/Table.vue'
-
+import LotesEditor from '../Components/LotesEditor.vue'
 export default {
     data: () => {
         return{
@@ -45,14 +55,18 @@ export default {
             busqueda: '',
             lotesPage: 0,
             editarInfo: {},
-            editMode: false,
-            action: 'editar'
+            editMode: true,
+            action: 'anadir'
         }
     },
      components: {
-        Table
+        Table,
+        LotesEditor
     },
     methods: {
+        added: function(){
+
+        },
         page: async function(res) {
             let page = this[`lotesPage`];
             switch (res.accion) {
@@ -100,4 +114,13 @@ export default {
 
 <style scoped>
 
+#editor-container{
+    width: 100%
+}
+#container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>
