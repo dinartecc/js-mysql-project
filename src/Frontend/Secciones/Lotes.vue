@@ -1,15 +1,25 @@
 <template>
     <div id="container">
-        <h3>Lotes aqui</h3>
+        <div id="titulo">
+            <h2 >Productos</h2>
+        </div>
+        <div id="search" v-show="!editMode">
+            <SearchBar v-on:SendSearchData="buscar"></SearchBar>
+            <!--DropSelector :titles="['Nombre', 'SKU', 'Marca', 'Subcategoria']" :values="['nombre', 'sku', 'for_ID_marca', 'for_ID_subcategoria']" v-model="tipo" ></DropSelector-->
+            <DropSelector :titles="['SKU', 'Producto', 'Almacen', 'ID']" :values="['sku', 'for_sku', 'for_ID_almacen', 'id']" v-model="tipo" ></DropSelector>
+            <AddBtn @add="add"></AddBtn>
+        </div>
+        
         <div class="table-container">
                 <Table class="text-center"
                 :tabla="'lotes'"
                 :orden="lotesOrden" 
                 :texts="lotesTexts"
                 :body="lotes.body"
-                @clicked="editar"
+                @clicked="borrar"
                 @page="page"
-                v-if="editMode === false">
+                v-if="!editMode"
+                >
                 </Table>
         </div>
 
@@ -27,47 +37,97 @@
 
 
 <script>
+import SearchBar from '../Components/SearchBar.vue'
 import axios from 'axios'
 import Table from '../Components/Table.vue'
 import LotesEditor from '../Components/LotesEditor.vue'
+import AddBtn from '../Components/AddBtn.vue'
+import Alertar from '../Utilidades/Alertas.js'
+import DropSelector from '../Components/MicroComponents/DropSelector.vue'
 export default {
     data: () => {
         return{
             lotesTexts: {
-                nombre: {
-                    titulo: 'Nombre'
+                id: {
+                    titulo: 'ID'
                 },
                 sku:{
                     titulo: 'SKU'
                 },
-                subcategoria__nombre: {
-                    titulo: 'Subcategoria'
+                
+                almacen__nombre: {
+                    titulo: 'Almacen'
                 },
-                nombre: {
-                    titulo: 'Nombre'
+                producto__nombre: {
+                    titulo: 'Producto'
                 },
-                marca__nombre: {
-                    titulo: 'Marca'
+                costo: {
+                    titulo: 'Precio C$'
                 }
             },
-            lotesOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre' ],
+            lotesOrden: ['sku','producto__nombre','almacen__nombre', 'id', 'costo'],
             lotes: {},
             busqueda: '',
             lotesPage: 0,
             editarInfo: {},
-            editMode: true,
+            editMode: false,
+            tipo: '',
             action: 'anadir'
         }
     },
      components: {
         Table,
-        LotesEditor
+        LotesEditor,
+        AddBtn,
+        SearchBar,
+        DropSelector
     },
     methods: {
-        added: function(){
-
+        borrar: function(value){
+            console.log(value)
+            const Query = {
+                tabla: 'lotes',
+                id: value.elemento.id
+            }
+            Alertar.DeleteElement('/clasificacion/eliminar', Query)
+            .then(() => {console.log('Eliminado')})
         },
-        page: async function(res) {
+        buscar: function(value){
+            const info = {
+                tabla: 'lotes',
+                busqueda: value,
+                pagina: this.lotesPage,
+                tipo: this.tipo
+            }
+            axios.post('/lotes/buscar', info)
+            .then((response) => {
+                console.log(response)
+                this.lotes = response.data;
+            })
+            .catch(() => {console.log('ERROR')})
+        },
+        getLotes: function(){
+            const info = {
+                tabla: 'lotes',
+                busqueda: this.busqueda,
+                pagina: this.lotesPage,
+                tipo: 'id'
+            }
+            axios.post('/lotes/buscar', info)
+            .then((response) => {
+                console.log(response)
+                this.lotes = response.data;
+            })
+            .catch(() => {console.log('ERROR')})
+        },
+        added: function(value){
+            value ? this.getLotes() : null;
+            this.editMode = false
+        },
+        add: function(){
+            this.editMode = true;
+        },
+        page: function(res) {
             let page = this[`lotesPage`];
             switch (res.accion) {
                 case 'primera':
@@ -83,8 +143,7 @@ export default {
                     this[`lotesPage`] = this.lotes.count;
                     break;
             }
-
-            await axios.post('/lotes/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo, pagina: this[`lotesPage`] })
+            axios.post('/lotes/buscar/', {tabla: 'lotes', busqueda: this.busqueda, tipo: this.tipo, pagina: this[`lotesPage`] })
             .then((response) => {
                 this.lotes = response.data;
             })
@@ -94,16 +153,10 @@ export default {
             this.editarInfo  = value
             this.editMode = true;
         },
-        getProducts:  function(){
-            const Query = {
-                busqueda: this.busqueda,
-                pagina: this.lotesPage
-            }
-            axios.post('/lotes/info',Query)
-            .then((response) => {
-                this.lotes = response.data
-            })
-        }
+        
+    },
+    created(){
+        this.getLotes()
     }
     
         
@@ -113,7 +166,29 @@ export default {
 
 
 <style scoped>
-
+#search{
+    width: 80%;
+    display: flex;
+}
+#titulo{
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    /*background-color: #2E2A3D;
+    background-color: #467E85;
+    background-color: #1E5666;
+    background-color: #375C7D;*/
+    border-bottom: solid 0.5px #6c7c84;
+    width: 100%;
+}
+#titulo h2{
+    margin-left: 50px;
+}
+.table-container{
+    width: 80%;
+}
 #editor-container{
     width: 100%
 }

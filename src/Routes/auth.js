@@ -17,8 +17,7 @@ router.get('/userinfo', (req, res) =>{
   if(typeof req.session !== 'undefined'){
     const permissions = req.session.permissions;
     const user = req.session.user;
-    console.log(user)
-    console.log(JSON.stringify({permissions, user}))
+  
     res.send(JSON.stringify({permissions, user}))
   }else{
     res.status(404).end()

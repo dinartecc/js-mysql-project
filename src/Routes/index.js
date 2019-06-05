@@ -164,4 +164,26 @@ router.post('/almacen/buscar', (req, res) => {
 })
 
 
+router.post('/almacen/buscar', (req, res) => {
+  let {tabla, busqueda, tipo, pagina} = req.body;
+  const Query = {
+    tabla:  tabla,
+    columnas: ['nombre', 'id'],
+    desc: true, 
+    limite: 10,
+    pagina: pagina || 0
+    
+}
+  Query.condiciones = {}
+    Query.condiciones[tipo] = busqueda;
+    
+    QueryDatabase ( Query )
+    .then((response) => {
+        res.send(JSON.stringify(response));
+    })
+    .catch(() => res.status(404).end())
+
+})
+
+
 module.exports = router;

@@ -14,81 +14,61 @@
                 <h4> Detalles generales</h4>
             </div>
             <div class="inputs-container">
-                <div class="input-group">
-                    <label for="nombre">Nombre del producto</label>
-                    <input id="nombre" type="text" class="input-default" v-model="nombre" required>
-                    
-                </div>
                 <div class="group-two-container input-group">
-                    <div class="group-two">
-                        <label for="nombre">Marca</label>
-                        <SearchForeingInput v-model="marca" :tabla="'marca'" :seccion="'clasificacion'"></SearchForeingInput>
-                    </div>
                     <div class="group-two">
                         <label for="nombre">SKU</label>
-                        <!--SearchForeign :tabla="'categoria'" :seccion="'clasificacion'" > </SearchForeign-->
-                        <SearchForeingInput @input="log" v-model="subcategoria" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
-                        <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
+                        <SearchForeingInput @input="SearchPerecederoSKU" v-model="sku" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
                     </div>
-                </div>
-                <div class="group-two-container input-group">
                     <div class="group-two">
-                    <label for="nombre"><h3>Perecedero?</h3></label>
-                    <ToggleBtn v-model="perecedero" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
+                        <label for="nombre">Cantidad</label>
+                        <IntInput v-model="cantidad"></IntInput>
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="input-group">
+                        <label for="nombre">Valor de Lotes</label>
+                        <CurrencyInput v-model="valor"></CurrencyInput>
+                    </div>
                     
-                    </div>
-                    <div class="group-two" v-show="perecedero">
-                        <label for="nombre"><h3>Avisar Dias antes del vencimiento</h3></label>
-                        <IntInput v-model="minimoStock"></IntInput>      
-                    </div>
+                
+                <div class="input-group" v-if="perecedero">
+                    <label for="nombre"><h3>Vencimiento</h3></label>
+                    <!--span id="number-sign">C$</span-->
+                    <input type="date" v-model="fechaVencimiento">
                 </div>
-                <div class="input-group">
-                    <label for="nombre">Descripción del producto</label>
-                    <textarea class="textarea" v-model="descripcion" id="text-area" name=""  cols="30" rows="10"></textarea>
-                </div>
+                
+
             </div>
         </div>
         <div id="specific-info">
             <div id="precio-container" class="bg flex column align">
                 <div class="titulo-container">
-                    <h4>Información de precio</h4>
+                    <h4>Información de localizacion</h4>
                 </div>
                 <div class="inputs-container">
                     <div class="input-group">
-                        <label for="nombre"><h3>Margen de ganancia</h3></label>
+                        <label for="nombre"><h3>Almacen</h3></label>
                         <!--span id="number-sign">C$</span-->
-                        <PercentInput v-model="margen" :maxlength="6"></PercentInput>      
+                        <SearchForeingInput v-model="almacen" :tabla="'almacen'" :seccion="'almacen'"></SearchForeingInput>    
                     </div>
                     <div class="input-group">
-                        <label for="nombre"><h3>Impuesto</h3></label>
-                        <PercentInput v-model="impuesto" :maxlength="6"> </PercentInput>
+                        <label for="nombre"><h3>Pasillo</h3></label>
+                        <input v-model="pasillo" maxlength="20" class="input-default">
+                    </div>
+                    <div class="input-group">
+                        <label for="nombre"><h3>Estante</h3></label>
+                        <input v-model="estante" maxlength="20" class="input-default">
                     </div>
                     
                 </div>
             </div>
-            <div id="vigilar" class="bg flex column align padding-abajo">
-                <div class="titulo-container">
-                    <h4>Notificaciones</h4>
-                </div>
-                <div class="inputs-container">
-                    <div class="input-group">
-                        <label for="nombre"><h3>Vigilar este producto?</h3></label>
-                        <ToggleBtn v-model="vigilar" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
-                    </div>
-                    <div class="input-group" v-show="vigilar == true">
-                        <label for="nombre"><h3>Minimo en stock para alertar</h3></label> 
-                        <IntInput v-model="minimoStock"></IntInput>     
-                    </div>
-                    
-                </div>
-            </div>
-        
         </div>
     </div>
     <div class="flex">
-    <button @click="send" class="btn">Guardar</button>
-    
-
+        
+        <button @click="send" class="btn">Guardar</button>
     </div>
 </div>
     
@@ -103,6 +83,7 @@ import PercentInput from './MicroComponents/PercentInput.vue'
 import SearchForeign from './SearchForeign.vue'
 import SearchForeingInput from './MicroComponents/SearchForeignInput.vue'
 import Alertas from '../Utilidades/Alertas'
+
 export default {
     props: {
         action: String,
@@ -110,17 +91,14 @@ export default {
     },
     data: function(){
         return{
-            minimoStock: '0',
-            nombre: '',
-            descripcion: '',
-            marca: '',
-            impuesto: 0, 
-            subcategoria: '',
-            margen: 0,
-            vigilar: false,
+            cantidad: '0',
+            valor: 0,
+            almacen: '',
+            pasillo: '',
+            estante: '',
             perecedero: false,
-            sku: '',
-            diasAntesVencimiento: 0,
+            fechaVencimiento: '', 
+            sku: ''
         }
     },
     components: {
@@ -130,44 +108,43 @@ export default {
         PercentInput,
         SearchForeign,
         Dropdown,
-        SearchForeingInput
+        SearchForeingInput,
+
     }, methods: {
-        log: function(){
-            console.log('CAMBIOo')
+        SearchPerecederoSKU: function(value){
+            console.log('SKU', value)
+            axios.post('/productos/sku', {sku: value})
+            .then((response) => {this.perecedero = response.data.perecedero})
+            .catch(error => console.log(error))
         },
         out: function(){
             this.$emit('added', false)
         },
         send: function(){
+            const x = new Date()
             const sendInfo = {
-                nombre:         this.nombre,
-                descripcion:    this.descripcion,
-                marca:          this.marca,
-                subcategoria:   this.subcategoria,
-                impuesto:       this.impuesto,
-                margen:         this.margen,
-                vigilar:        this.vigilar,
-                minimoStock:    this.minimoStock,
+                cantidad:       this.cantidad,
+                valor:          this.valor,
+                almacen:        this.almacen,
+                pasillo:        this.pasillo,
+                estante:        this.estante,
                 perecedero:     this.perecedero,
-                sku:            this.sku,
-                diasAntesVencimiento: this.diasAntesVencimiento
-                
-
+                fecha_caducidad:this.fechaVencimiento,
+                fecha_ingreso:  `${x.getFullYear()}-${x.getMonth()+1}-${x.getDate()}`,
+                sku: this.sku
             }
             
             if(
                 // Validaciones de los inputs
-                (this.vigilar === true && this.minimoStock == '') ||
-                (this.nombre === '')                              ||
-                (!typeof this.marca == 'number')                  ||
-                (this.marca == '')                                ||
-                (this.subcategoria == '')                           
+                (this.perecedero == true && this.fechaVencimiento == '') ||
+                (this.almacen === '')                                     ||
+                (this.sku == '')                                                         
                 ){
                 Alertas.ErrorMsg()
                 return null
             }
-            let url = this.action == 'anadir' ?  '/productos/nuevo' :  '/productos/editar';
-            
+            let url = this.action == 'anadir' ?  '/lotes/nuevo' :  '/lotes/editar';
+
             Alertas.ToSend( url , sendInfo)
             .then(() => this.$emit('added' , true))
             .catch(() => console.log('BUH >C'))
@@ -177,18 +154,14 @@ export default {
         },
         editar: function(){
             if(this.action == 'editar'){
-                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock, perecedero, diasAntesVencimiento} = this.edit.elemento;
-                this.nombre =       nombre;
-                this.descripcion =  descripcion;
-                this.marca =        ID_marca.toString();
-                this.subcategoria = ID_subcategoria.toString();
-                this.impuesto =     porcentaje_impuestos;
-                this.margen =       margen_ganancia;
-                this.vigilar =      vigilar === 1? true : false;
-                this.minimoStock =  minimo_stock.toString();
-                this.sku =          sku;
-                this.perecedero =   perecedero === 1? true : false,
-                this.diasAntesVencimiento = diasAntesVencimiento
+                let {valor, almacen, pasillo, estante, perecedero, fecha_caducidad, fecha_ingreso, sku} = this.edit.elemento;
+                this.valor = valor;
+                this.almacen = almacen;
+                this.pasillo = pasillo,
+                this.estante = estante
+                this.perecedero = perecedero;
+                this.fechaVencimiento = fecha_caducidad;
+                this.sku = sku;
             }else{
                 console.log('nel')
             }

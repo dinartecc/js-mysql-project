@@ -241,6 +241,86 @@ router.post('/productos/buscar/',async (req, res) =>{
         res.send(JSON.stringify(response));
     })
     .catch(() => res.status(404).end())
+})
+
+
+
+router.post('/productos/sku', (req, res) => {
     
-  })
+    const {sku} = req.body
+    const Query = {
+        tabla: 'producto',
+        columnas: ['perecedero'],
+        condiciones: {
+            sku
+        }
+    }
+    QueryDatabase( Query )
+    .then((response) => res.json(response.body[0]))
+    .catch(error => console.log(error))
+})
+
+
+router.post('/lotes/nuevo' , (req, res) => {
+    let {valor, almacen, pasillo, estante, perecedero, fecha_caducidad, fecha_ingreso, sku, cantidad} = req.body.query
+    
+    if(!perecedero){ 
+        const x = new Date();
+        fecha_caducidad = `${x.getFullYear()}-${x.getMonth()+1}-${x.getDate()}`
+    }
+
+    const Query = {
+        tabla: 'lotes',
+        costo: valor,
+        ID_almacen: almacen,
+        pasillo,
+        estante,
+        fecha_caducidad,
+        fecha_ingreso,
+        sku,
+        cantidad
+    }
+
+    AddToDatabase( Query )
+    .then(() => res.send('OK'))
+    .catch((error) => console.log(error))
+})
+
+
+
+router.post('/lotes/buscar' , (req, res) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
+    let {tabla, busqueda, tipo, pagina} = req.body;
+    const Query = {
+        tabla:  tabla,
+        columnas: ['id', 'sku', 'cantidad', 'fecha_ingreso', 'costo','ID_almacen', 'pasillo','fecha_caducidad'],
+        foranea: {
+            sku: {
+                tabla: 'producto',
+                columnas: ['nombre']
+            },
+            ID_almacen: {
+                tabla: 'almacen',
+                columnas: ['nombre']
+            }
+        },
+        desc: true, 
+        limite: 10,
+        pagina: pagina || 0
+        
+    }
+    Query.condiciones = {}
+    Query.condiciones[tipo] = busqueda;
+    
+    QueryDatabase( Query )
+    .then((response) => {
+        
+        res.send(JSON.stringify(response));
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(404).end()
+    })
+})
+
 module.exports = router;

@@ -2,8 +2,8 @@
 <template>
     <div id="contenedor">
         <div id="contenedor2">
-            <input class="input-default" :class="{'error': this.error  }" type='text' v-model="displayValue" />
-            <span id="busqueda"><img id="add" @click="forStart" src="/img/buscar.svg" ></span>
+            <input @click="forStart" class="input-default" :class="{'error': this.error  }" type='text' v-model="displayValue" />
+            <span id="busqueda"><img id="add"  src="/img/buscar.svg" ></span>
         </div>
         
         <div class="overlay" v-show="forshow">

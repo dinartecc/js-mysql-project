@@ -6,7 +6,7 @@ import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
 import crypto from 'crypto-js'
 router.post('/roles/add', (req, res) =>{
-    let hash = 'Super Secret Hash'
+    
     console.log(req.body)
     const [Clasificacion, Lotes, Productos, Reportes, Usuarios] = req.body.data;
     const {nombre} = req.body.info;
