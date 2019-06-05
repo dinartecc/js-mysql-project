@@ -96,7 +96,7 @@ export default {
             
             let busqueda = value == undefined ? '': value ;
 
-            
+            console.log('xd');
             await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: this.buscarPor })
             .then((response) => {
                 if (this.tabla == 'almacen') {
