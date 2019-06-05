@@ -6,7 +6,6 @@
     <div id="title-btn">
         <button @click="out" class="btn">Salir</button>
         
-        <button class="btn red" v-if="action == 'editar'" @click="deleteElement"> Borrar </button>
     </div>
     <div id="product-container">
         <div id="general-info" class="bg">
@@ -27,10 +26,10 @@
                 </div>
 
                 
-                    <div class="input-group">
-                        <label for="nombre">Valor de Lotes</label>
-                        <CurrencyInput v-model="valor"></CurrencyInput>
-                    </div>
+                <div class="input-group">
+                    <label for="nombre">Valor de Lotes</label>
+                    <CurrencyInput v-model="valor"></CurrencyInput>
+                </div>
                     
                 
                 <div class="input-group" v-if="perecedero">
@@ -38,8 +37,6 @@
                     <!--span id="number-sign">C$</span-->
                     <input type="date" v-model="fechaVencimiento">
                 </div>
-                
-
             </div>
         </div>
         <div id="specific-info">
@@ -61,13 +58,11 @@
                         <label for="nombre"><h3>Estante</h3></label>
                         <input v-model="estante" maxlength="20" class="input-default">
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
     <div class="flex">
-        
         <button @click="send" class="btn">Guardar</button>
     </div>
 </div>

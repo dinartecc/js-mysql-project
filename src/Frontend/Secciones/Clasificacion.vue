@@ -25,7 +25,7 @@
                 <label for="subcategoria">
                     <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='subcategoria' || Selected == 'anadirsubcategoria'}">Subcategoria</div>
                 </label>
-                <AddBtn @add="add" :seleccion="Selected"></AddBtn>
+                <AddBtn @add="add" v-if="this.$store.state.Permissions.clasificacion > 2" :seleccion="Selected"></AddBtn>
             </div>
         </div>
         <div id="table-container">
@@ -215,9 +215,11 @@ export default {
             this.actualizar()
         },
         editar: function(value){
-            this.InputData = value;
-            this.Selected = 'editar';
-        }, // PAGE: copias esta funcion. Me avisai si no sirbe
+            if(this.$store.state.Permissions.clasificacion > 4){
+                this.InputData = value;
+                this.Selected = 'editar';
+            }
+        },
         page: async function(res) {
             let page = this[`${res.tabla}Page`];
             switch (res.accion) {

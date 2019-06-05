@@ -208,6 +208,7 @@ export default {
 
 
 <style scoped>
+
 #title-btn{
     display: flex;
     justify-content: space-between;
@@ -219,6 +220,7 @@ export default {
     width: 80%;
     justify-content: center;
 }
+
 #vigilar{
     margin-top: 30px;
 }

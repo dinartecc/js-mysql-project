@@ -160,7 +160,11 @@ router.post('/almacen/buscar', (req, res) => {
   const schemaFull = GetSchema(),
     schema = (({ almacen }) => ({ almacen }))(schemaFull);
   QueryDatabase( Query )
-  .then((almacen) => res.json({schema, almacen}))
+  .then((almacen) => {
+    console.log(almacen)
+    res.json({schema, almacen})
+
+  })
 })
 
 

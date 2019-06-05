@@ -145,10 +145,7 @@ export default {
     display: flex;
     height: 60px;
     align-items: center;
-    /*background-color: #2E2A3D;
-    background-color: #467E85;
-    background-color: #1E5666;
-    background-color: #375C7D;*/
+
     border-bottom: solid 0.5px #6c7c84;
     width: 90%;
 }

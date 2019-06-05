@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         borrar: function(value){
-            
+
             if(this.$store.state.Permissions.lotes > 4){
                 const Query = {
                     tabla: 'lotes',
@@ -93,7 +93,6 @@ export default {
                 Alertar.DeleteElement('/clasificacion/eliminar', Query)
                 .then(() => {console.log('Eliminado')})
             }
-            
         },
         buscar: function(value){
             const info = {
@@ -169,6 +168,13 @@ export default {
 
 
 <style scoped>
+.text-center{
+    text-align: center;
+}
+
+Table{
+    text-align: center !important;
+}
 #search{
     width: 80%;
     display: flex;

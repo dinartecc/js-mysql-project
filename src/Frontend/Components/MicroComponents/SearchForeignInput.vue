@@ -99,8 +99,13 @@ export default {
             
             await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: this.buscarPor })
             .then((response) => {
+                if (this.tabla == 'almacen') {
+                    this.body = response.data.almacen;
+                }
+                else {
+                    this.body = response.data;
+                }
                 
-                this.body = response.data;
             })
             
         },
