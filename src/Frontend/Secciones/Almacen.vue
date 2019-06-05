@@ -1,8 +1,11 @@
 <template>
     <div id="container">
-        <h3>almacen aqui</h3>
-        <h2 @click="add">CLICK PARA AÑADIR</h2>
-        <div class="table-container">
+        <div id="search-container">
+            <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
+            <AddBtn @add="add" ></AddBtn>
+        </div>
+        <div id="table-container">
+            <transition name="slide-fade">
                 <Inputs v-if="editMode"
                 :seccion="'clasificacion'"
                 :texts="almacenTexts" 
@@ -11,6 +14,8 @@
                 :boolDefault="true"
                 @added="added" 
                 />
+            </transition>  
+            <transition name="slide-fade">
                 <Inputs v-if="addMode"
                 :seccion="'clasificacion'"
                 :texts="almacenTexts" 
@@ -19,24 +24,30 @@
                 :boolDefault="false"
                 @added="added" 
                 />
-                <Table class="text-center"
-                :tabla="'almacen'"
-                :orden="almacenOrden" 
-                :texts="almacenTexts"
-                :body="almacen.body"
-                @clicked="editar"
-                :pagina="false"
-                >
-                </Table>
+            </transition>  
+                <div id="wrapper">
+                    <Table class="text-center"
+                    :tabla="'almacen'"
+                    :orden="almacenOrden" 
+                    :texts="almacenTexts"
+                    :body="almacen.body"
+                    @clicked="editar"
+                    :pagina="false"
+                    >
+                    </Table>
+                </div>
         </div>
     </div>
 </template>
 
 
 <script>
-import axios from 'axios'
-import Table from '../Components/Table.vue'
-import Inputs from '../Components/Inputs.vue'
+import axios from 'axios';
+import Table from '../Components/Table.vue';
+import Inputs from '../Components/Inputs.vue';
+import SearchBar  from '../Components/SearchBar.vue';
+import AddBtn from '../Components/AddBtn.vue';
+
 export default {
     data: () => {
         return{
@@ -58,13 +69,15 @@ export default {
             almacen: {},
             almacenPage: 0,
             editMode: false,
-            editMode: false,
+            addMode: false,
             editarInfo: {}
         }
     },
      components: {
         Table,
-        Inputs
+        Inputs,
+        SearchBar,
+        AddBtn
     },
     methods: {
         add: function(){
@@ -72,25 +85,31 @@ export default {
             this.addMode = true; 
         },
         added: function(value){
-            console.log(value)
+            this.editMode = false;
+            this.addMode = false;
+            if(value != false) {
+                this.getAlmacen();
+            }
         },
         editar: function(value){
             this.editMode = true;
             this.editarInfo  = value
-            this.editMode = true;
+        },
+        Buscar:async function(value){
+            await axios.post('/almacen/buscar', {busqueda: value })
+            .then((response) => {
+                this.almacen = response.data.almacen;
+            })
         },
         getAlmacen:  function(){
             axios.get('/almacen/info')
             .then((response) => {
-                console.log(response)
-                this.almacen = response.data.almacen
-                this.almacenSchema = response.data.schema.almacen
+
+                this.almacen = response.data.almacen;
+                this.almacenSchema = response.data.schema.almacen;
             
             })
         },
-        getSchema: function(){
-
-        }
     },
     created(){
         this.editarInfo.tabla = 'almacen'
@@ -105,5 +124,77 @@ export default {
 
 
 <style scoped>
+    Table{
+        margin-bottom: 25px !important;
+    }
+
+
+    #container{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+    #search-container{
+        display: flex;
+        width: 90%;
+        margin: 20px 0
+    }
+    #seccion-btn{
+        display:flex;
+    }
+    .boton-seccion{
+        -webkit-user-select: none; /* Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dedfe0;
+                                                                                                                                                
+        width: auto;
+        padding-left:10px;
+        padding-right: 10px;
+        margin: 0 5px;
+        height: 36px;
+        background: #3a4560;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    #table-container {
+        width: 60%;
+    }
+    input[type="radio"]{
+        display: none;
+    }
+    
+    *{color: white}
+    #table-container{
+        width: 90%
+    }
+    .margin-tables{margin-bottom: 30px;}
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
+    }
 
 </style>
