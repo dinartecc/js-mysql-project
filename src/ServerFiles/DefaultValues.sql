@@ -49,12 +49,32 @@ insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (37, 'Li
 
 
 
-
 insert into marca (ID_marca, nombre) values ( 1,'Suli');
 insert into marca (ID_marca, nombre) values ( 2,'Samsung');
 insert into marca (ID_marca, nombre) values ( 3,'Clorox');
 insert into marca (ID_marca, nombre) values ( 4,'Sabemas');
+insert into marca (ID_marca, nombre) values ( 5,'Dell');
+insert into marca (ID_marca, nombre) values ( 6,'Delisoya');
+insert into marca (ID_marca, nombre) values ( 7,'Sony');
+insert into marca (ID_marca, nombre) values ( 8,'Scott');
+insert into marca (ID_marca, nombre) values ( 9,'Kotex');
+insert into marca (ID_marca, nombre) values ( 10,'Snicker');
+insert into marca (ID_marca, nombre) values ( 11,'Kit Kat');
+insert into marca (ID_marca, nombre) values ( 12,'M&M');
+insert into marca (ID_marca, nombre) values ( 13,'Ferrero');
+insert into marca (ID_marca, nombre) values ( 14,'Suli');
+insert into marca (ID_marca, nombre) values ( 15,'Maggi');
+insert into marca (ID_marca, nombre) values ( 16,'Economax');
+insert into marca (ID_marca, nombre) values ( 17,'Roma');
+insert into marca (ID_marca, nombre) values ( 18,'Palmolive');
+insert into marca (ID_marca, nombre) values ( 19,'Pantene');
+insert into marca (ID_marca, nombre) values ( 20,'Palmolive');
+insert into marca (ID_marca, nombre) values ( 21,'Protex');
 
 
 
-
+insert into almacen (ID_almacen, nombre) values (2 ,'Cuarto A');
+insert into almacen (ID_almacen, nombre) values (3 ,'Cuarto B');
+insert into almacen (ID_almacen, nombre) values (4 ,'Cuarto C');
+insert into almacen (ID_almacen, nombre) values (5 ,'Cuarto D');
+insert into almacen (ID_almacen, nombre) values (6 ,'Cuarto E');

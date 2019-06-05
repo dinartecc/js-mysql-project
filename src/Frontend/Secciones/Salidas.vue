@@ -29,6 +29,12 @@
                 <button @click="enviar">Confirmar</button>
             </div>
         </div>
+        <div id="contenedor-mensajes">
+            <div class="mensajes" v-for="(elemento, index) of ids" :key="elemento">
+                {{elemento}}
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -43,7 +49,8 @@ export default {
     data: () => {
         return{
             sku: '',
-            cantidad: '',
+            cantidad: [2,3,6],
+            ids: [2,3,7],
             body: ''
         }
     },
@@ -53,7 +60,7 @@ export default {
             Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
             .then((response) => {
                 let {cantidad, ids} = response.data;
-                ids
+                
             })
             .catch((error) => console.log(error))
         },
@@ -67,6 +74,23 @@ export default {
 
 
 <style scoped>
+.mensajes{
+    color: white;
+    width: 100%;
+    margin-top: 30px;
+    background-color: #6c7c84;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#contenedor-mensajes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    
+}
 .inputs-container{
     width: 80%;
 
