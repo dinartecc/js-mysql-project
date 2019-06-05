@@ -5,6 +5,9 @@ import AddToDatabase from '../ServerComponents/AddToDatabase/AddToDatabase';
 import UpdateDatabase from '../ServerComponents/UpdateDatabase/UpdateDatabase';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
 import crypto from 'crypto-js'
+import DeleteFromDatabase from '../ServerComponents/DeleteFromDatabase/DeleteFromDatabase';
+
+
 router.post('/roles/add', (req, res) =>{
     
     console.log(req.body)
@@ -38,18 +41,36 @@ router.post('/roles/edit', (req, res) =>{
     lotes:          Lotes,
     productos:      Productos,
     reportes:       Reportes,
-    nombre:            nombre
+    nombre:         nombre
   }
+  if(id !== 1){
     UpdateDatabase( Query )
     .then((response) => {
-        console.log(`Se ha actualizado el registro ${id} de la tabla Roles`)
-        res.send('Actualizado Exitosamente!')
+        console.log(`Se ha actualizado el registro ${id} de la tabla Roles`);
+        res.send('Actualizado Exitosamente!');
     })
     .catch((error) => {
         console.log(error)
         res.status(404).end();
     })
+  }else{
+    res.status(404).end();
+  }
+    
 
+})
+router.post('/usuarios/eliminar', (req, res) => {
+  const {tabla, id} = req.body.query
+  const Query = {
+    tabla: 'usuarios',
+    id
+  }
+  console.log(Query)
+  DeleteFromDatabase(Query)
+  .then((response) => res.send('OK'))
+  .catch(() => {
+    res.status(404).end();
+  })
 })
 
 router.post('/usuarios/nuevo', (req,res) => {
@@ -67,6 +88,7 @@ router.post('/usuarios/nuevo', (req,res) => {
 
 router.post('/usuarios/editar', (req, res) => {
   const {query} = req.body;
+  console.log(query)
   query.tabla = 'usuarios'
   if(query.pass != ''){
     let hash = crypto.SHA256(query.pass)
@@ -74,16 +96,22 @@ router.post('/usuarios/editar', (req, res) => {
   }else{
     delete query.pass;
   }
-  console.log(query)
-  UpdateDatabase( query )
-  .then((response) => {
-    console.log('Elemento actualizado!')
-    res.send('OK')
-  })
-  .catch((error) => {
-    console.log(error)
+
+  if(!(query.id == 1 && query.ID_rol != 1 ) || (query.id != 1)){
+    UpdateDatabase( query )
+    .then((response) => {
+      console.log('Elemento actualizado!')
+      res.send('OK')
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(404).end();
+    })
+  }else{
     res.status(404).end();
-  })
+  }
+
+  
 
 })
 
@@ -137,7 +165,6 @@ router.get('/getusers', (req, res) => {
         console.log(response)
     })
 })
-
 
 // Ruta que le pasas un id como body, revisa entre todas las sesiones activas si hay alguna con ese id de ese rol.
 // Si es asi, borra esa registro o mejor dicho, esa "sesion"

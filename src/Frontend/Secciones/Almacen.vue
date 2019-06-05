@@ -1,5 +1,8 @@
 <template>
     <div id="container">
+        <div id="titulo">
+            <h2 >Almacen</h2>
+        </div>
         <div id="search-container">
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
             <AddBtn @add="add" ></AddBtn>
@@ -124,6 +127,23 @@ export default {
 
 
 <style scoped>
+#titulo{
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    /*background-color: #2E2A3D;
+    background-color: #467E85;
+    background-color: #1E5666;
+    background-color: #375C7D;*/
+    border-bottom: solid 0.5px #6c7c84;
+    width: 90%;
+}
+
+#titulo h2{
+    margin-left: 40px;
+}
     Table{
         margin-bottom: 25px !important;
     }

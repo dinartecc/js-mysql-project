@@ -6,7 +6,7 @@
     <div id="title-btn">
         <button @click="out" class="btn">Salir</button>
         
-        <button class="btn red" v-if="action == 'editar'" @click="deleteElement"> Borrar </button>
+        <button class="btn red" v-if="action == 'editar' && this.$store.state.Permissions.productos > 4"  @click="deleteElement"> Borrar </button>
     </div>
     <div id="product-container">
         <div id="general-info" class="bg">

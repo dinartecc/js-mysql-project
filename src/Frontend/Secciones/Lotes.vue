@@ -7,7 +7,7 @@
             <SearchBar v-on:SendSearchData="buscar"></SearchBar>
             <!--DropSelector :titles="['Nombre', 'SKU', 'Marca', 'Subcategoria']" :values="['nombre', 'sku', 'for_ID_marca', 'for_ID_subcategoria']" v-model="tipo" ></DropSelector-->
             <DropSelector :titles="['SKU', 'Producto', 'Almacen', 'ID']" :values="['sku', 'for_sku', 'for_ID_almacen', 'id']" v-model="tipo" ></DropSelector>
-            <AddBtn @add="add"></AddBtn>
+            <AddBtn @add="add" v-if="this.$store.state.Permissions.lotes > 2"></AddBtn>
         </div>
         
         <div class="table-container">
@@ -84,13 +84,16 @@ export default {
     },
     methods: {
         borrar: function(value){
-            console.log(value)
-            const Query = {
-                tabla: 'lotes',
-                id: value.elemento.id
+            
+            if(this.$store.state.Permissions.lotes > 4){
+                const Query = {
+                    tabla: 'lotes',
+                    id: value.elemento.id
+                }
+                Alertar.DeleteElement('/clasificacion/eliminar', Query)
+                .then(() => {console.log('Eliminado')})
             }
-            Alertar.DeleteElement('/clasificacion/eliminar', Query)
-            .then(() => {console.log('Eliminado')})
+            
         },
         buscar: function(value){
             const info = {
@@ -181,10 +184,10 @@ export default {
     background-color: #1E5666;
     background-color: #375C7D;*/
     border-bottom: solid 0.5px #6c7c84;
-    width: 100%;
+    width: 90%;
 }
 #titulo h2{
-    margin-left: 50px;
+    margin-left: 40px;
 }
 .table-container{
     width: 80%;

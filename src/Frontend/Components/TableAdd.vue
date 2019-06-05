@@ -49,6 +49,7 @@
             <input type="text" id="name-input" name="Nombre" v-model="nombre" class="input-default" required>
             <input type="submit" @click="send($event)" class="btn-default" value="Enviar">
             <input type="submit" @click="cancel($event)" class="btn-default red" value="Cancelar">
+            <input type="submit" @click="eliminar($event)" v-if="this.$store.state.Permissions.productos > 4" class="btn-default red" value="Eliminar">
         </div>
     </form>
 </template>
@@ -59,7 +60,7 @@
 
 import axios from 'axios'
 import Swal from 'sweetalert2'
-
+import Alertar from '../Utilidades/Alertas.js'
 export default {
     props: {
         titles: Array,
@@ -94,7 +95,13 @@ export default {
         }
     },
     methods: {
-
+        eliminar: function(e){
+            e.preventDefault()
+            let id = this.id
+            Alertar.DeleteElement('/clasificacion/eliminar', {tabla: 'roles', id: id})
+            .then(() => this.$emit('finish', true))
+            .catch(() => this.$emit('finish', false))
+        },
         textToNumberRoles:function(element) {
             switch (element) {
                 case 'Ninguno':
@@ -170,6 +177,11 @@ export default {
                     id:     this.id
                 }
             }
+            if(this.nombre == ''){
+                Alertar.ErrorMsg()
+                return null;
+            }
+
             Swal.fire({
                 title: '¿Está seguro?',
                 text: "¿Desea ingresar los datos?",

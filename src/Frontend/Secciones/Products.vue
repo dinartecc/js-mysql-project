@@ -1,14 +1,15 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Productos</h2>
+            <h2 >Lotes</h2>
         </div>
         <div id="search" v-show="!editMode">
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
             <DropSelector :titles="['Nombre', 'SKU', 'Marca', 'Subcategoria']" :values="['nombre', 'sku', 'for_ID_marca', 'for_ID_subcategoria']" v-model="tipo" ></DropSelector>
-            <p @click="add">Añadir</p>
+            <AddBtn @add="add" v-if="this.$store.state.Permissions.productos > 2"></AddBtn>
         </div>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
+
         <div class="table-container">
             <Table class="text-center"
             :tabla="'Productos'"
@@ -32,6 +33,7 @@ import axios from 'axios'
 import Table from '../Components/Table.vue'
 import ProductEditor from '../Components/ProductEditor.vue'
 import DropSelector from '../Components/MicroComponents/DropSelector.vue'
+import AddBtn from '../Components/AddBtn.vue'
 export default {
     data: () => {
         return{
@@ -67,7 +69,8 @@ export default {
         ProductEditor,
         Table,
         SearchBar,
-        DropSelector
+        DropSelector,
+        AddBtn
     },
     methods:{
         Buscar:function(value){
@@ -87,10 +90,11 @@ export default {
             this.editMode = true; 
         },
         editar: function(value){
-            console.log(value);
-            this.action = 'editar'
-            this.editarInfo  = value
-            this.editMode = true;
+            if(this.$store.state.Permissions.productos > 3){
+                this.action = 'editar'
+                this.editarInfo  = value
+                this.editMode = true;
+            }
         },
         page: function(res) {
             
@@ -141,15 +145,16 @@ export default {
     display: flex;
     height: 60px;
     align-items: center;
-    background-color: #2E2A3D;
-    background-color: #375C7D;
+    /*background-color: #2E2A3D;
     background-color: #467E85;
     background-color: #1E5666;
-    width: 100%;
+    background-color: #375C7D;*/
+    border-bottom: solid 0.5px #6c7c84;
+    width: 90%;
 }
 
 #titulo h2{
-    margin:0;
+    margin-left: 40px;
 }
 .table-container{
     width: 80%

@@ -1,5 +1,8 @@
 <template>
     <div id="container">
+        <div id="titulo">
+            <h2 >Clasificacion</h2>
+        </div>
         <input type="radio" id="all" name="menu" value="todo" v-model="Selected">
         <input type="radio" id="marca" name="menu" value="marca" v-model="Selected">
         <input type="radio" id="categoria" name="menu" value="categoria" v-model="Selected">
@@ -11,16 +14,16 @@
             <DropSelector :titles="['Nombre', 'ID']" :values="['nombre', 'id']" v-model="tipo" ></DropSelector>
             <div id="seccion-btn">
                 <label for="all">
-                    <div class="boton-seccion" @click="cambioSeccion">Todos</div>
+                    <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='todo'}">Todos</div>
                 </label>
                 <label for="marca">
-                    <div class="boton-seccion" @click="cambioSeccion">Marca</div>
+                    <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='marca' || Selected == 'anadirmarca' }">Marca</div>
                 </label>
                 <label for="categoria">
-                    <div class="boton-seccion" @click="cambioSeccion">Categoria</div>
+                    <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='categoria' || Selected == 'anadircategoria'}">Categoria</div>
                 </label>
                 <label for="subcategoria">
-                    <div class="boton-seccion" @click="cambioSeccion">Subcategoria</div>
+                    <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='subcategoria' || Selected == 'anadirsubcategoria'}">Subcategoria</div>
                 </label>
                 <AddBtn @add="add" :seleccion="Selected"></AddBtn>
             </div>
@@ -274,7 +277,26 @@ export default {
 </script>
 
 <style scoped>
+.btnactive{
+    background: #6a7cab !important;
+}
+#titulo{
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    /*background-color: #2E2A3D;
+    background-color: #467E85;
+    background-color: #1E5666;
+    background-color: #375C7D;*/
+    border-bottom: solid 0.5px #6c7c84;
+    width: 90%;
+}
 
+#titulo h2{
+    margin-left: 40px;
+}
     Table{
         margin-bottom: 25px !important;
     }

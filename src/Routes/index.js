@@ -146,7 +146,7 @@ router.post('/almacen/buscar', (req, res) => {
   }
   
   if(req.body.busqueda != '') Query.condiciones = {nombre:req.body.busqueda};
-  console.log(Query);
+
 
   const schemaFull = GetSchema(),
     schema = (({ almacen }) => ({ almacen }))(schemaFull);

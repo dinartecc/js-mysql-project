@@ -1,5 +1,8 @@
 <template>
     <div id="container">
+        <div id="titulo">
+            <h2 >Almacen</h2>
+        </div>
         <div id="search-container">
 
             <SearchBar v-on:SendSearchData="buscar"></SearchBar>
@@ -173,7 +176,8 @@ export default {
         
         },
         FinishAdd: function(cambio){
-            cambio ? this.getUsers() : null;
+            
+            this.getUsers()
             this.Selected = 'usuarios'
             
             
@@ -265,7 +269,20 @@ export default {
 
 
 <style scoped>
-    
+#titulo{
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    height: 60px;
+    align-items: center;
+
+    border-bottom: solid 0.5px #6c7c84;
+    width: 90%;
+}
+
+#titulo h2{
+    margin-left: 40px;
+}
     .blocked{
         cursor:not-allowed
     }
