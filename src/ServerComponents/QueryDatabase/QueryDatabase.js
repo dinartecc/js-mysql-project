@@ -128,7 +128,17 @@ const QueryDatabase = ( obj ) => {
         //Itera sobre todos los atributos de condiciones
         for( const condicion in obj.condiciones ) {
           if ( obj.condiciones[condicion] != '' ){
-            if ( condicion != 'id' ) {
+           
+            if ( condicion.substr(0,4) == 'for_' ) {
+
+  
+              const idFor = condicion.substr(4),
+                    referencedTable = obj.foranea[idFor].tabla;
+
+              condicionQuery += `upper(${referencedTable}.nombre) regexp ${mysql.escape(obj.condiciones[condicion])} and `;
+              
+            }
+            else if ( condicion != 'id' ) {
               condicionQuery += `upper(${obj.tabla}.${condicion}) regexp ${mysql.escape(obj.condiciones[condicion])} and `;
             }
             else {
@@ -156,11 +166,13 @@ const QueryDatabase = ( obj ) => {
       //Sacar count de la tabla 
       mysqlQuery += `select count(*) as count from ${ obj.tabla };`
       // Realiza la query
+      
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {
           reject(error);
         }
         else {
+          
           const response = {};
           response.body = results[0];
           response.count = Math.ceil( results[1][0].count / obj.limite ) - 1;
