@@ -52,7 +52,7 @@ export default {
                     titulo: 'Marca'
                 }
             },
-            productosOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre' ],
+            productosOrden: ['nombre','sku', 'marca__nombre','subcategoria__nombre'],
             productos: {},
             busqueda: '',
             tipo: '',
