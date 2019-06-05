@@ -12,19 +12,19 @@ const GetAlerts = ( obj ) => {
     try {
       //Crea el objeto para la conexión e importa el schema
       const connection = CreateConnection;
-      let mysqlQuery = `select producto.nombre, producto.minimo_stock, cantidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, sum(cantidad) as cantidad, sku, borrado from lotes group by sku) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and lotes.cantidad <= producto.minimo_stock and lotes.sku != '00000000000';`;
+      let mysqlQuery = `select producto.nombre, producto.minimo_stock, cantidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, sum(cantidad) as cantidad, sku, borrado from lotes group by sku) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and lotes.cantidad <= producto.minimo_stock and lotes.id_lotes != 0;`;
 
       const x = new Date();
 
       
-      mysqlQuery += `select id_lotes, dias_antes_vencimiento, fecha_caducidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, fecha_caducidad, sku, borrado from lotes) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and date_sub(fecha_caducidad,interval dias_antes_vencimiento day) <= '${x.getFullYear()}-${x.getMonth()}-${x.getDay()}' and producto.perecedero = 1;`;
-
+      mysqlQuery += `select id_lotes, dias_antes_vencimiento, fecha_caducidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, fecha_caducidad, sku, borrado from lotes) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and date_sub(fecha_caducidad,interval dias_antes_vencimiento day) <= '${x.getFullYear()}-${x.getMonth()+1}-${x.getDate()}' and producto.perecedero = 1;`;
+      console.log(mysqlQuery);
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {
           reject(error);
         }
         else {
-          console.log(results);
+          resolve(results);
           
         }
       });
