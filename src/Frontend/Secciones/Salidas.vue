@@ -5,7 +5,7 @@
         </div>
         <div id="element-container" class="bg">
             <div class="titulo-container">
-                    <h4> Detalles generales</h4>
+                    <h4>Salida de inventario</h4>
             </div>
             <div class="inputs-container">
                 
@@ -22,10 +22,11 @@
                     <div class="group-two">
                         <label for="nombre">Cantidad de elementos a sacar</label>
                         <!--SearchForeign :tabla="'categoria'" :seccion="'clasificacion'" > </SearchForeign-->
-                        <input type="text" class="input-default">
+                        <input type="text" class="input-default" v-model="cantidad">
                         <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
                     </div>
                 </div>
+                <button @click="enviar">Confirmar</button>
             </div>
         </div>
     </div>
@@ -35,16 +36,32 @@
 
 <script>
 import SearchForeignInput from '../Components/MicroComponents/SearchForeignInput.vue'
+import axios from 'axios'
+import swal from 'sweetalert2'
+import Alertas from '../Utilidades/Alertas'
 export default {
     data: () => {
         return{
-            sku: ''
+            sku: '',
+            cantidad: '',
+            body: ''
         }
+    },
+    methods: {
+        enviar: async function(){
+            
+            Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
+            .then((response) => {
+                console.log(response.data)
+            })
+            .catch((error) => console.log(error))
+        },
+        
     },
     components: {
         SearchForeignInput
     }
-}
+} // Mandar SKU y cantidad    Y si funciona, me retorna un objeto con dos arreglos la primera se llama IDS == Cantidad
 </script>
 
 

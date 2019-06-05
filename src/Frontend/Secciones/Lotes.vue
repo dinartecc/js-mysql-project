@@ -1,7 +1,7 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Productos</h2>
+            <h2 >Lotes</h2>
         </div>
         <div id="search" v-show="!editMode">
             <SearchBar v-on:SendSearchData="buscar"></SearchBar>
@@ -54,7 +54,9 @@ export default {
                 sku:{
                     titulo: 'SKU'
                 },
-                
+                cantidad: {
+                    titulo: 'Cantidad'
+                },
                 almacen__nombre: {
                     titulo: 'Almacen'
                 },
@@ -65,7 +67,7 @@ export default {
                     titulo: 'Precio C$'
                 }
             },
-            lotesOrden: ['sku','producto__nombre','almacen__nombre', 'id', 'costo'],
+            lotesOrden: ['sku','producto__nombre','almacen__nombre', 'cantidad','id',],
             lotes: {},
             busqueda: '',
             lotesPage: 0,

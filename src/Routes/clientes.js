@@ -310,7 +310,7 @@ router.post('/lotes/buscar' , (req, res) => {
     }
     Query.condiciones = {}
     Query.condiciones[tipo] = busqueda;
-    
+    Query.condiciones.marcarSalida = '0';
     QueryDatabase( Query )
     .then((response) => {
         

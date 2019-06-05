@@ -175,6 +175,8 @@ router.post('/almacen/buscar', (req, res) => {
 })
 
 
+
+
 router.post('/almacen/buscar', (req, res) => {
   let {tabla, busqueda, tipo, pagina} = req.body;
   const Query = {
@@ -196,5 +198,14 @@ router.post('/almacen/buscar', (req, res) => {
 
 })
 
-
+router.post('/salida/sacar', (req, res) => {
+  const {sku, cantidad} = req.body.query
+  const query = {sku, cantidad}
+  LotesTakeOut(query)
+  .then(r=>{
+    console.log(r); 
+    res.json(r)
+  })
+  .catch((e) => {console.log(e);res.status(404).end()})
+})
 module.exports = router;

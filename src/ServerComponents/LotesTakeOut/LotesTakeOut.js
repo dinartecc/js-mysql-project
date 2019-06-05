@@ -28,7 +28,7 @@ const LotesTakeOut = ( obj ) => {
 
       const results = await QueryDatabase(query);
 
-      console.log(results);
+
 
       for( let lote of results.body ) {
         lotesSacados.push(lote.ID_lotes);

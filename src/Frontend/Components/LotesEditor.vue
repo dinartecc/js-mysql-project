@@ -86,7 +86,7 @@ export default {
     },
     data: function(){
         return{
-            cantidad: '0',
+            cantidad: '1',
             valor: 0,
             almacen: '',
             pasillo: '',
@@ -132,8 +132,9 @@ export default {
             if(
                 // Validaciones de los inputs
                 (this.perecedero == true && this.fechaVencimiento == '') ||
-                (this.almacen === '')                                     ||
-                (this.sku == '')                                                         
+                (this.almacen === '')                                    ||
+                (this.sku == '')                                         ||
+                (this.cantidad.toString() < 1)                                                         
                 ){
                 Alertas.ErrorMsg()
                 return null

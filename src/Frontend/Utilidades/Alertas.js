@@ -81,6 +81,9 @@ const ToSend = function ( url , info ){
                 .then(response => {
                     if (response.status !== 200) {
                         throw new Error(response.statusText)
+                    }else{
+
+                        resolve(response)
                     }
                     return true;
                 })
