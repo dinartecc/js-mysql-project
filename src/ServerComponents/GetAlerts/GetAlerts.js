@@ -1,3 +1,44 @@
-select producto.nombre, producto.minimo_stock, cantidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, sum(cantidad) as cantidad, sku, borrado from lotes group by sku) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and lotes.cantidad <= producto.minimo_stock ;
+import CreateConnection from './../CreateConnection/CreateConnection';
+import HandleSchema from '../HandleSchema/HandleSchema';
 
-select id_lotes, 4, fecha_caducidad, date_sub(fecha_caducidad,interval 4 day) as new, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, fecha_caducidad, sku, borrado from lotes) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and date_sub(fecha_caducidad,interval 4 day) <= '2019-06-04' and producto.perecedero = 1;
+/**
+ * Para checkear si la tupla a la que se desea apuntar como llave foranea en editar o agregar esta borrada.
+ *
+ * @param Object Se manda el object con los parametros a checkear. 
+ * @returns
+ */
+const GetAlerts = ( obj ) => {
+  return new Promise( async( resolve, reject ) => {
+    try {
+      //Crea el objeto para la conexión e importa el schema
+      const connection = CreateConnection;
+      let mysqlQuery = `select producto.nombre, producto.minimo_stock, cantidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, sum(cantidad) as cantidad, sku, borrado from lotes group by sku) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and lotes.cantidad <= producto.minimo_stock and lotes.sku != '00000000000';`;
+
+      const x = new Date();
+
+      
+      mysqlQuery += `select id_lotes, dias_antes_vencimiento, fecha_caducidad, producto.sku as producto, lotes.sku as lotes from producto join (select id_lotes, fecha_caducidad, sku, borrado from lotes) as lotes on producto.sku = lotes.sku where producto.borrado = false and lotes.borrado = false and date_sub(fecha_caducidad,interval dias_antes_vencimiento day) <= '${x.getFullYear()}-${x.getMonth()}-${x.getDay()}' and producto.perecedero = 1;`;
+
+      connection.query( mysqlQuery, (error, results, fields) => {
+        if (error) {
+          reject(error);
+        }
+        else {
+          console.log(results);
+          
+        }
+      });
+
+    }
+    catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export default GetAlerts;
+
+
+
+
+

@@ -15,6 +15,7 @@ import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 const connection = CreateConnection;
 import crypto from 'crypto-js'
+import GetAlerts from '../ServerComponents/GetAlerts/GetAlerts';
 SchemaQuery();
 
 router.get('/hola',(req, res) => {
@@ -116,7 +117,7 @@ router.post('/prueba', (req, res) => {
   // UpdateDatabase ( test )
   // .catch((e)=> console.log(e));
 
-  QueryDatabase( test )
+  GetAlerts( )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   
