@@ -31,20 +31,24 @@
                         <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
                     </div>
                 </div>
-                <div class="input-group">
-                        <label for="nombre"><h3>Perecedero?</h3></label>
-                        <ToggleBtn v-model="perecedero" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
+                <div class="group-two-container input-group">
+                    <div class="group-two">
+                    <label for="nombre"><h3>Perecedero?</h3></label>
+                    <ToggleBtn v-model="perecedero" :labels="{checked: 'Si', unchecked: 'No'}" :width="90" :height="30" :font-size="15"></ToggleBtn>
+                    
                     </div>
+                    <div class="group-two" v-show="perecedero">
+                        <label for="nombre"><h3>Avisar Dias antes del vencimiento</h3></label>
+                        <IntInput v-model="minimoStock"></IntInput>      
+                    </div>
+                </div>
                 <div class="input-group">
                     <label for="nombre">Descripción del producto</label>
                     <textarea class="textarea" v-model="descripcion" id="text-area" name=""  cols="30" rows="10"></textarea>
                 </div>
             </div>
         </div>
-
-
         <div id="specific-info">
-            
             <div id="precio-container" class="bg flex column align">
                 <div class="titulo-container">
                     <h4>Información de precio</h4>
@@ -115,7 +119,8 @@ export default {
             margen: 0,
             vigilar: false,
             perecedero: false,
-            sku: ''
+            sku: '',
+            diasAntesVencimiento: 0,
         }
     },
     components: {
@@ -141,7 +146,9 @@ export default {
                 vigilar:        this.vigilar,
                 minimoStock:    this.minimoStock,
                 perecedero:     this.perecedero,
-                sku:            this.sku
+                sku:            this.sku,
+                diasAntesVencimiento: this.diasAntesVencimiento
+                
 
             }
             
@@ -167,7 +174,7 @@ export default {
         },
         editar: function(){
             if(this.action == 'editar'){
-                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock, perecedero} = this.edit.elemento;
+                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock, perecedero, diasAntesVencimiento} = this.edit.elemento;
                 this.nombre =       nombre;
                 this.descripcion =  descripcion;
                 this.marca =        ID_marca.toString();
@@ -177,7 +184,8 @@ export default {
                 this.vigilar =      vigilar === 1? true : false;
                 this.minimoStock =  minimo_stock.toString();
                 this.sku =          sku;
-                this.perecedero =   perecedero === 1? true : false;
+                this.perecedero =   perecedero === 1? true : false,
+                this.diasAntesVencimiento = diasAntesVencimiento
             }else{
                 console.log('nel')
             }

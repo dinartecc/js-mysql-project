@@ -16,10 +16,11 @@ import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 const connection = CreateConnection;
 import crypto from 'crypto-js'
 import GetAlerts from '../ServerComponents/GetAlerts/GetAlerts';
+import GetSchema from '../ServerComponents/HandleSchema/GetSchema'
 SchemaQuery();
 
 router.get('/hola',(req, res) => {
-
+  
 })
 
 /* ----- Inicializar Database -----*/
@@ -127,8 +128,16 @@ router.post('/prueba', (req, res) => {
 /* ----- Clientes ----- */
 
 
-
-
+router.get('/almacen/info', (req, res) => {
+  const Query = {
+    tabla: 'almacen',
+    columnas: ['id','nombre']
+  }
+  const schemaFull = GetSchema(),
+    schema = (({ almacen }) => ({ almacen }))(schemaFull);
+  QueryDatabase( Query )
+  .then((almacen) => res.json({schema, almacen}))
+})
 
 
 module.exports = router;

@@ -71,6 +71,7 @@ export default {
     },
     methods:{
         Buscar:function(value){
+            this.busqueda = value;
             console.log(this.Selected);
             axios.post('/productos/buscar', {tabla: 'producto', busqueda: value, tipo: this.tipo })
             .then((response) => {
