@@ -18,7 +18,10 @@ const LotesTakeOut = ( obj ) => {
         columnas: ['cantidad','ID_lotes'],
         condiciones: {
           sku: obj.sku
-        }
+        },
+        orden: 'fecha_caducidad',
+        limite: 400,
+        
       }
 
       let mysqlQuery = '',
@@ -31,25 +34,28 @@ const LotesTakeOut = ( obj ) => {
       console.log(results);
 
       for( let lote of results.body ) {
-        lotesSacados.push(lote.ID_lotes);
-        if ( lote.cantidad > acumulador ) {
+        if(lote.cantidad != 0) {
+          lotesSacados.push(lote.ID_lotes);
+          if ( lote.cantidad > acumulador ) {
 
-          const nuevaCantidad = lote.cantidad - acumulador;
-          acumulador = 0;
-          cantidadLotes.push(nuevaCantidad);
-          
-          mysqlQuery += `update lotes set cantidad = ${nuevaCantidad}${nuevaCantidad == 0 ? ', marcarSalida = 1' : '' } where ID_lotes = ${lote.ID_lotes};\n`;
-          break;
-        }
-        else {
-          acumulador = acumulador - lote.cantidad;
-          
-          cantidadLotes.push(lote.cantidad);
-          mysqlQuery += `update lotes set cantidad = 0, marcarSalida = 1 where ID_lotes = ${lote.ID_lotes};\n`;
-          if (acumulador == 0) {
+            const nuevaCantidad = lote.cantidad - acumulador;
+            acumulador = 0;
+            cantidadLotes.push(nuevaCantidad);
+            
+            mysqlQuery += `update lotes set cantidad = ${nuevaCantidad}${nuevaCantidad == 0 ? ', marcarSalida = 1' : '' } where ID_lotes = ${lote.ID_lotes};\n`;
             break;
           }
+          else {
+            acumulador = acumulador - lote.cantidad;
+            
+            cantidadLotes.push(lote.cantidad);
+            mysqlQuery += `update lotes set cantidad = 0, marcarSalida = 1 where ID_lotes = ${lote.ID_lotes};\n`;
+            if (acumulador == 0) {
+              break;
+            }
+          }
         }
+        
       }
 
 

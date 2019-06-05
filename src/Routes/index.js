@@ -66,10 +66,10 @@ router.post('/prueba', (req, res) => {
   //  }
 
    
-  // const obj = {
-  //   sku: '00100100001',
-  //   cantidad: 2
-  // }
+  const obj = {
+    sku: '00100100001',
+    cantidad: 2
+  }
 
 //   const test = {
 //     tabla: 'subcategoria',
@@ -91,7 +91,7 @@ router.post('/prueba', (req, res) => {
 //       }
 //     }
 // };
-  // LotesTakeOut(obj).then(r=>console.log(r)).catch(e=>console.log('xd'));
+  LotesTakeOut(obj).then(r=>console.log(r)).catch(e=>console.log('xd'));
 
 // const test = {
 //   tabla: ['categoria'],
@@ -127,9 +127,9 @@ router.post('/prueba', (req, res) => {
   // UpdateDatabase ( test )
   // .catch((e)=> console.log(e));
 
-  GetAlerts( )
-    .then( response => res.send( response ) )
-    .catch( response => console.log (response) );
+  // GetAlerts( )
+  //   .then( response => res.send( response ) )
+  //   .catch( response => console.log (response) );
   
   // HandleSchema().then(ro=> res.send(ro));
 });
