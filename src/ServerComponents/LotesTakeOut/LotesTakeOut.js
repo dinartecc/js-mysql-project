@@ -27,7 +27,7 @@ const LotesTakeOut = ( obj ) => {
       let mysqlQuery = '',
           acumulador = obj.cantidad,
           lotesSacados = [],
-          cantidadLotes = []
+          cantidadLotes = [],
           sacadosLotes = [];
 
       const results = await QueryDatabase(query);
