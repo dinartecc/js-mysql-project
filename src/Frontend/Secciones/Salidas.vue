@@ -31,7 +31,7 @@
         </div>
         <div id="contenedor-mensajes">
             <div class="mensajes" v-for="(elemento, index) of ids" :key="elemento">
-                {{elemento}}
+                Se han extraido {{sacados[index]}} items del lote ID:{{elemento}}, y quedan {{restante[index]}}
             </div>
         </div>
 
@@ -49,8 +49,10 @@ export default {
     data: () => {
         return{
             sku: '',
-            cantidad: [2,3,6],
-            ids: [2,3,7],
+            cantidad: '',
+            restante: [],
+            sacados: [],
+            ids: [],
             body: ''
         }
     },
@@ -59,8 +61,11 @@ export default {
             
             Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
             .then((response) => {
-                let {cantidad, ids} = response.data;
-                
+                console.log(response)
+                let {cantidad, ids, sacados} = response.data;
+                this.restante = cantidad;
+                this.sacados = sacados;
+                this.ids = ids;
             })
             .catch((error) => console.log(error))
         },
