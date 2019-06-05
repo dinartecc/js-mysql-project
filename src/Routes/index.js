@@ -15,6 +15,7 @@ import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 const connection = CreateConnection;
 import crypto from 'crypto-js'
+import GetAlerts from '../ServerComponents/GetAlerts/GetAlerts';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema'
 SchemaQuery();
 
@@ -117,14 +118,14 @@ router.post('/prueba', (req, res) => {
   // UpdateDatabase ( test )
   // .catch((e)=> console.log(e));
 
-  QueryDatabase( test )
+  GetAlerts( )
     .then( response => res.send( response ) )
     .catch( response => console.log (response) );
   
   // HandleSchema().then(ro=> res.send(ro));
 });
 
-/* ----- Clientes ----- */
+/* ----- Almacen ----- */
 
 
 router.get('/almacen/info', (req, res) => {
@@ -132,6 +133,21 @@ router.get('/almacen/info', (req, res) => {
     tabla: 'almacen',
     columnas: ['id','nombre']
   }
+  const schemaFull = GetSchema(),
+    schema = (({ almacen }) => ({ almacen }))(schemaFull);
+  QueryDatabase( Query )
+  .then((almacen) => res.json({schema, almacen}))
+})
+
+router.post('/almacen/buscar', (req, res) => {
+  const Query = {
+    tabla: 'almacen',
+    columnas: ['id','nombre']
+  }
+  
+  if(req.body.busqueda != '') Query.condiciones = {nombre:req.body.busqueda};
+  console.log(Query);
+
   const schemaFull = GetSchema(),
     schema = (({ almacen }) => ({ almacen }))(schemaFull);
   QueryDatabase( Query )

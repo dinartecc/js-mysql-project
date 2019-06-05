@@ -87,11 +87,13 @@ export default {
             this.editMode = true; 
         },
         editar: function(value){
+            console.log(value);
             this.action = 'editar'
             this.editarInfo  = value
             this.editMode = true;
         },
         page: function(res) {
+            
             let page = this[`productosPage`];
             switch (res.accion) {
                 case 'primera':
@@ -108,7 +110,7 @@ export default {
                     break;
             }
 
-            axios.post('/productos/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo})
+            axios.post('/productos/buscar/', {tabla: 'producto', busqueda: this.busqueda, tipo: this.tipo, pagina:this[`productosPage`] })
             .then((response) => {
                 this.productos = response.data;
                 console.log(response)

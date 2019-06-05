@@ -96,7 +96,7 @@ router.post('/clientes/buscar', (req, res) => {
 
 
 router.post('/productos/editar',async (req, res) => {
-    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero, sku} = req.body.query;
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero, sku, dias_antes_vencimiento} = req.body.query;
     const Query = {
         tabla: 'producto',
         ID_marca :              marca,
@@ -108,7 +108,8 @@ router.post('/productos/editar',async (req, res) => {
         vigilar:                vigilar,
         minimo_stock:           minimoStock,
         perecedero:             perecedero,
-        SKU:                    sku
+        SKU:                    sku,
+        dias_antes_vencimiento: dias_antes_vencimiento
     }
     console.log(Query)
     await CheckForeigns(Query)
@@ -123,8 +124,8 @@ router.post('/productos/editar',async (req, res) => {
 })
 
 router.post('/productos/nuevo', (req, res) => {
-    console.log(req.body)
-    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero, diasAntesVencimiento} = req.body.query;
+    console.log(req.body.query);
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero, dias_antes_vencimiento} = req.body.query;
     const Query = {
         tabla: 'producto',
         ID_marca :              marca,
@@ -136,11 +137,11 @@ router.post('/productos/nuevo', (req, res) => {
         vigilar:                vigilar,
         minimo_stock:           minimoStock,
         perecedero:             perecedero,
-        dias_antes_vencimiento: diasAntesVencimiento
+        dias_antes_vencimiento: dias_antes_vencimiento
     }
 
     if(nombre !== ''){
-        console.log(Query)
+        
         AddToProduct( Query )
         .then(() => res.send('OK'))
         .then(console.log('Elemento anadido exitosamente'))
@@ -158,7 +159,7 @@ router.post('/productos/nuevo', (req, res) => {
 
 router.post('/productos/eliminar', (req, res ) => {
     const sku = req.body.query;
-    console.log(req.body)
+    
     const Query = {
         tabla: 'producto',
         id:  sku
@@ -175,7 +176,7 @@ router.post('/productos/info', (req, res) => {
     const Query = {
         tabla: 'producto',
         desc: true,
-        columnas: ['nombre','sku','ID_subcategoria','ID_marca', 'descripcion', 'margen_ganancia', 'porcentaje_impuestos', 'vigilar', 'minimo_stock', 'perecedero'],
+        columnas: ['nombre','sku','ID_subcategoria','ID_marca', 'descripcion', 'margen_ganancia', 'porcentaje_impuestos', 'vigilar', 'minimo_stock', 'perecedero', 'dias_antes_vencimiento'],
         foranea: {
             ID_subcategoria: {
                 tabla:      'subcategoria',
@@ -188,7 +189,7 @@ router.post('/productos/info', (req, res) => {
         },
         pagina: pagina
       };
-    
+      
     QueryDatabase( Query )
     .then((response) => res.send(response))
     .catch((error) => console.log(error))
@@ -204,7 +205,7 @@ router.post('/productos/eliminar', (req, res) => {
     DeleteFromDatabase(Query)
     .then(res.send('OK'))
     .catch(res.status(404).end())
-    console.log(sku)
+    
 })
 
 router.post('/productos/buscar/',async (req, res) =>{

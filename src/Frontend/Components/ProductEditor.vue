@@ -39,7 +39,7 @@
                     </div>
                     <div class="group-two" v-show="perecedero">
                         <label for="nombre"><h3>Avisar Dias antes del vencimiento</h3></label>
-                        <IntInput v-model="minimoStock"></IntInput>      
+                        <IntInput v-model="minimoDia"></IntInput>      
                     </div>
                 </div>
                 <div class="input-group">
@@ -111,6 +111,7 @@ export default {
     data: function(){
         return{
             minimoStock: '0',
+            minimoDia: '0',
             nombre: '',
             descripcion: '',
             marca: '',
@@ -147,10 +148,11 @@ export default {
                 minimoStock:    this.minimoStock,
                 perecedero:     this.perecedero,
                 sku:            this.sku,
-                diasAntesVencimiento: this.diasAntesVencimiento
+                dias_antes_vencimiento: this.minimoDia
                 
 
             }
+            console.log(sendInfo);
             
             if(
                 // Validaciones de los inputs
@@ -167,14 +169,14 @@ export default {
             
             Alertas.ToSend( url , sendInfo)
             .then(() => this.$emit('added' , true))
-            .catch(() => console.log('BUH >C'))
+            
             
             //axios.post(`/productos/nuevo`, sendInfo)
             //.then(console.log('ENVIADO'))
         },
         editar: function(){
             if(this.action == 'editar'){
-                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, minimo_stock, perecedero, diasAntesVencimiento} = this.edit.elemento;
+                let {ID_marca, ID_subcategoria, descripcion, nombre,margen_ganancia, porcentaje_impuestos, sku, vigilar, dias_antes_vencimiento, minimo_stock, perecedero } = this.edit.elemento;
                 this.nombre =       nombre;
                 this.descripcion =  descripcion;
                 this.marca =        ID_marca.toString();
@@ -183,16 +185,16 @@ export default {
                 this.margen =       margen_ganancia;
                 this.vigilar =      vigilar === 1? true : false;
                 this.minimoStock =  minimo_stock.toString();
+                this.minimoDia =    dias_antes_vencimiento.toString();
                 this.sku =          sku;
-                this.perecedero =   perecedero === 1? true : false,
-                this.diasAntesVencimiento = diasAntesVencimiento
+                this.perecedero =   perecedero === 1? true : false
             }else{
                 console.log('nel')
             }
         },
         deleteElement: function(){
             let sku = this.sku;
-            console.log(sku)
+            
             Alertas.DeleteElement('/productos/eliminar', this.sku)
             .then(() => this.$emit('added' , true))
             
