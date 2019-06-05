@@ -166,7 +166,6 @@ const QueryDatabase = ( obj ) => {
       //Sacar count de la tabla 
       mysqlQuery += `select count(*) as count from ${ obj.tabla };`
       // Realiza la query
-      
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {
           reject(error);
