@@ -36,6 +36,7 @@ router.post('/login',( req, res ) => {
   const { user, pass} = req.body;
   let hash = crypto.SHA256(pass)
   hash = hash.toString()
+  console.log(hash)
   VerificarLogin(user,hash)
     .then((response) => { return JSON.stringify(response[0])})
     .then((response) => { return JSON.parse(response)} )

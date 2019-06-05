@@ -1,11 +1,12 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 @click="add">Añadir</h2>
+            <h2 >Productos</h2>
         </div>
         <div id="search" v-show="!editMode">
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
             <DropSelector :titles="['Nombre', 'SKU', 'Marca', 'Subcategoria']" :values="['nombre', 'sku', 'ID_marca', 'ID_subcategoria']" v-model="tipo" ></DropSelector>
+            <p @click="add">Añadir</p>
         </div>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
         <div class="table-container">
