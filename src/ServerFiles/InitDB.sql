@@ -100,6 +100,7 @@ create table if not exists Lotes (
     pasillo varchar(20),
     estante varchar(20),
     fecha_caducidad date,
+    marcarSalida boolean default false,
     borrado boolean not null default false,
     constraint FK_lot_pro foreign key (SKU) references Producto(SKU) on update cascade,
     constraint FK_lot_alm foreign key (ID_almacen) references Almacen(ID_almacen),

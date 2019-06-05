@@ -7,7 +7,7 @@ import HandleSchema from '../HandleSchema/HandleSchema';
  *  @param {number} obj.pagina El número de la página
  *  @param {array.<string>} obj.columnas Las columnas a ser buscadas, en su respectivo orden
  *  @param {object} foranea Un objeto con objetos que representan las columnas que pertenecen a otra tabla.
- *  @param {string} obj.orden La columna por la cual se va a ordenar
+ *  @param {array} obj.orden La columna por la cual se va a ordenar
  *  @param {boolean} obj.desc Invertir el orden del buscar
  *  @param {number} obj.limite La cantidad de resultados por query.
  *  @param { boolean } obj.borrados Mostrar los borrados o no. 
@@ -166,6 +166,7 @@ const QueryDatabase = ( obj ) => {
       //Sacar count de la tabla 
       mysqlQuery += `select count(*) as count from ${ obj.tabla };`
       // Realiza la query
+
       
       connection.query( mysqlQuery, (error, results, fields) => {
         if (error) {

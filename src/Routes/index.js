@@ -17,6 +17,7 @@ const connection = CreateConnection;
 import crypto from 'crypto-js'
 import GetAlerts from '../ServerComponents/GetAlerts/GetAlerts';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema'
+import LotesTakeOut from '../ServerComponents/LotesTakeOut/LotesTakeOut';
 SchemaQuery();
 
 router.get('/hola',(req, res) => {
@@ -65,27 +66,32 @@ router.post('/prueba', (req, res) => {
   //  }
 
    
+  const obj = {
+    sku: '00100100001',
+    cantidad: 2
+  }
 
-  const test = {
-    tabla: 'subcategoria',
-      desc: true,
-      columnas: ['nombre','ID_categoria','id'],
-      foranea: {
-        ID_categoria: {
-          tabla: 'categoria',
-          columnas: ['nombre']
-        }
-      },
-    condiciones : {
-      ID_categoria: 2 
-    },
-    foranea: {
-      ID_categoria: {
-        tabla: 'categoria',
-        columnas: ['nombre', 'ID_categoria']
-      }
-    }
-};
+//   const test = {
+//     tabla: 'subcategoria',
+//       desc: true,
+//       columnas: ['nombre','ID_categoria','id'],
+//       foranea: {
+//         ID_categoria: {
+//           tabla: 'categoria',
+//           columnas: ['nombre']
+//         }
+//       },
+//     condiciones : {
+//       ID_categoria: 2 
+//     },
+//     foranea: {
+//       ID_categoria: {
+//         tabla: 'categoria',
+//         columnas: ['nombre', 'ID_categoria']
+//       }
+//     }
+// };
+  LotesTakeOut(obj).then(r=>console.log(r)).catch(e=>console.log('xd'));
 
 // const test = {
 //   tabla: ['categoria'],
@@ -110,6 +116,9 @@ router.post('/prueba', (req, res) => {
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
+
+  // QueryDatabase(test)
+  // .then((r) => res.json(r))
   // UpdateProduct(product)
   //  .then( response => res.send( response ) )
   //   .catch( response => console.log (response) );
@@ -118,9 +127,9 @@ router.post('/prueba', (req, res) => {
   // UpdateDatabase ( test )
   // .catch((e)=> console.log(e));
 
-  GetAlerts( )
-    .then( response => res.send( response ) )
-    .catch( response => console.log (response) );
+  // GetAlerts( )
+  //   .then( response => res.send( response ) )
+  //   .catch( response => console.log (response) );
   
   // HandleSchema().then(ro=> res.send(ro));
 });
