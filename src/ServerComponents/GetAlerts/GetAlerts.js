@@ -2,12 +2,12 @@ import CreateConnection from './../CreateConnection/CreateConnection';
 import HandleSchema from '../HandleSchema/HandleSchema';
 
 /**
- * Para checkear si la tupla a la que se desea apuntar como llave foranea en editar o agregar esta borrada.
+ * Funcion para conseguir las alertas de los lotes.
  *
- * @param Object Se manda el object con los parametros a checkear. 
+ * 
  * @returns
  */
-const GetAlerts = ( obj ) => {
+const GetAlerts = (  ) => {
   return new Promise( async( resolve, reject ) => {
     try {
       //Crea el objeto para la conexión e importa el schema
