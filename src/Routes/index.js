@@ -65,26 +65,26 @@ router.post('/prueba', (req, res) => {
 
    
 
-//   const test = {
-//     tabla: 'subcategoria',
-//       desc: true,
-//       columnas: ['nombre','ID_categoria','id'],
-//       foranea: {
-//         ID_categoria: {
-//           tabla: 'categoria',
-//           columnas: ['nombre']
-//         }
-//       },
-//     condiciones : {
-//       nombre: '' 
-//     },
-//     foranea: {
-//       ID_categoria: {
-//         tabla: 'categoria',
-//         columnas: ['nombre', 'ID_categoria']
-//       }
-//     }
-// };
+  const test = {
+    tabla: 'subcategoria',
+      desc: true,
+      columnas: ['nombre','ID_categoria','id'],
+      foranea: {
+        ID_categoria: {
+          tabla: 'categoria',
+          columnas: ['nombre']
+        }
+      },
+    condiciones : {
+      ID_categoria: 2 
+    },
+    foranea: {
+      ID_categoria: {
+        tabla: 'categoria',
+        columnas: ['nombre', 'ID_categoria']
+      }
+    }
+};
 
 // const test = {
 //   tabla: ['categoria'],
@@ -94,32 +94,32 @@ router.post('/prueba', (req, res) => {
 //   limite: 25
 // }
 
-const product = { tabla: 'producto',
-ID_marca: '2',
-ID_subcategoria: '2',
-margen_ganancia: 0,
-porcentaje_impuestos: 0,
-nombre: 'asd',
-descripcion: 'asdasd',
-vigilar: true,
-minimo_stock: '0',
-SKU: '00200200003' }
+// const product = { tabla: 'producto',
+// ID_marca: '2',
+// ID_subcategoria: '2',
+// margen_ganancia: 0,
+// porcentaje_impuestos: 0,
+// nombre: 'asd',
+// descripcion: 'asdasd',
+// vigilar: true,
+// minimo_stock: '0',
+// SKU: '00200200003' }
 
 
 //console.log(borrar)
 //DeleteFromDatabase( borrar )
 
-  UpdateProduct(product)
-   .then( response => res.send( response ) )
-    .catch( response => console.log (response) );
+  // UpdateProduct(product)
+  //  .then( response => res.send( response ) )
+  //   .catch( response => console.log (response) );
   // res.send(ValidateInput(test));
 
   // UpdateDatabase ( test )
   // .catch((e)=> console.log(e));
 
-  // QueryDatabase( test )
-  //   .then( response => res.send( response ) )
-  //   .catch( response => console.log (response) );
+  QueryDatabase( test )
+    .then( response => res.send( response ) )
+    .catch( response => console.log (response) );
   
   // HandleSchema().then(ro=> res.send(ro));
 });
