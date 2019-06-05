@@ -124,7 +124,7 @@ router.post('/productos/editar',async (req, res) => {
 
 router.post('/productos/nuevo', (req, res) => {
     console.log(req.body)
-    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero} = req.body.query;
+    const {marca,subcategoria, margen, impuesto, nombre, descripcion, minimoStock, vigilar, perecedero, diasAntesVencimiento} = req.body.query;
     const Query = {
         tabla: 'producto',
         ID_marca :              marca,
@@ -135,7 +135,8 @@ router.post('/productos/nuevo', (req, res) => {
         descripcion:            descripcion,
         vigilar:                vigilar,
         minimo_stock:           minimoStock,
-        perecedero:             perecedero
+        perecedero:             perecedero,
+        dias_antes_vencimiento: diasAntesVencimiento
     }
 
     if(nombre !== ''){

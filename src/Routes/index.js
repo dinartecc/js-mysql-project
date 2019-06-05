@@ -15,10 +15,11 @@ import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 const connection = CreateConnection;
 import crypto from 'crypto-js'
+import GetSchema from '../ServerComponents/HandleSchema/GetSchema'
 SchemaQuery();
 
 router.get('/hola',(req, res) => {
-
+  
 })
 
 /* ----- Inicializar Database -----*/
@@ -126,8 +127,16 @@ SKU: '00200200003' }
 /* ----- Clientes ----- */
 
 
-
-
+router.get('/almacen/info', (req, res) => {
+  const Query = {
+    tabla: 'almacen',
+    columnas: ['id','nombre']
+  }
+  const schemaFull = GetSchema(),
+    schema = (({ almacen }) => ({ almacen }))(schemaFull);
+  QueryDatabase( Query )
+  .then((almacen) => res.json({schema, almacen}))
+})
 
 
 module.exports = router;

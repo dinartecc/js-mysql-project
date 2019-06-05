@@ -109,6 +109,7 @@ div {
 }
 
 div.controls {
+    color: white;
     flex-direction: row;
     background-color: #252c3d;
     justify-content: space-around;
