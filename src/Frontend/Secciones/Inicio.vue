@@ -7,16 +7,31 @@ import $ from 'jquery'
 <template>
 <div>
     <h1>Bienvenido {{nombre}}</h1>
-    <!--button id="ola" @click="toggle('cuadro')">Clickeame</button>
-    <button id="ola" @click="toggle2('cuadro')">Clickeame</button>
-    <div id="contenedor">
-       
-        <div id="cuadro">
-            <h2>Hey :D</h2>
-        </div>
-       
+    <h2>Alertas</h2>
+    <div v-if="alertaCantidad.length == 0 && alertaVencimiento.length == 0">
+        No hay alertas
     </div>
-    <h3>Hellou</h3-->
+    <div v-else>
+                <Table v-if="alertaVencimiento.length != 0"
+                        class="text-center"
+                    :tabla="'Productos_por_vencerse'"
+                    :orden="vencimientoOrden" 
+                    :texts="vencimientoTexts"
+                    :body="alertaVencimiento"
+                    @clicked="editar"
+                    :pagina="false"
+                    />
+        <Table v-if="alertaCantidad.length != 0"
+                    class="text-center"
+                    :tabla="'Productos_por_agotarse'"
+                    :orden="cantidadOrden" 
+                    :texts="cantidadTexts"
+                    :body="alertaCantidad"
+                    @clicked="editar"
+                    :pagina="false"
+                    />
+
+    </div>
 </div>
 </template>
 
@@ -24,13 +39,47 @@ import $ from 'jquery'
 
 <script>
 import $ from 'jquery'
+import axios from 'axios';
+import Table from '../Components/Table.vue'
 import Velocity from 'velocity-animate'
 import velocity from 'velocity-ui-pack'
 export default {
     data: () => {
         return{
             nombre: '',
+            alertaCantidad: [],
+            alertaVencimiento: [],
+            cantidadTexts : {
+                producto: {
+                    titulo: 'SKU'
+                },
+                nombre: {
+                    titulo: 'Nombre'
+                },
+                cantidad: {
+                    titulo: 'Cantidad en inventario'
+                },
+                minimo_stock: {
+                    titulo: 'Cantidad crítica'
+                }
+            },
+            cantidadOrden : ['producto','nombre','cantidad','minimo_stock'],
+            vencimientoTexts: {
+                id_lotes: {
+                    titulo: 'ID del lote'
+                },
+                fecha_caducidad: {
+                    titulo: 'Fecha de caducidad'
+                },
+                nombre: {
+                    titulo: 'Nombre del producto'
+                }
+            },
+            vencimientoOrden: ['id_lotes','nombre','fecha_caducidad']
         }
+    },
+    components: {
+        Table
     },
     methods: {
         toggle(elemento){
@@ -38,7 +87,22 @@ export default {
         },
         toggle2(elemento){
             Velocity($(`#${elemento}`),{ height: 200 , opacity: 1, display: none })
+        },
+        editar() {
+        },
+        getAlertas() {
+            axios.post('/getalertas')
+            .then((response) => {
+
+                this.alertaCantidad = response.data[0];
+                this.alertaVencimiento = response.data[1];
+                console.log(this.alertaVencimiento.length);
+            
+            })
         }
+    },
+    created () {
+        this.getAlertas();   
     },
     mounted() {
         this.nombre = this.$store.state.User.name

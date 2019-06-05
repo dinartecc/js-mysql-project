@@ -289,7 +289,6 @@ router.post('/lotes/nuevo' , (req, res) => {
 
 
 router.post('/lotes/buscar' , (req, res) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
     let {tabla, busqueda, tipo, pagina} = req.body;
     const Query = {
         tabla:  tabla,

@@ -96,11 +96,17 @@ export default {
             
             let busqueda = value == undefined ? '': value ;
 
-            
+            console.log('xd');
             await axios.post(`/${this.seccion}/buscar/`, {tabla: this.tabla, busqueda: busqueda, tipo: this.buscarPor })
             .then((response) => {
+                console.log(response.data);
+                if (this.tabla == 'almacen') {
+                    this.body = response.data.almacen;
+                }
+                else {
+                    this.body = response.data;
+                }
                 
-                this.body = response.data;
             })
             
         },
