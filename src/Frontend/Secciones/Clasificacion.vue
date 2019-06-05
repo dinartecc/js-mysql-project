@@ -11,7 +11,7 @@
         <div id="search-container">
 
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
-            <DropSelector :titles="['Nombre', 'ID']" :values="['nombre', 'id']" v-model="tipo" ></DropSelector>
+            <DropSelector :titles="['Nombre', 'ID', 'Categoria',]" :values="['nombre', 'id', 'ID_categoria']" v-model="tipo" ></DropSelector>
             <div id="seccion-btn">
                 <label for="all">
                     <div class="boton-seccion" @click="cambioSeccion" :class="{btnactive: Selected =='todo'}">Todos</div>
@@ -197,7 +197,7 @@ export default {
     methods: {
         //En el add, si esta selected una seccion, esa seccion se vuelve la tabla del inputData.
         add: function(value) {
-            if (this.Selected !== 'todo' && this.Selected !== 'anadir' && this.Selected !== 'editar' ) {
+            if (this.Selected !== 'todo' && this.Selected !== 'anadir' && this.Selected !== 'editar') {
                 this.InputData.tabla = this.Selected;
                 this.InputData.elemento = undefined;
                 this.Selected = `anadir${this.Selected}`;
@@ -258,6 +258,9 @@ export default {
             //PAGE: Tenes que poner esta wea para que se paginen las busquedas
             this.busqueda = value;
             console.log(this.Selected);
+            if(this.Selected !== 'subcategoria' && this.tipo == 'ID_categoria'){
+                this.tipo = 'nombre'
+            }
             await axios.post('/clasificacion/buscar/', {tabla: this.Selected, busqueda: busqueda, tipo: this.tipo })
             .then((response) => {
                 if(this.Selected == 'todo'){

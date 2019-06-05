@@ -1,7 +1,7 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Lotes</h2>
+            <h2 >Salidas</h2>
         </div>
         <div id="element-container" class="bg">
             <div class="titulo-container">
@@ -52,7 +52,8 @@ export default {
             
             Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
             .then((response) => {
-                console.log(response.data)
+                let {cantidad, ids} = response.data;
+                ids
             })
             .catch((error) => console.log(error))
         },

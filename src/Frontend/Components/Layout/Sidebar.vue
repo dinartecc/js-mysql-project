@@ -1,9 +1,9 @@
 <template>
  <div id="menu">
     <div id="dashboard">
-        <router-link to="/"><h3 style="margin-left:50px;">Dashboard</h3></router-link>
+        <router-link to="/"><img src="/img/mana.svg" alt=""></router-link>
     </div>
-    <div id="database-img" class="dropdown-menu"> 
+    <!--div id="database-img" class="dropdown-menu"> 
         <div>
             <img src="img/database.svg" alt=""> <p>Base de datos</p>
         </div>
@@ -11,7 +11,7 @@
             <p>Configuraciones</p>
             <a href="/categorias"><p>Categorias</p></a>
         </div>
-    </div>
+    </div-->
     <div v-show="this.$store.state.Permissions.clasificacion > 1">
         <router-link to="/clasificacion">
             <div>
@@ -26,13 +26,7 @@
             </div>
         </router-link>
     </div>
-    <div class="dropdown-menu" v-show="this.$store.state.Permissions.administrador > 1">
-        <router-link to="/usuarios">
-            <div>
-                <img src="img/usuario.svg" alt=""> <p>Usuarios</p>
-            </div>
-        </router-link>
-    </div>
+    
     <div class="dropdown-menu" v-show="this.$store.state.Permissions.lotes > 1">
         <router-link to="/lotes">
             <div>
@@ -54,7 +48,14 @@
             </div>
         </router-link>
     </div>
-    <div class="dropdown-menu">
+    <div class="dropdown-menu" v-show="this.$store.state.Permissions.administrador > 1">
+        <router-link to="/usuarios">
+            <div>
+                <img src="img/usuario.svg" alt=""> <p>Usuarios</p>
+            </div>
+        </router-link>
+    </div>
+    <!--div class="dropdown-menu">
         <div>
             <img src="img/reportes.svg" alt=""> <p>Reportes</p>
         </div>
@@ -63,8 +64,8 @@
             <p>Prueba 1</p>
             <p>Prueba 2</p>
         </div>
-    </div>
-    <div class="dropdown-menu">
+    </div-->
+    <!--div class="dropdown-menu">
         <div>
             <img src="img/ajustes.svg" alt=""> <p>Configuraciones</p>
         </div>
@@ -72,7 +73,7 @@
             <p>Prueba 1</p>
             <p>Prueba 2</p>
         </div>
-    </div>
+    </div-->
     <div v-show="this.$store.state.IsLogged" v-on:click="logout">
             <div>
                 <img src="img/logout.svg" alt=""> <p>Cerrar Sesión</p>
@@ -151,14 +152,16 @@ a{
 #menu  div p{
     margin-left: 5px;
 }
-#dashboard h3{
+#dashboard img{
+    width: 150px;
+    height: auto;
     margin:0 !important;
     color: white;
 }
 #dashboard{
     width: 100%; 
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     padding: 20px 0 20px 0;
     
 }
