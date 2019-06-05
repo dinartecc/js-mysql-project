@@ -27,11 +27,11 @@ const LotesTakeOut = ( obj ) => {
       let mysqlQuery = '',
           acumulador = obj.cantidad,
           lotesSacados = [],
-          cantidadLotes = [];
+          cantidadLotes = []
+          sacadosLotes = [];
 
       const results = await QueryDatabase(query);
 
-      console.log(results);
 
       for( let lote of results.body ) {
         if(lote.cantidad != 0) {
@@ -39,6 +39,7 @@ const LotesTakeOut = ( obj ) => {
           if ( lote.cantidad > acumulador ) {
 
             const nuevaCantidad = lote.cantidad - acumulador;
+            sacadosLotes.push(acumulador);
             acumulador = 0;
             cantidadLotes.push(nuevaCantidad);
             
@@ -47,8 +48,8 @@ const LotesTakeOut = ( obj ) => {
           }
           else {
             acumulador = acumulador - lote.cantidad;
-            
-            cantidadLotes.push(lote.cantidad);
+            sacadosLotes.push(lote.cantidad);
+            cantidadLotes.push(0);
             mysqlQuery += `update lotes set cantidad = 0, marcarSalida = 1 where ID_lotes = ${lote.ID_lotes};\n`;
             if (acumulador == 0) {
               break;
@@ -71,7 +72,8 @@ const LotesTakeOut = ( obj ) => {
           else {
            const response = {
              ids : lotesSacados,
-             cantidad : cantidadLotes
+             cantidad : cantidadLotes,
+             sacados: sacadosLotes
            } 
 
            resolve(response);
@@ -80,11 +82,7 @@ const LotesTakeOut = ( obj ) => {
         });
       }
 
-      
-        
-      
 
-      
 
 
     }
