@@ -1,7 +1,7 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Lotes</h2>
+            <h2 >Productos</h2>
         </div>
         <div id="search" v-show="!editMode">
             <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
@@ -9,7 +9,7 @@
             <AddBtn @add="add" v-if="this.$store.state.Permissions.productos > 2"></AddBtn>
         </div>
         <ProductEditor :edit="editarInfo" :action="action" v-if="editMode" @added="added"></ProductEditor>
-
+        
         <div class="table-container">
             <Table class="text-center"
             :tabla="'Productos'"
@@ -28,6 +28,7 @@
 
 
 <script>
+
 import SearchBar from '../Components/SearchBar.vue'
 import axios from 'axios'
 import Table from '../Components/Table.vue'
@@ -73,6 +74,7 @@ export default {
         AddBtn
     },
     methods:{
+
         Buscar:function(value){
             this.busqueda = value;
             console.log(this.Selected);

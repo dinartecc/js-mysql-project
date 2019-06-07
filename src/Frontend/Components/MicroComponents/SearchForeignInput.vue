@@ -234,6 +234,7 @@ table tbody tr td{transition: .5s}
 div .box{
     /*border: 1px solid #555861;*/
     width: 500px;
+    margin-top: 100px;
     display: flex;
     position: relative;
     top: -100px;

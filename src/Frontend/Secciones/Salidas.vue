@@ -62,7 +62,7 @@ export default {
                 Alertas.ErrorMsg()
                 
             }else{
-                Alertas.ToSend('/salida/sacar', {sku: this.sku, cantidad: this.cantidad})
+                Alertas.ToSendCustom('/salida/sacar', {sku: this.sku, cantidad: this.cantidad}, "Error, está intentando sacar mas producto que el existente",  "Acción ejecutada correctamente")
                 .then((response) => {
                     console.log(response)
                     let {cantidad, ids, sacados} = response.data;
