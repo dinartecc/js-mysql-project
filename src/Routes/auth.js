@@ -61,7 +61,7 @@ router.post('/login',( req, res ) => {
         
       ))
     })
-    .catch( (response) => console.log(response));
+    .catch( () => res.status(400).end());
     
 })
 

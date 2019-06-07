@@ -55,16 +55,13 @@
             </div>
         </router-link>
     </div>
-    <!--div class="dropdown-menu">
-        <div>
-            <img src="img/reportes.svg" alt=""> <p>Reportes</p>
-        </div>
-
-        <div class="drop">
-            <p>Prueba 1</p>
-            <p>Prueba 2</p>
-        </div>
-    </div-->
+    <div class="dropdown-menu">
+        <router-link to="/reportes">
+            <div>
+                <img src="img/reportes.svg" alt=""> <p>Reportes</p>
+            </div>
+        </router-link>
+    </div>
     <!--div class="dropdown-menu">
         <div>
             <img src="img/ajustes.svg" alt=""> <p>Configuraciones</p>

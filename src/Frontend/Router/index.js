@@ -8,6 +8,7 @@ import store from '../Store/store.js';
 import Lotes from '../Secciones/Lotes.vue';
 import Almacen from '../Secciones/Almacen.vue';
 import Salidas from '../Secciones/Salidas.vue';
+import Reportes from '../Secciones/Reportes.vue';
 export default[
     {
         path: '/',
@@ -55,6 +56,12 @@ export default[
         component: Salidas,
         name: 'salidas',
         beforeEnter: (to, from , next) => store.state.Permissions.lotes > 1 ? next() : next('/')
+    },
+    {
+      path: '/reportes',
+      component: Reportes,
+      name: 'reportes',
+      beforeEnter: (to, from , next) => store.state.Permissions.lotes > 1 ? next() : next('/')
     },
     { path: '/logout', component: Logout }
 ]

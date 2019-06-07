@@ -4,7 +4,7 @@
 
 create table if not exists Roles(
     ID_rol int not null,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     productos ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     clasificacion ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
     lotes ENUM('Ninguno', 'Leer', 'Escribir', 'Actualizar','Eliminar') not null,
@@ -17,7 +17,7 @@ create table if not exists Roles(
 
 create table if not exists Usuarios (
     ID_usuario int not null,
-    user varchar(30) not null,
+    user varchar(30) unique not null,
     pass varchar(70) not null,
     name varchar(30) not null,
     ID_rol int not null,
@@ -31,14 +31,14 @@ create table if not exists Usuarios (
 
 create table if not exists Categoria (
 	ID_categoria int(3) not null ,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     borrado boolean not null default false,
     constraint PK_cat primary key (ID_categoria)
 ) ENGINE = InnoDB;
 
 create table if not exists Subcategoria (
 	ID_subcategoria int(3) unsigned not null,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     ID_categoria int(3) not null,
     borrado boolean not null default false,
     constraint PK_sub primary key ( ID_subcategoria ),
@@ -47,7 +47,7 @@ create table if not exists Subcategoria (
 
 create table if not exists Marca (
 	ID_marca int(3) unsigned not null,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     borrado boolean not null default false,
     constraint PK_mar primary key (ID_marca)
 ) ENGINE = InnoDB;
@@ -55,11 +55,17 @@ create table if not exists Marca (
 
 -- PRODUCTOS, DESCUENTOS POR PRODUCTO, PROVEEDORES
 
+create table if not exists Unidades (
+	ID_unidad int unsigned not null ,
+    nombre varchar(10) unique not null,
+    constraint PK_alm primary key (ID_unidad)
+) ENGINE = InnoDB;
+
 create table if not exists Producto (
 	SKU char(11) not null,
     ID_subcategoria int(3) unsigned not null,
     ID_marca int(3) unsigned not null,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     descripcion text,
     margen_ganancia numeric(5,2),
     porcentaje_impuestos numeric(5,2),
@@ -85,7 +91,7 @@ create table if not exists Proveedor (
 
 create table if not exists Almacen (
 	ID_almacen int unsigned not null ,
-    nombre varchar(30) not null,
+    nombre varchar(30) unique not null,
     borrado boolean not null default false,
     constraint PK_alm primary key (ID_almacen)
 ) ENGINE = InnoDB;
@@ -105,6 +111,21 @@ create table if not exists Lotes (
     constraint FK_lot_pro foreign key (SKU) references Producto(SKU) on update cascade,
     constraint FK_lot_alm foreign key (ID_almacen) references Almacen(ID_almacen),
     constraint PK_lot primary key (ID_lotes) 
+) ENGINE = InnoDB;
+
+
+
+create table if not exists Movimientos (
+    ID_movimiento int unsigned not null ,
+	user varchar(30) not null,
+    ID_lotes int unsigned not null ,
+    SKU char(12) not null,
+    tipo ENUM('Borrado', 'Sacado', 'Ingresado') not null,
+    fecha date not null,
+    cantidad numeric (10,2) not null,
+    constraint PK_cli primary key (ID_movimiento),
+    constraint FK_mov_pro foreign key (ID_lotes) references Lotes(ID_lotes) on update cascade,
+    constraint FK_mov_lot foreign key (SKU) references Producto(SKU) on update cascade
 ) ENGINE = InnoDB;
 
 -- VENTAS, CLIENTES, DESCUENTO GENERAL

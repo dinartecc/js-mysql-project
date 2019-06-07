@@ -6,7 +6,6 @@ insert into categoria (ID_categoria, nombre) values (5, 'Infantil');
 insert into categoria (ID_categoria, nombre) values (6, 'Mascotas');
 insert into categoria (ID_categoria, nombre) values (7, 'Medicamentos');
 insert into categoria (ID_categoria, nombre) values (8, 'Higiene Personal');
-insert into categoria (ID_categoria, nombre) values (9, 'Mascotas');
 
 
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (1, 'Aceites', 1);
@@ -32,7 +31,6 @@ insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (20, 'An
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (21, 'Antimicóticos dermatológicos', 7);
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (22, 'Multivitamínicos', 7);
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (23, 'Vitaminas', 7);
-insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (24, 'Cremas', 8);
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (25, 'Higiene bucal', 8);
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (26, 'Higiene femenina', 8);
 insert into subcategoria (ID_subcategoria, nombre, ID_categoria) values (27, 'Jabones', 8);
@@ -62,13 +60,13 @@ insert into marca (ID_marca, nombre) values ( 10,'Snicker');
 insert into marca (ID_marca, nombre) values ( 11,'Kit Kat');
 insert into marca (ID_marca, nombre) values ( 12,'M&M');
 insert into marca (ID_marca, nombre) values ( 13,'Ferrero');
-insert into marca (ID_marca, nombre) values ( 14,'Suli');
+insert into marca (ID_marca, nombre) values ( 14,'Sala');
 insert into marca (ID_marca, nombre) values ( 15,'Maggi');
 insert into marca (ID_marca, nombre) values ( 16,'Economax');
 insert into marca (ID_marca, nombre) values ( 17,'Roma');
 insert into marca (ID_marca, nombre) values ( 18,'Palmolive');
 insert into marca (ID_marca, nombre) values ( 19,'Pantene');
-insert into marca (ID_marca, nombre) values ( 20,'Palmolive');
+insert into marca (ID_marca, nombre) values ( 20,'M$M');
 insert into marca (ID_marca, nombre) values ( 21,'Protex');
 
 

@@ -3,7 +3,6 @@
 <div class="formulario-contenedor">
     <h3 v-show="error">Error</h3>
     <form v-on:submit.prevent="send" action="/login" method="POST">
-        <h1 v-show="error">Informacion incorrecta</h1>
         <h1>Iniciar Sesión</h1>
         <input type="text" v-model="user" placeholder="Usuario" required>
         <input type="password" v-model="pass" name="pass" placeholder="Contraseña" required>
@@ -16,7 +15,8 @@
 
 <script>
 
-import axios from 'axios'
+import axios from 'axios';
+import Swal from 'sweetalert2';
 export default {
     data: () => {
         return{
@@ -40,13 +40,19 @@ export default {
                     //window.location.href = '/'
                     this.$router.push({name: 'inicio'})
                 }else{
-                    console.log('HAAA')
-                    this.error = true;
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Error!',
+        
+                    })
                 }
             })
             .catch((response) => {
-               this.error = true
-                console.log(response)
+                Swal.fire({
+                    type: 'error',
+                    title: '¡Error!',
+                    text: 'Usuario o contraseña incorrecta'
+                });
             })
         },
     }
