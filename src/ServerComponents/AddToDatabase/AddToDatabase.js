@@ -24,7 +24,8 @@ const AddToDatabase = ( obj ) => {
       obj.id = schema[obj.tabla].id; 
 
       //Crea el objeto para la conexión
-      const connection = CreateConnection;
+      const connection = CreateConnection,
+            fecha = new Date();;
 
       //Realiza la query
       AddToDatabaseCreateQuery( obj )
@@ -34,9 +35,21 @@ const AddToDatabase = ( obj ) => {
         if (error) {
           reject(error);
         }
+
         else {
           // De lo contrario, devuelve los resultados
          resolve(results);
+
+         if(obj.tabla == 'lotes')
+         {
+           console.log(results);
+           const queryMovimiento = `insert into movimientos (user, ID_lotes, SKU, tipo, fecha, cantidad ) 
+           values ('${obj.usernameMov}', (Select ID_lotes from lotes order by ID_lotes desc limit 1) ,'${obj.sku}', 
+          3, '${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}', ${obj.cantidad});`
+           
+          connection.query(queryMovimiento); 
+           
+         }
          return false;
         }
       }));

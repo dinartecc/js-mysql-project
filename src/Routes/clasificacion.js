@@ -7,6 +7,7 @@ import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 import { promises, readFileSync } from 'fs';
 import GetSchema from '../ServerComponents/HandleSchema/GetSchema';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
+import CreateConnection from '../ServerComponents/CreateConnection/CreateConnection';
 
 
 // const subcategoria  = [
@@ -129,10 +130,24 @@ router.post('/clasificacion/eliminar' ,(req, res) => {
     }
     
     DeleteFromDatabase( borrar )
-    .then(() => console.log("BORRADO >:D"))
+    .then(() => {
+      if(tabla == 'lotes'){
+        const connection = CreateConnection,
+            fecha = new Date(),
+            queryMovimiento = `insert into movimientos (user, ID_lotes, SKU, tipo, fecha, cantidad ) 
+            values ('${req.session.user.user}', ${borrar.id}, (Select SKU from lotes where ID_lotes = ${borrar.id} ), 
+           1, '${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}',
+            (Select cantidad from lotes where ID_lotes = ${borrar.id} ));`;
+           
+           
+      connection.query(queryMovimiento); 
+      }
+      
+
+
+    })
     .then(() => res.send('OK'))
     .catch((response) => {
-        console.log(response)
         res.status(404).end()
     })
 

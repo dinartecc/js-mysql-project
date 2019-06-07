@@ -278,7 +278,8 @@ router.post('/lotes/nuevo' , (req, res) => {
         fecha_caducidad,
         fecha_ingreso,
         sku,
-        cantidad
+        cantidad,
+        usernameMov : req.session.user.user
     }
 
     AddToDatabase( Query )

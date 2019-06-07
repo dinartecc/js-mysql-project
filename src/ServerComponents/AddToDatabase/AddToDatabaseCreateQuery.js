@@ -24,7 +24,7 @@ const AddToDatabaseCreateQuery = ( obj ) => {
 
     // Itera sobre cada propiedad del objeto, utilizando el nombre para las columnas y el valor para el mismo valor en las queries.
     for( const columna in obj ) {
-      if ( columna != 'tabla' && columna != 'id') {
+      if ( columna != 'tabla' && columna != 'id' && columna != 'usernameMov') {
         queryCol += columna + ', ' ;
         queryVal += mysql.escape(obj[columna]) + ', ';
       }
