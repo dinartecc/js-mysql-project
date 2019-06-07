@@ -15,11 +15,11 @@
             <div class="inputs-container">
                 <div class="group-two-container input-group">
                     <div class="group-two">
-                        <label for="nombre">SKU</label>
+                        <label for="nombre">*SKU</label>
                         <SearchForeingInput @input="SearchPerecederoSKU" v-model="sku" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
                     </div>
                     <div class="group-two">
-                        <label for="nombre">Cantidad</label>
+                        <label for="nombre">*Cantidad</label>
                         <IntInput v-model="cantidad"></IntInput>
                         
                     </div>
@@ -27,7 +27,7 @@
 
                 
                 <div class="input-group">
-                    <label for="nombre">Valor de Lotes</label>
+                    <label for="nombre">*Valor de Lotes</label>
                     <CurrencyInput v-model="valor"></CurrencyInput>
                 </div>
                     
@@ -46,7 +46,7 @@
                 </div>
                 <div class="inputs-container">
                     <div class="input-group">
-                        <label for="nombre"><h3>Almacen</h3></label>
+                        <label for="nombre"><h3>*Almacen</h3></label>
                         <!--span id="number-sign">C$</span-->
                         <SearchForeingInput v-model="almacen" :tabla="'almacen'" :seccion="'almacen'"></SearchForeingInput>    
                     </div>
@@ -64,7 +64,7 @@
     </div>
     <div class="flex">
         <button @click="send" class="btn">Guardar</button>
-    </div>
+    </div>-
 </div>
     
 </template>

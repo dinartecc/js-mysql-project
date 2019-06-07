@@ -15,17 +15,17 @@
             </div>
             <div class="inputs-container">
                 <div class="input-group">
-                    <label for="nombre">Nombre del producto</label>
+                    <label for="nombre">*Nombre del producto</label>
                     <input id="nombre" type="text" class="input-default" v-model="nombre" required>
                     
                 </div>
                 <div class="group-two-container input-group">
                     <div class="group-two">
-                        <label for="nombre">Marca</label>
+                        <label for="nombre">*Marca</label>
                         <SearchForeingInput v-model="marca" :tabla="'marca'" :seccion="'clasificacion'"></SearchForeingInput>
                     </div>
                     <div class="group-two">
-                        <label for="nombre">Subcategoria</label>
+                        <label for="nombre">*Subcategoria</label>
                         <!--SearchForeign :tabla="'categoria'" :seccion="'clasificacion'" > </SearchForeign-->
                         <SearchForeingInput v-model="subcategoria" :tabla="'subcategoria'" :seccion="'clasificacion'"></SearchForeingInput>
                         <!--input type="text" v-model="subcategoria" class="input-default input-group-two"-->
@@ -55,7 +55,7 @@
                 </div>
                 <div class="inputs-container">
                     <div class="input-group">
-                        <label for="nombre"><h3>Margen de ganancia</h3></label>
+                        <label for="nombre"><h3>*Margen de ganancia</h3></label>
                         <!--span id="number-sign">C$</span-->
                         <PercentInput v-model="margen" :maxlength="6"></PercentInput>      
                     </div>
