@@ -35,6 +35,7 @@ import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 
 
 router.get('/clasificacion/info',async(req, res) => {
+    console.log(req.session);
         
     const categoriaQuery = {
         tabla: 'categoria',

@@ -200,7 +200,9 @@ router.post('/almacen/buscar', (req, res) => {
 
 router.post('/salida/sacar', (req, res) => {
   const {sku, cantidad} = req.body.query
-  const query = {sku, cantidad}
+  const query = {sku, cantidad};
+  query.user = req.session.user.user;
+  
   LotesTakeOut(query)
   .then(r=>{
     console.log(r); 

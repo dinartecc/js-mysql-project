@@ -22,9 +22,12 @@ const LotesTakeOut = ( obj ) => {
         orden: 'fecha_caducidad',
         limite: 400,
         
-      }
+      },
+      fecha = new Date();
+      
 
       let mysqlQuery = '',
+          mysqlMovimiento = 'insert into movimientos (user, ID_lotes, SKU, tipo, fecha, cantidad ) values ',
           acumulador = obj.cantidad,
           lotesSacados = [],
           cantidadLotes = [],
@@ -40,9 +43,12 @@ const LotesTakeOut = ( obj ) => {
 
             const nuevaCantidad = lote.cantidad - acumulador;
             sacadosLotes.push(acumulador);
-            acumulador = 0;
-            cantidadLotes.push(nuevaCantidad);
             
+            cantidadLotes.push(nuevaCantidad);
+
+            mysqlMovimiento += `('${obj.user}', ${lote.ID_lotes}, '${obj.sku}', 2, '${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}', ${acumulador}), `
+
+            acumulador = 0;
             mysqlQuery += `update lotes set cantidad = ${nuevaCantidad}${nuevaCantidad == 0 ? ', marcarSalida = 1' : '' } where ID_lotes = ${lote.ID_lotes};\n`;
             break;
           }
@@ -51,6 +57,7 @@ const LotesTakeOut = ( obj ) => {
             sacadosLotes.push(lote.cantidad);
             cantidadLotes.push(0);
             mysqlQuery += `update lotes set cantidad = 0, marcarSalida = 1 where ID_lotes = ${lote.ID_lotes};\n`;
+            mysqlMovimiento += `('${obj.user}', ${lote.ID_lotes}, '${obj.sku}', 2, '${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}', ${lote.cantidad}), `
             if (acumulador == 0) {
               break;
             }
@@ -58,8 +65,10 @@ const LotesTakeOut = ( obj ) => {
         }
         
       }
+      mysqlMovimiento = mysqlMovimiento.substr(0, mysqlMovimiento.length -2 )+';';
+      mysqlQuery = mysqlQuery + mysqlMovimiento;
 
-
+      console.log(mysqlMovimiento);
 
       if(acumulador != 0) {
         reject();

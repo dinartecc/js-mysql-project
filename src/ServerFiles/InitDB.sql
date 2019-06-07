@@ -16,7 +16,7 @@ create table if not exists Roles(
 
 
 create table if not exists Usuarios (
-    ID_usuario int not null,
+    ID_usuario int not null AUTO_INCREMENT,
     user varchar(30) unique not null,
     pass varchar(70) not null,
     name varchar(30) not null,
@@ -116,7 +116,7 @@ create table if not exists Lotes (
 
 
 create table if not exists Movimientos (
-    ID_movimiento int unsigned not null ,
+    ID_movimiento int unsigned not null AUTO_INCREMENT,
 	user varchar(30) not null,
     ID_lotes int unsigned not null ,
     SKU char(12) not null,

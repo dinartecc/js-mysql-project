@@ -91,7 +91,7 @@ const SchemaQuery =  () => {
             if( tupla.CONSTRAINT_NAME == 'PRIMARY') {
               schema[tupla.TABLE_NAME].id = tupla.COLUMN_NAME;
             }
-            else {
+            else if (tupla.CONSTRAINT_NAME.substr(0,3) == "FK_"){
               schema[tupla.TABLE_NAME][tupla.COLUMN_NAME].foranea = tupla.REFERENCED_TABLE_NAME;
             }
           }
