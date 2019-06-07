@@ -8,6 +8,7 @@ import QueryDatabase from '../ServerComponents/QueryDatabase/QueryDatabase';
 import AddToProduct from '../ServerComponents/AddToDatabase/AddToProduct';
 import CheckForeigns from '../ServerComponents/CheckForeigns/CheckForeigns';
 import UpdateProduct from '../ServerComponents/UpdateDatabase/UpdateProduct';
+import GetMovimientos from '../ServerComponents/GetMovimientos/GetMovimientos';
 const connection = CreateConnection;
 
 
@@ -298,10 +299,6 @@ router.post('/lotes/buscar' , (req, res) => {
             sku: {
                 tabla: 'producto',
                 columnas: ['nombre']
-            },
-            ID_almacen: {
-                tabla: 'almacen',
-                columnas: ['nombre']
             }
         },
         desc: true, 
@@ -322,5 +319,56 @@ router.post('/lotes/buscar' , (req, res) => {
         res.status(404).end()
     })
 })
+
+router.post('/movimientos/buscar' , (req, res) => {
+  let {tabla, busqueda, tipo, pagina} = req.body;
+  const Query = {
+      tabla:  tabla,
+      columnas: ['id', 'user', 'SKU', 'tipo', 'fecha'],
+      desc: true, 
+      limite: 10,
+      pagina: pagina || 0
+      
+  }
+  Query.condiciones = {}
+  Query.condiciones[tipo] = busqueda;
+  QueryDatabase( Query )
+  .then((response) => {  
+      for( let tupla in response.body ) {
+        const fecha = response.body[tupla].fecha;
+        response.body[tupla].fecha = `${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}`;
+      }
+      res.send(JSON.stringify(response));
+  })
+  .catch((error) => {
+      console.log(error)
+      res.status(404).end()
+  })
+});
+
+router.post('/movimientos/sumas' , (req, res) => {
+  
+
+  console.log(req.body);
+  let {filtroFecha, filtroSKU} = req.body;
+  if (filtroSKU == '') filtroSKU = 'none';
+  const obj = {
+    filtroFecha: filtroFecha,
+    filtroSKU: filtroSKU || 'none'
+  }
+
+  GetMovimientos(obj)
+  .then((response) => {  
+      for( let tupla in response.body ) {
+        const fecha = response.body[tupla].fecha;
+        response.body[tupla].fecha = `${fecha.getFullYear()}-${fecha.getMonth()+1}-${fecha.getDate()}`;
+      }
+      res.send(JSON.stringify(response));
+  })
+  .catch((error) => {
+      console.log(error)
+      res.status(404).end()
+  })
+});
 
 module.exports = router;

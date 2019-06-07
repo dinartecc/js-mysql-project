@@ -1,123 +1,167 @@
 <template>
     <div id="container">
         <div id="titulo">
-            <h2 >Almacen</h2>
+            <h2 >Reportes</h2>
         </div>
-        <div id="search-container">
-            <SearchBar v-on:SendSearchData="Buscar"></SearchBar>
-            <AddBtn @add="add" ></AddBtn>
+        <div>
+            <h2>Movimiento de lotes:</h2>
+            <div>
+                Lotes ingresados: {{ingresados}}
+            </div>
+            <div>
+                Lotes sacados: {{sacados}}
+            </div>
+            <div>
+                Lotes eliminados: {{eliminados}}
+            </div>
+            <div>
+                Filtrar por:
+                Vejez: <DropSelector :titles="['1 Día', '1 Semana', '1 Mes', '1 Año', 'Todo']" :values="['second', 'week', 'month', 'year', 'none']" @input="actualizarMov" v-model="filtroFecha" />
+                Producto:  <SearchForeingInput @input="actualizarMov" v-model="filtroSKU" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
+                <span @click="borrar">Borrar</span>
+            </div>
         </div>
-        <div id="table-container">
-            <transition name="slide-fade">
-                <Inputs v-if="editMode"
-                :seccion="'clasificacion'"
-                :texts="almacenTexts" 
-                :schema="almacenSchema" 
-                :default="editarInfo" 
-                :boolDefault="true"
-                @added="added" 
-                />
-            </transition>  
-            <transition name="slide-fade">
-                <Inputs v-if="addMode"
-                :seccion="'clasificacion'"
-                :texts="almacenTexts" 
-                :schema="almacenSchema" 
-                :default="editarInfo" 
-                :boolDefault="false"
-                @added="added" 
-                />
-            </transition>  
-                <div id="wrapper">
-                    <Table class="text-center"
-                    :tabla="'almacen'"
-                    :orden="almacenOrden" 
-                    :texts="almacenTexts"
-                    :body="almacen.body"
-                    @clicked="editar"
-                    :pagina="false"
-                    >
-                    </Table>
-                </div>
+        <div id="search" v-show="!editMode">
+            <SearchBar v-on:SendSearchData="buscar"></SearchBar>
+            <DropSelector :titles="['SKU', 'Usuario']" :values="['sku', 'user']" v-model="tipo" ></DropSelector>
         </div>
+        
+        <div class="table-container">
+                <Table class="text-center"
+                :tabla="'movimientos'"
+                :orden="movimientosOrden" 
+                :texts="movimientosTexts"
+                :body="movimientos.body"
+                @page="page"
+                >
+                </Table>
+        </div>
+
     </div>
 </template>
 
 
 <script>
-import axios from 'axios';
-import Table from '../Components/Table.vue';
-import Inputs from '../Components/Inputs.vue';
-import SearchBar  from '../Components/SearchBar.vue';
-import AddBtn from '../Components/AddBtn.vue';
+import SearchBar from '../Components/SearchBar.vue'
+import axios from 'axios'
+import Table from '../Components/Table.vue'
+import Alertar from '../Utilidades/Alertas.js'
+import DropSelector from '../Components/MicroComponents/DropSelector.vue'
+import SearchForeingInput from '../Components/MicroComponents/SearchForeignInput.vue';
 
 export default {
     data: () => {
         return{
-            almacenTexts: {
-                nombre: {
-                    titulo: 'Nombre',
-                    input: 'Nombre'
-                },
+            movimientosTexts: {
                 id: {
-                    titulo: 'ID',
-                    input: 'ID'
+                    titulo: 'ID'
                 },
-                ID_almacen : {
-                    input: 'ID'
+                user: {
+                    titulo: 'Usuario'
+                },
+                fecha: {
+                    titulo: "Fecha"
+                },
+                tipo: {
+                    titulo: "Tipo"
+                },
+                SKU: {
+                    titulo: "SKU"
                 }
             },
-            almacenOrden: ['nombre','id'],
-            almacenSchema: {},
-            almacen: {},
-            almacenPage: 0,
+            movimientosOrden: ['user','fecha', 'SKU', 'tipo','id'],
+            movimientos: {},
+            busqueda: '',
+            movimientosPage: 0,
+            editarInfo: {},
             editMode: false,
-            addMode: false,
-            editarInfo: {}
+            tipo: '',
+            filtroSKU: '',
+            filtroFecha: 'second',
+            ingresados:0,
+            sacados:0,
+            eliminados:0, 
         }
     },
      components: {
         Table,
-        Inputs,
         SearchBar,
-        AddBtn
+        DropSelector,
+        SearchForeingInput
     },
     methods: {
-        add: function(){
-            this.editMode = false;
-            this.addMode = true; 
-        },
-        added: function(value){
-            this.editMode = false;
-            this.addMode = false;
-            if(value != false) {
-                this.getAlmacen();
+        buscar: function(value){
+            const info = {
+                tabla: 'movimientos',
+                busqueda: value,
+                pagina: this.movimientosPage,
+                tipo: this.tipo
             }
-        },
-        editar: function(value){
-            this.editMode = true;
-            this.editarInfo  = value
-        },
-        Buscar:async function(value){
-            await axios.post('/almacen/buscar', {busqueda: value })
+            axios.post('/movimientos/buscar', info)
             .then((response) => {
-                this.almacen = response.data.almacen;
+                console.log(response)
+                this.movimientos = response.data;
             })
+            .catch(() => {console.log('ERROR')})
         },
-        getAlmacen:  function(){
-            axios.get('/almacen/info')
+        borrar: function() {
+            this.filtroSKU = '';
+            this.actualizarMov();
+        },
+        actualizarMov: function() {
+             const info = {
+                filtroSKU: this.filtroSKU,
+                filtroFecha: this.filtroFecha
+            }
+            axios.post('/movimientos/sumas', info)
             .then((response) => {
+                console.log(response)
+                this.sacados = response.data.sacados || 0;
+                this.ingresados = response.data.ingresados || 0;
+                this.eliminados = response.data.eliminados || 0;
+            })
+            .catch(() => {console.log('ERROR')})
 
-                this.almacen = response.data.almacen;
-                this.almacenSchema = response.data.schema.almacen;
-            
+        },
+        getMovimientos: function(){
+            const info = {
+                tabla: 'movimientos',
+                busqueda: this.busqueda,
+                pagina: this.movimientosPage,
+                tipo: 'id'
+            }
+            axios.post('/movimientos/buscar', info)
+            .then((response) => {
+                console.log(response)
+                this.movimientos = response.data;
+            })
+            .catch(() => {console.log('ERROR')})
+        },
+        page: function(res) {
+            let page = this[`movimientosPage`];
+            switch (res.accion) {
+                case 'primera':
+                    this[`movimientosPage`] = 0;
+                    break;
+                case 'anterior':
+                    this[`movimientosPage`] = (page - 1 < 0 ? 0 : page - 1 );
+                    break;
+                case 'siguiente':
+                    this[`movimientosPage`] = (page + 1 > this.movimientos.count ? this.movimientos.count : page + 1 );
+                    break;
+                case 'ultima' :
+                    this[`movimientosPage`] = this.movimientos.count;
+                    break;
+            }
+            axios.post('/movimientos/buscar/', {tabla: 'movimientos', busqueda: this.busqueda, tipo: this.tipo, pagina: this[`movimientosPage`] })
+            .then((response) => {
+                this.movimientos = response.data;
             })
         },
+        
     },
     created(){
-        this.editarInfo.tabla = 'almacen'
-        this.editarInfo.elemento = undefined;
-        this.getAlmacen()
+        this.getMovimientos()
     }
     
         
@@ -127,6 +171,17 @@ export default {
 
 
 <style scoped>
+.text-center{
+    text-align: center;
+}
+
+Table{
+    text-align: center !important;
+}
+#search{
+    width: 80%;
+    display: flex;
+}
 #titulo{
     margin-bottom: 30px;
     color: white;
@@ -140,81 +195,19 @@ export default {
     border-bottom: solid 0.5px #6c7c84;
     width: 90%;
 }
-
 #titulo h2{
     margin-left: 40px;
 }
-    Table{
-        margin-bottom: 25px !important;
-    }
-
-
-    #container{
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-    }
-    .slide-fade-enter-active {
-        transition: all .3s ease;
-    }
-    .slide-fade-leave-active {
-        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-    .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active below version 2.1.8 */ {
-        transform: translateX(10px);
-        opacity: 0;
-    }
-    #search-container{
-        display: flex;
-        width: 90%;
-        margin: 20px 0
-    }
-    #seccion-btn{
-        display:flex;
-    }
-    .boton-seccion{
-        -webkit-user-select: none; /* Safari */        
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+/Edge */
-        user-select: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #dedfe0;
-                                                                                                                                                
-        width: auto;
-        padding-left:10px;
-        padding-right: 10px;
-        margin: 0 5px;
-        height: 36px;
-        background: #3a4560;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-
-    #table-container {
-        width: 60%;
-    }
-    input[type="radio"]{
-        display: none;
-    }
-    
-    *{color: white}
-    #table-container{
-        width: 90%
-    }
-    .margin-tables{margin-bottom: 30px;}
-    .slide-fade-enter-active {
-        transition: all .3s ease;
-    }
-    .slide-fade-leave-active {
-        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-    .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active below version 2.1.8 */ {
-        transform: translateX(10px);
-        opacity: 0;
-    }
-
+.table-container{
+    width: 80%;
+}
+#editor-container{
+    width: 100%
+}
+#container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>

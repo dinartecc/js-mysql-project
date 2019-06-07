@@ -123,6 +123,7 @@ create table if not exists Movimientos (
     tipo ENUM('Borrado', 'Sacado', 'Ingresado') not null,
     fecha date not null,
     cantidad numeric (10,2) not null,
+    borrado boolean default 0,
     constraint PK_cli primary key (ID_movimiento),
     constraint FK_mov_pro foreign key (ID_lotes) references Lotes(ID_lotes) on update cascade,
     constraint FK_mov_lot foreign key (SKU) references Producto(SKU) on update cascade
