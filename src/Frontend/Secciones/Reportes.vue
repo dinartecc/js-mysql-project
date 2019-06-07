@@ -3,24 +3,26 @@
         <div id="titulo">
             <h2 >Reportes</h2>
         </div>
-        <div>
-            <h2>Movimiento de lotes:</h2>
-            <div>
-                Lotes ingresados: {{ingresados}}
-            </div>
-            <div>
-                Lotes sacados: {{sacados}}
-            </div>
-            <div>
-                Lotes eliminados: {{eliminados}}
-            </div>
-            <div>
-                Filtrar por:
-                Vejez: <DropSelector :titles="['1 Día', '1 Semana', '1 Mes', '1 Año', 'Todo']" :values="['second', 'week', 'month', 'year', 'none']" @input="actualizarMov" v-model="filtroFecha" />
-                Producto:  <SearchForeingInput @input="actualizarMov" v-model="filtroSKU" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
-                <span @click="borrar">Borrar</span>
-            </div>
-        </div>
+        <tr class="flex center blanco" style="margin-bottom: 25px;">
+                <td class="space"><h2>Movimiento de lotes:</h2></td>
+                <td class="space">
+                    Filtrar por: Vejez: <DropSelector :titles="['1 Día', '1 Semana', '1 Mes', '1 Año', 'Todo']" :values="['second', 'week', 'month', 'year', 'none']" @input="actualizarMov" v-model="filtroFecha" />
+                </td>
+                <td class="space">
+                    Producto:  <SearchForeingInput @input="actualizarMov" v-model="filtroSKU" :tabla="'producto'" :seccion="'productos'" :identificador="'sku'" :orden="['nombre', 'sku']" :texts="{nombre: {titulo: 'Nombre'}, sku: {titulo: 'SKU'}}" :buscarPor="'nombre'"></SearchForeingInput>
+                    <span @click="borrar">Borrar</span>
+                </td>
+                
+                </tr>
+        <table id="tabla" class="blanco">
+                
+                <tr>
+                    <td>Lotes ingresados: {{ingresados}}</td>
+                    <td>Lotes sacados: {{sacados}}</td>
+                    <td>Lotes eliminados: {{eliminados}}</td>
+                </tr>
+            </table>
+
         <div id="search" v-show="!editMode">
             <SearchBar v-on:SendSearchData="buscar"></SearchBar>
             <DropSelector :titles="['SKU', 'Usuario']" :values="['sku', 'user']" v-model="tipo" ></DropSelector>
@@ -174,6 +176,31 @@ export default {
 
 
 <style scoped>
+
+.flex{
+    display: flex;
+    width: 100%;
+
+}
+.space{
+    padding: 0 20px;;
+}
+.center{
+    align-items: center;
+    justify-content: center;
+}
+
+#tabla{
+    width: 70%;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.blanco{
+    color: white;
+    
+}
+
 .text-center{
     text-align: center;
 }

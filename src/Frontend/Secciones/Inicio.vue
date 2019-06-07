@@ -2,12 +2,12 @@
 <template>
 <div id="container">
     <h1>Bienvenido {{nombre}}</h1>
-    <h2 id="alertas">Alertas</h2>
-    <div v-if="alertaCantidad.length == 0 && alertaVencimiento.length == 0">
+    <h2 v-show="this.$store.state.Permissions.lotes > 1" id="alertas">Alertas</h2>
+    <div v-if="alertaCantidad.length == 0 && alertaVencimiento.length == 0 && this.$store.state.Permissions.lotes > 1">
         No hay alertas
     </div>
     <div v-else>
-                <Table v-if="alertaVencimiento.length != 0"
+                <Table v-if="alertaVencimiento.length != 0 && this.$store.state.Permissions.lotes > 1"
                         class="text-center"
                     :tabla="'Productos_por_vencerse'"
                     :orden="vencimientoOrden" 
@@ -16,7 +16,7 @@
                     @clicked="editar"
                     :pagina="false"
                     />
-        <Table v-if="alertaCantidad.length != 0"
+        <Table v-if="alertaCantidad.length != 0 && this.$store.state.Permissions.lotes > 1"
                     class="text-center"
                     :tabla="'Productos_por_agotarse'"
                     :orden="cantidadOrden" 

@@ -56,7 +56,7 @@
         </router-link>
     </div>
     <div class="dropdown-menu">
-        <router-link to="/reportes">
+        <router-link to="/reportes" v-show="this.$store.state.Permissions.reportes > 1">
             <div>
                 <img src="img/reportes.svg" alt=""> <p>Reportes</p>
             </div>
