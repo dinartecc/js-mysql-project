@@ -299,6 +299,10 @@ router.post('/lotes/buscar' , (req, res) => {
             sku: {
                 tabla: 'producto',
                 columnas: ['nombre']
+            },
+            ID_almacen: {
+                tabla: 'almacen',
+                columnas: ['nombre']
             }
         },
         desc: true, 
@@ -324,7 +328,7 @@ router.post('/movimientos/buscar' , (req, res) => {
   let {tabla, busqueda, tipo, pagina} = req.body;
   const Query = {
       tabla:  tabla,
-      columnas: ['id', 'user', 'SKU', 'tipo', 'fecha'],
+      columnas: ['id', 'user', 'SKU', 'tipo', 'fecha', 'cantidad'],
       desc: true, 
       limite: 10,
       pagina: pagina || 0

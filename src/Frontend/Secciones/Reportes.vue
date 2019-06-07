@@ -67,9 +67,12 @@ export default {
                 },
                 SKU: {
                     titulo: "SKU"
+                },
+                cantidad: {
+                    titulo: "Cantidad"
                 }
             },
-            movimientosOrden: ['user','fecha', 'SKU', 'tipo','id'],
+            movimientosOrden: ['user','fecha', 'SKU', 'cantidad', 'tipo','id'],
             movimientos: {},
             busqueda: '',
             movimientosPage: 0,
